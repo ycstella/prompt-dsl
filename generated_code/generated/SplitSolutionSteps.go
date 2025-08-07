@@ -2,10 +2,10 @@
 package generated
 
 import (
-	lp "github.com/wangii/littlepool"
+	// lp "github.com/wangii/littlepool"
+	"fmt"
 	"strings"
 	"encoding/json"
-	"fmt"
 	"os"
 	"service"
 )

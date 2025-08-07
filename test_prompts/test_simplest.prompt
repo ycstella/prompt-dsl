@@ -1,0 +1,5 @@
+prompt TestSimplest {
+    fix{
+        s := "He said \"Hello\""
+    }
+}

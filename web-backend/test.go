@@ -33,7 +33,7 @@ func main() {
 	promptDir := "../promptdslcore/prompts_copy"
 	entries, err := os.ReadDir(promptDir)
 	if err != nil {
-		log.Println("读取目录失败：", err)
+		log.Println("读取目录失败：", err) 
 	}
 
 	for _, entry := range entries {

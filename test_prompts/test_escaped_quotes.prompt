@@ -1,0 +1,13 @@
+prompt TestEscapedQuotes {
+    sys_role {
+        "He said \"Hello\" to me"
+    }
+    
+    input {
+        message: string;
+    }
+    
+    output {
+        result: string;
+    }
+}

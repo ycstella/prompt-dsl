@@ -1,0 +1,14 @@
+prompt TestSimpleQuotes {
+    input {}
+    output {}
+    sys {}
+    user {}
+    
+    fix {
+        s := "He said \"Hello\""
+        t := "He replied \"I'm done\""
+    }
+    after {
+        func abc(){}
+    }
+}

@@ -1,0 +1,13 @@
+prompt TestSimple {
+    fix{
+        func fixOutput(raw string) (string, error) {
+            message := "He said \"Hello\" to me"
+            return message, nil
+        }
+    }
+
+    after{
+        func (){
+        }
+    }
+}

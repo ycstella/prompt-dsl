@@ -1,0 +1,8 @@
+prompt TestCodeBlockEscapedQuotes {
+    fix{
+        // This is a comment with "quotes"
+        message := "He said \"Hello\" to me"
+        // Another comment with "more quotes"
+        return message
+    }
+}

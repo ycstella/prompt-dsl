@@ -38,7 +38,7 @@ var Cfg AppConfig
 func InitConfig() {
 	viper.SetConfigName("default")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("../../config") // 相对路径，可按需调整
+	viper.AddConfigPath("../config") // 相对路径，可按需调整
 
 	err := viper.ReadInConfig()
 	if err != nil {
