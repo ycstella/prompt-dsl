@@ -2,6 +2,7 @@ package main
 
 import (
 	// "encoding/json"
+	"codegen"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,31 +10,23 @@ import (
 	"os/exec"
 	"strings"
 
+	// "strings"
+
 	// "net/http"
+	// "codegen"
+	"codegen/config"
 	"os"
-	"promptdslcore" 
-	"promptdslcore/config"
 )
 
 // var llm *service.LLMClient
 func main() {
 	config.InitConfig()
-	// 打开或创建日志文件
-	// logFile, err := os.OpenFile("llm.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	// if err != nil {
-	// 	log.Fatalf("无法打开日志文件: %v", err)
-	// }
-	// // 设置日志输出到文件
-	// log.SetOutput(logFile)
-	// // 可选: 添加时间戳、文件名等信息
-	// log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	config.InitLogger()
-	// log.Println()
 	// 指定 prompt 文件夹路径
-	promptDir := "../promptdslcore/prompts_copy"
+	promptDir := "../codegen/prompts_copy"
 	entries, err := os.ReadDir(promptDir)
 	if err != nil {
-		log.Println("读取目录失败：", err) 
+		log.Println("读取目录失败：", err)
 	}
 
 	for _, entry := range entries {
@@ -46,23 +39,39 @@ func main() {
 			continue
 		}
 		// 拼接完整路径
-		path := "../promptdslcore/prompts_copy/" + filename
+		path := "../codegen/prompts_copy/" + filename
 		// fileContent, err := os.ReadFile("./promptdsl-core/prompts/SplitSolutionSteps.prompt")
 		promptfileContent, err := os.ReadFile(path)
 		if err != nil {
 			panic(fmt.Errorf("读取 DSL 文件失败: %v", err))
 		}
-		
+
 		promptfileContentstr := string(promptfileContent)
 		nameWithoutExt := strings.TrimSuffix(filename, ".pdsl")
-		
-		prompt, err := promptdslcore.RunPromptDSL(promptfileContentstr, nameWithoutExt)
+
+		prompt, err := codegen.RunPromptDSL(promptfileContentstr, nameWithoutExt)
 		if err != nil {
 			log.Fatalf("RunPromptDSL error: %v", err)
 		}
 		log.Println("生成的 Prompt:\n", prompt)
 	}
-	// code := promptdslcore.Generatworkflow("generated")
+
+	dir := "../generated_code" 
+
+	// go build
+	cmd := exec.Command("go", "build", "-o", "CodeRunner.exe", dir)
+	cmd.Dir = dir
+
+	// 获取命令的输出和错误信息
+	cmdOutput, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatalf("执行 go build 失败: %v\n", err)
+	}
+	// 打印命令执行的输出
+	fmt.Println(string(cmdOutput))
+	fmt.Println("Go 程序编译完成，生成了 output.exe 文件")
+
+	// code := codegen.Generatworkflow("generated")
 	// outputFile := "../generated_code/workflow.go"
 	// err = os.WriteFile(outputFile, []byte(code), 0644)
 	// if err != nil {
