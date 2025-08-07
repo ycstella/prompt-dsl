@@ -1,4 +1,4 @@
-// Code generated from ./promptdslcore/grammar/PromptDSLParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
+// Code generated from ./codegen/grammar/PromptDSLParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
 
 package parser // PromptDSLParser
 import "github.com/antlr4-go/antlr/v4"

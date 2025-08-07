@@ -1,9 +1,9 @@
 // promptdsl-core/astbuilder.go
-package promptdslcore
+package codegen
 
 import (
+	"codegen/parser"
 	"fmt"
-	"promptdslcore/parser"
 	"strconv"
 	"strings"
 

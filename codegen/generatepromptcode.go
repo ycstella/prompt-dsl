@@ -1,4 +1,4 @@
-package promptdslcore
+package codegen
 
 import (
 	"fmt"
@@ -7,49 +7,49 @@ import (
 
 var symbolToImport = map[string]string{
 	// 基础功能
-	"fmt.":     "fmt",
-	"strings.": "strings",
-	"strconv.": "strconv",
-	"bytes.":   "bytes",
-	"math.":    "math",
-	"math/rand.": "math/rand",
-	"time.":    "time",
-	"unicode.": "unicode",
+	"fmt.":          "fmt",
+	"strings.":      "strings",
+	"strconv.":      "strconv",
+	"bytes.":        "bytes",
+	"math.":         "math",
+	"math/rand.":    "math/rand",
+	"time.":         "time",
+	"unicode.":      "unicode",
 	"unicode/utf8.": "unicode/utf8",
-	"json"	: "encoding/json",
+	"json":          "encoding/json",
 
 	// IO 与文件
-	"io.":      "io",
-	"io/ioutil.": "io/ioutil", // 旧版兼容，Go 1.16 后用 os.ReadFile 等替代
-	"os.":      "os",
-	"path.":    "path",
+	"io.":            "io",
+	"io/ioutil.":     "io/ioutil", // 旧版兼容，Go 1.16 后用 os.ReadFile 等替代
+	"os.":            "os",
+	"path.":          "path",
 	"path/filepath.": "path/filepath",
 
 	// 网络与编码
-	"net.":     "net",
-	"net/http.": "net/http",
-	"net/url.": "net/url",
-	"encoding/json.": "encoding/json",
-	"encoding/xml.":  "encoding/xml",
+	"net.":             "net",
+	"net/http.":        "net/http",
+	"net/url.":         "net/url",
+	"encoding/json.":   "encoding/json",
+	"encoding/xml.":    "encoding/xml",
 	"encoding/base64.": "encoding/base64",
-	"encoding/hex.": "encoding/hex",
+	"encoding/hex.":    "encoding/hex",
 
 	// 日志与调试
-	"log.":     "log",
+	"log.":      "log",
 	"debug/pe.": "debug/pe", // 示例：用于调试工具
 
 	// 并发与同步
-	"sync.":    "sync",
+	"sync.":        "sync",
 	"sync/atomic.": "sync/atomic",
-	"context.": "context",
+	"context.":     "context",
 
 	// 正则与错误处理
-	"regexp.":  "regexp",
-	"errors.":  "errors",
+	"regexp.": "regexp",
+	"errors.": "errors",
 
 	// 反射与运行时
-	"reflect.": "reflect",
-	"runtime.": "runtime",
+	"reflect.":       "reflect",
+	"runtime.":       "runtime",
 	"runtime/debug.": "runtime/debug",
 
 	// 测试（如果是生成测试代码时）
@@ -60,12 +60,12 @@ var symbolToImport = map[string]string{
 	"container/heap.": "container/heap",
 }
 
-func Generateprompthandle(root *PromptNode, pkgName string, eval *final,filename string, goimport []goimport)  string {
-	
+func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filename string, goimport []goimport) string {
+
 	var b strings.Builder
-	outputTypeStr := filename+"OutputContext"
+	outputTypeStr := filename + "OutputContext"
 	if root.outputspectNodes.IsArray {
-		outputTypeStr = "[]"+filename+"OutputContext"
+		outputTypeStr = "[]" + filename + "OutputContext"
 	}
 
 	// 写包名和注释
@@ -73,16 +73,16 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final,filename
 	b.WriteString(fmt.Sprintf("package %s\n\n", pkgName))
 
 	//import
-		//after+fix
+	//after+fix
 	afterCode := strings.Join(root.AfterCode, "\n")
 	fixCode := strings.Join(root.FixCode, "\n")
 
-	allCode :=afterCode + "\n" + fixCode
+	allCode := afterCode + "\n" + fixCode
 	// renderImportSectionWithAlias()
 	pkgs := inferImportsFromCode(allCode)
 
-		//main
-	requiredPkgs := []string{"os", "fmt","service"}
+	//main
+	requiredPkgs := []string{"os", "fmt", "service"}
 	for _, req := range requiredPkgs {
 		has := false
 		for _, pkg := range pkgs {
@@ -95,17 +95,17 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final,filename
 			pkgs = append(pkgs, req)
 		}
 	}
-	importBlock := renderImportSectionWithAlias(goimport,pkgs)
+	importBlock := renderImportSectionWithAlias(goimport, pkgs)
 
 	b.WriteString(importBlock)
 
 	// struct
-	b.WriteString("type "+filename+"InputContext struct {\n")
+	b.WriteString("type " + filename + "InputContext struct {\n")
 	for _, field := range root.InFields {
 		b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", field.Name, field.Type, field.JsonName))
 	}
 	b.WriteString("}\n\n")
-	b.WriteString("type "+filename+"OutputContext struct {\n")
+	b.WriteString("type " + filename + "OutputContext struct {\n")
 
 	for _, field := range root.OutFields {
 		fieldName := capitalizeFirst(field.Name)
@@ -113,28 +113,28 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final,filename
 	}
 	b.WriteString("}\n\n")
 
-	b.WriteString("type "+filename+"FinalContext struct {\n")
-	b.WriteString("    Input  "+filename+"InputContext\n")
+	b.WriteString("type " + filename + "FinalContext struct {\n")
+	b.WriteString("    Input  " + filename + "InputContext\n")
 	b.WriteString(fmt.Sprintf("    Output %s\n", outputTypeStr))
 	b.WriteString("}\n\n")
 
 	//gensystem
 	//写入sys处理逻辑
-	b.WriteString(fmt.Sprintf("func "+filename+"_GenSys(in "+filename+"InputContext) string {\n"))
+	b.WriteString(fmt.Sprintf("func " + filename + "_GenSys(in " + filename + "InputContext) string {\n"))
 	b.WriteString("    var b strings.Builder\n")
 
 	for _, line := range eval.Sys {
-		b.WriteString(fmt.Sprintf("    %s\n", line)) 
+		b.WriteString(fmt.Sprintf("    %s\n", line))
 	}
 	b.WriteString("    return b.String()\n")
 	b.WriteString("\n}\n\n")
 	//把dsl_gen里面生成的东西拿过来
 	//genuser
-	b.WriteString(fmt.Sprintf("func "+filename+"_GenUser(in "+filename+"InputContext) string {\n"))
+	b.WriteString(fmt.Sprintf("func " + filename + "_GenUser(in " + filename + "InputContext) string {\n"))
 	b.WriteString("    var b strings.Builder\n")
 
 	for _, line := range eval.User {
-		b.WriteString(fmt.Sprintf("    %s\n", line)) 
+		b.WriteString(fmt.Sprintf("    %s\n", line))
 	}
 	b.WriteString("    return b.String()\n")
 	b.WriteString("\n}\n\n")
@@ -154,10 +154,10 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final,filename
 	}
 
 	// 写 主调用 函数
-	b.WriteString("\nfunc "+filename+"(input "+filename+"InputContext) ("+outputTypeStr+",error) {\n")
+	b.WriteString("\nfunc " + filename + "(input " + filename + "InputContext) (" + outputTypeStr + ",error) {\n")
 	b.WriteString("    fmt.Fprintln(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
-	b.WriteString("    sys := "+filename+"_GenSys(input)\n")
-	b.WriteString("    user := "+filename+"_GenUser(input)\n")
+	b.WriteString("    sys := " + filename + "_GenSys(input)\n")
+	b.WriteString("    user := " + filename + "_GenUser(input)\n")
 	b.WriteString("    apiKey := \"sk-02e496929ecc485796d29bd94e7ce371\"\n")
 	b.WriteString("    llm := service.NewLLMClient(apiKey)\n")
 	b.WriteString("    result, err := llm.GeneratePromptResponse(sys, user)\n")
@@ -165,12 +165,12 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final,filename
 	b.WriteString("        fmt.Fprintf(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")
 	b.WriteString("        os.Exit(1)\n")
 	b.WriteString("    }\n")
-	b.WriteString("    output, err := "+filename+"_FixProcess(result)\n")
+	b.WriteString("    output, err := " + filename + "_FixProcess(result)\n")
 	b.WriteString("    if err != nil {\n")
 	b.WriteString("        fmt.Fprintf(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
 	b.WriteString("        os.Exit(1)\n")
 	b.WriteString("    }\n")
-	b.WriteString("    output = "+filename+"_AfterProcess(output)\n")
+	b.WriteString("    output = " + filename + "_AfterProcess(output)\n")
 	b.WriteString("    encoded, err := json.Marshal(output)\n")
 	b.WriteString("    if err != nil {\n")
 	b.WriteString("        fmt.Fprintf(os.Stderr, \"输出编码失败: %v\\n\", err)\n")
@@ -191,7 +191,7 @@ func Generatworkflow(pkgName string) string {
 
 	// import 区块
 	b.WriteString("import (\n")
-	b.WriteString(`	   gen "workflow/generated"`+ "\n")
+	b.WriteString(`	   gen "workflow/generated"` + "\n")
 	b.WriteString(")\n")
 
 	// main 函数开始
@@ -199,6 +199,6 @@ func Generatworkflow(pkgName string) string {
 	b.WriteString("    //在此组织工作流\n")
 	b.WriteString("    //\n")
 	b.WriteString("}\n")
-	
+
 	return b.String()
 }

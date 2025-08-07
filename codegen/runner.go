@@ -1,5 +1,5 @@
 // promptdsl-core/runner.go
-package promptdslcore
+package codegen
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"os"
 
 	// "service"
-	"promptdslcore/parser"
+	"codegen/parser"
 	// "strings"
 
 	"github.com/antlr4-go/antlr/v4"
@@ -60,7 +60,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	// code:=Generateprompthandle(rootNode, getCurrentPackageName())
 
 	code := Generateprompthandle(rootNode, "generated", outputParts, filename, rootNode.Goimport)
-	
+
 	outputFile := "../generated_code/generated/" + filename + ".go"
 	err = installGoImports(rootNode.Goimport, "../generated_code")
 	if err != nil {
@@ -71,5 +71,6 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
 		os.Exit(1)
 	}
+	
 	return outputParts, nil
 }

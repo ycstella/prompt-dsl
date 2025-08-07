@@ -1,9 +1,9 @@
-package promptdslcore
+package codegen
 
 import (
 	"fmt"
 	"strings"
-	// "promptdslcore/util"
+	// "codegen/util"
 )
 
 type FieldDef struct {
@@ -475,10 +475,9 @@ type PromptNode struct {
 	// IsArray     bool
 	// 其它部分
 }
-type goimport struct{
-	Alias string 
-    Path  string 
-
+type goimport struct {
+	Alias string
+	Path  string
 }
 type final struct {
 	User []string

@@ -3,7 +3,7 @@ module web-backend
 go 1.24.4
 
 require (
-	promptdslcore v0.0.0
+	codegen v0.0.0
 	service v0.0.0
 )
 
@@ -13,6 +13,6 @@ require (
 	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
 )
 
-replace promptdslcore => ../promptdslcore
+replace codegen => ../codegen
 
 replace service => ../service

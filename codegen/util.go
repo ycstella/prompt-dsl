@@ -1,4 +1,4 @@
-package promptdslcore
+package codegen
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"runtime"
 
 	// "path/filepath"
-	"promptdslcore/parser"
+	"codegen/parser"
 	"strconv"
 
 	// "runtime"
@@ -278,31 +278,31 @@ func inferImportsFromCode(code string) []string {
 	return imports
 }
 func renderImportSectionWithAlias(goimports []goimport, pkgs []string) string {
-    var b strings.Builder
-    b.WriteString("import (\n")
-    
-    // 先把带别名的 goimports 写进去
-    for _, imp := range goimports {
-        if imp.Alias != "" {
-            b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", imp.Alias, imp.Path))
-        } else {
-            b.WriteString(fmt.Sprintf("\t\"%s\"\n", imp.Path))
-        }
-    }
+	var b strings.Builder
+	b.WriteString("import (\n")
 
-    // 把纯路径 pkgs 里没有在 goimports 里出现的路径补上（无别名）
-    exist := map[string]bool{}
-    for _, imp := range goimports {
-        exist[imp.Path] = true
-    }
-    for _, pkg := range pkgs {
-        if !exist[pkg] {
-            b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
-        }
-    }
+	// 先把带别名的 goimports 写进去
+	for _, imp := range goimports {
+		if imp.Alias != "" {
+			b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", imp.Alias, imp.Path))
+		} else {
+			b.WriteString(fmt.Sprintf("\t\"%s\"\n", imp.Path))
+		}
+	}
 
-    b.WriteString(")\n\n")
-    return b.String()
+	// 把纯路径 pkgs 里没有在 goimports 里出现的路径补上（无别名）
+	exist := map[string]bool{}
+	for _, imp := range goimports {
+		exist[imp.Path] = true
+	}
+	for _, pkg := range pkgs {
+		if !exist[pkg] {
+			b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
+		}
+	}
+
+	b.WriteString(")\n\n")
+	return b.String()
 }
 func extractFieldDef(field parser.IFieldDefContext, defaultAnnoMap map[string][]string) FieldDef {
 	name := field.ID().GetText()

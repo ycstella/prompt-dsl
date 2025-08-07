@@ -1,12 +1,12 @@
 package main
 
 import (
+	"codegen" // 引用核心模块
 	"encoding/json"
 	"io"
 	"net/http"
-	"promptdslcore" // 引用核心模块
-	"strings"
 	"service"
+	"strings"
 )
 
 // 请求结构
@@ -16,11 +16,13 @@ type GenGuideRequest struct {
 
 // 响应结构
 type GenGuideResponse struct {
-	Prompt string `json:"prompt"`
+	Prompt      string `json:"prompt"`
 	ModelOutput string `json:"model_output"`
 }
+
 // 全局 LLM 客户端（也可以用 DI 方式传入）
 var llm *service.LLMClient
+
 // POST /api/genGuide
 func HandleGenGuide(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -42,7 +44,7 @@ func HandleGenGuide(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 调用核心模块处理 DSL
-	prompt, err := promptdslcore.RunPromptDSL(req.Input,"")
+	prompt, err := codegen.RunPromptDSL(req.Input, "")
 	if err != nil {
 		http.Error(w, "生成失败: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -55,19 +57,19 @@ func HandleGenGuide(w http.ResponseWriter, r *http.Request) {
 	systemText := strings.Join(systemPart, "\n")
 	userText := strings.Join(userPart, "\n")
 	// 步骤 3：调用大模型
-	result, err := llm.GeneratePromptResponse(systemText,userText)
+	result, err := llm.GeneratePromptResponse(systemText, userText)
 	if err != nil {
 		http.Error(w, "调用大模型失败: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	resp := GenGuideResponse{
-		Prompt:      systemText+userText,
+		Prompt:      systemText + userText,
 		ModelOutput: result,
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
-	resp = GenGuideResponse{Prompt: systemText+userText}
+	resp = GenGuideResponse{Prompt: systemText + userText}
 
 }
 

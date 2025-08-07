@@ -2,3 +2,28 @@
 2025/08/07 15:15:16 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
 2025/08/07 15:24:29 config.go:66: 日志等级为 DEBUG
 2025/08/07 15:24:29 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 15:38:13 config.go:66: 日志等级为 DEBUG
+2025/08/07 15:38:13 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 16:05:03 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:05:03 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 16:05:33 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:05:33 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 16:05:34 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:05:34 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 16:05:36 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:05:36 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 16:05:37 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:05:37 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 16:05:38 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:05:38 test.go:41: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/07 16:18:35 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:18:35 test.go:75: 执行 go build 失败: exit status 1
+2025/08/07 16:41:56 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:43:31 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:43:32 test.go:75: 执行 go build 失败: exit status 1
+2025/08/07 16:48:02 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:48:02 test.go:75: 执行 go build 失败: exit status 1
+2025/08/07 16:51:58 config.go:66: 日志等级为 DEBUG
+2025/08/07 16:55:50 config.go:66: 日志等级为 DEBUG
+2025/08/07 17:08:12 config.go:66: 日志等级为 DEBUG
+2025/08/07 17:09:15 config.go:66: 日志等级为 DEBUG

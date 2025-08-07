@@ -1,4 +1,4 @@
-module promptdslcore
+module codegen
 
 go 1.22
 

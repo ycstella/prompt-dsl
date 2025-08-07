@@ -1,13 +1,12 @@
-package promptdslcore
+package codegen
 
 // import (
 // 	"fmt"
 // 	"os"
-// 	"promptdslcore/parser"
+// 	"codegen/parser"
 // 	"github.com/antlr4-go/antlr/v4"
 // 	// "github.com/dop251/goja"
 // )
-
 
 // func main() {
 
