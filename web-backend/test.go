@@ -56,12 +56,11 @@ func main() {
 		log.Println("生成的 Prompt:\n", prompt)
 	}
 
+	exename := os.Args[1]
 	dir := "../generated_code" 
-
 	// go build
-	cmd := exec.Command("go", "build", "-o", "CodeRunner.exe", dir)
+	cmd := exec.Command("go", "build", "-o",exename, dir)
 	cmd.Dir = dir
-
 	// 获取命令的输出和错误信息
 	cmdOutput, err := cmd.CombinedOutput()
 	if err != nil {
