@@ -9,26 +9,20 @@ import (
 	"service"
 )
 
-type SplitSolutionStepsInputContext struct {
+type CheckSolutionStepsInputContext struct {
     Question string `json:"Question"`
     Process []string `json:"Process"`
     Add []string `json:"Add"`
 }
 
-type SplitSolutionStepsOutputContext struct {
+type CheckSolutionStepsOutputContext struct {
     Conditions []string `json:"条件"`
     KnowledgePoint string `json:"知识点"`
     ProcessResult string `json:"过程"`
     Test []string `json:"test"`
 }
 
-type SplitSolutionStepsModelOutputContext struct {
-    Conditions []string `json:"条件"`
-    KnowledgePoint string `json:"知识点"`
-    ProcessResult string `json:"过程"`
-}
-
-func SplitSolutionSteps_GenSys(in SplitSolutionStepsInputContext) string {
+func CheckSolutionSteps_GenSys(in CheckSolutionStepsInputContext) string {
     var b strings.Builder
     b.WriteString("你是一个擅长拆分解题步骤的数学老师\n")
     if (in.Question=="") {
@@ -40,7 +34,7 @@ func SplitSolutionSteps_GenSys(in SplitSolutionStepsInputContext) string {
 
 }
 
-func SplitSolutionSteps_GenUser(in SplitSolutionStepsInputContext) string {
+func CheckSolutionSteps_GenUser(in CheckSolutionStepsInputContext) string {
     var b strings.Builder
     b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n")
     if (in.Question!="") {
@@ -67,9 +61,6 @@ func SplitSolutionSteps_GenUser(in SplitSolutionStepsInputContext) string {
         b.WriteString("```json\n")
     b.WriteString("[\n")
     b.WriteString("  {\n")
-    b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
-    b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
-    b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
     b.WriteString("  }\n")
     b.WriteString("]\n")
     b.WriteString("```\n")
@@ -79,33 +70,32 @@ func SplitSolutionSteps_GenUser(in SplitSolutionStepsInputContext) string {
 
 }
 
-func SplitSolutionSteps_AfterProcess(model []SplitSolutionStepsModelOutputContext) []SplitSolutionStepsOutputContext {
+func CheckSolutionSteps_AfterProcess(output []CheckSolutionStepsOutputContext) []CheckSolutionStepsOutputContext {
 
         trueCount := 0
-        for _, item := range model {
+        for _, item := range output {
             if item.ProcessResult!= "" {
                 trueCount++
             }
         }
-        var output []SplitSolutionStepsOutputContext
         return output
     
 }
 
-func SplitSolutionSteps_FixProcess(response string) ([]SplitSolutionStepsModelOutputContext ,error){
+func CheckSolutionSteps_FixProcess(response string) ([]CheckSolutionStepsOutputContext ,error){
 
         // 用strings.Builder手动替换单反斜杠
         fmt.Println("response:", response)
-        var results []SplitSolutionStepsModelOutputContext
+        var results []CheckSolutionStepsOutputContext
         err := json.Unmarshal([]byte(response), &results)
         return results, err
     
 }
 
-func SplitSolutionSteps(input SplitSolutionStepsInputContext) ([]SplitSolutionStepsOutputContext,error) {
+func CheckSolutionSteps(input CheckSolutionStepsInputContext) ([]CheckSolutionStepsOutputContext,error) {
     fmt.Fprintln(os.Stderr, "[main] 程序启动，等待输入...")
-    sys := SplitSolutionSteps_GenSys(input)
-    user := SplitSolutionSteps_GenUser(input)
+    sys := CheckSolutionSteps_GenSys(input)
+    user := CheckSolutionSteps_GenUser(input)
     apiKey := "sk-02e496929ecc485796d29bd94e7ce371"
     llm := service.NewLLMClient(apiKey)
     result, err := llm.GeneratePromptResponse(sys, user)
@@ -113,12 +103,12 @@ func SplitSolutionSteps(input SplitSolutionStepsInputContext) ([]SplitSolutionSt
         fmt.Fprintf(os.Stderr, "调用大模型失败: %v\n", err)
         os.Exit(1)
     }
-    model, err := SplitSolutionSteps_FixProcess(result)
+    output, err := CheckSolutionSteps_FixProcess(result)
     if err != nil {
         fmt.Fprintf(os.Stderr, "解析输入 JSON 失败011111: %v\n", err)
         os.Exit(1)
     }
-    final := SplitSolutionSteps_AfterProcess(model)
+    final := CheckSolutionSteps_AfterProcess(output)
     encoded, err := json.Marshal(final)
     if err != nil {
         fmt.Fprintf(os.Stderr, "输出编码失败: %v\n", err)

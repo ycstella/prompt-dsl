@@ -18,6 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("无法读取文件: %v", err)
 	}
+	
 	var input gen.SplitSolutionStepsInputContext
 	err = json.Unmarshal([]byte(data), &input)
 	if err != nil {

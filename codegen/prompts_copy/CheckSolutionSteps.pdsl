@@ -8,13 +8,11 @@ prompt SplitSolutionSteps {
     @kl("数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格")
     
     output {
-            Conditions: [] @jn("条件")  @latex @kl @model
-            KnowledgePoint:  @jsonname("知识点")  @latex @kl @modeloutput
-            ProcessResult:string  @jsonname("过程")  @latex @kl  @modeloutput
+            Conditions: [] @jn("条件")  @latex @kl 
+            KnowledgePoint:  @jsonname("知识点")  @latex @kl 
+            ProcessResult:string  @jsonname("过程")  @latex @kl  
             test: [] 
 	}
-
-
 
     sys {
        sys_role
@@ -89,7 +87,7 @@ prompt SplitSolutionSteps {
     fix{
         // 用strings.Builder手动替换单反斜杠
         fmt.Println("response:", response)
-        var results []SplitSolutionStepsModelOutputContext
+        var results []CheckSolutionStepsOutputContext
         err := json.Unmarshal([]byte(response), &results)
         return results, err
     }
@@ -97,12 +95,11 @@ prompt SplitSolutionSteps {
 
     after{
         trueCount := 0
-        for _, item := range model {
+        for _, item := range output {
             if item.ProcessResult!= "" {
                 trueCount++
             }
         }
-        var output []SplitSolutionStepsOutputContext
         return output
     }
 

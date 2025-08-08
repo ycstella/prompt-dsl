@@ -32,7 +32,7 @@ inputSection
     ;
 
 outputSection
-    : defaultAnnotation* OUTPUT (outputStruct | outputMarkdown)
+    : defaultAnnotation* OUTPUT ( outputStruct | outputMarkdown )
     ;
 
 outputStruct : LBRACE fieldDef+ RBRACE ;
@@ -222,7 +222,8 @@ codeBlockContent
     ;
 
 type
-    : STRUCT LBRACE fieldDef* RBRACE
+    :/* empty */
+    | STRUCT LBRACE fieldDef* RBRACE
     | FLOAT_TYPE
     | INT_TYPE
     | LBRACK RBRACK type  // 这里你之前用的是 '[]' type，建议改写对应你Lexer中的表示数组的token，如果没有，需要补充
