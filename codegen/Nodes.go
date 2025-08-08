@@ -19,6 +19,7 @@ type PromptEvalContext struct {
 	Vars       map[string]interface{}
 	InFields   []FieldDef
 	OutFields  []FieldDef
+	ModelFields  []FieldDef
 	Input      any
 	ModuleDefs map[string][]Node
 }
@@ -172,14 +173,17 @@ type OutputSpecNode struct {
 func (node *OutputSpecNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 	// TODO
 	var b strings.Builder
+	fields:=ctx.OutFields
+	if ctx.ModelFields!=nil{
+		fields=ctx.ModelFields
+	}
 	if node.IsArray {
-
-		for _, line := range BuildOutputSpecLines(ctx.OutFields, true) {
+		for _, line := range BuildModelOutputSpecLines(fields, true) {
 			b.WriteString(fmt.Sprintf("    b.WriteString(\"%s\\n\")\n", strings.ReplaceAll(line, "\"", "\\\"")))
 		}
 		return []string{b.String()}, nil
 	}
-	for _, line := range BuildOutputSpecLines(ctx.OutFields, false) {
+	for _, line := range BuildModelOutputSpecLines(fields, false) {
 		b.WriteString(fmt.Sprintf("    b.WriteString(\"%s\\n\")\n", strings.ReplaceAll(line, "\"", "\\\"")))
 	}
 	return []string{b.String()}, nil
@@ -467,6 +471,7 @@ type PromptNode struct {
 	ModuleDefs       map[string][]Node // 初始化 map
 	InFields         []FieldDef
 	OutFields        []FieldDef
+	ModelFields      []FieldDef
 	BeforeCode       string
 	FixCode          []string
 	AfterCode        []string

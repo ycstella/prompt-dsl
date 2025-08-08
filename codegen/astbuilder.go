@@ -4,6 +4,8 @@ package codegen
 import (
 	"codegen/parser"
 	"fmt"
+
+	// "log"
 	"strconv"
 	"strings"
 
@@ -18,6 +20,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		ModuleDefs:       map[string][]Node{}, // 初始化 map
 		InFields:         []FieldDef{},
 		OutFields:        []FieldDef{},
+		ModelFields:      []FieldDef{},
 		BeforeCode:       "",
 		AfterCode:        []string{},
 		FixCode:          []string{},
@@ -97,10 +100,16 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 
 		case *parser.InputSectionContext:
 			// 解析输入字段，放到 result.InDef
-			var fields []FieldDef
 			for _, param := range b.AllFieldDef() {
 				name := param.ID().GetText()
-				typ := param.Type_().GetText()
+				typ := "string"
+				if param.Type_().GetText() != "" {
+					fmt.Println("😊空字符")
+					typ = param.Type_().GetText()
+				}
+				if typ == "[]" {
+					typ = "[]string"
+				}
 
 				// 解析注解
 				var annotations []string
@@ -118,65 +127,44 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 					}
 				}
 
-				fields = append(fields, FieldDef{
+				result.InFields = append(result.InFields, FieldDef{
 					Name:        name,
 					Type:        typ,
 					JsonName:    name,
 					Annotations: annotations,
 				})
 			}
-
-			result.InFields = append(result.InFields, fields...)
 			fmt.Println("😅inNode:", result.InFields)
+
 		case *parser.OutputSectionContext:
 
-			// 解析输出字段，放到 result.OutDef
-			// 检查是哪种 output 类型
-			//所以这里其实是构造结构体，而不是处理outputspec，还是都处理？
-			fmt.Println("OutputSection")
-			defaultAnnotations := b.AllDefaultAnnotation()
 			// 先构建 defaultAnnotation map，方便查找
-			defaultAnnoMap := map[string][]string{}
-			for _, defAnn := range defaultAnnotations {
-				name := defAnn.ID().GetText()
-				var vals []string
-				if defAnn.AnnotationArgs() != nil {
-					for _, v := range defAnn.AnnotationArgs().AllAnnotationValue() {
-						if s := v.STRING(); s != nil {
-							raw := s.GetText()
-							unquoted, err := strconv.Unquote(raw)
-							if err != nil {
-								unquoted = raw
-							}
-							vals = append(vals, unquoted)
-						} else if arr := v.ArrayLiteral(); arr != nil {
-							var parts []string
-							for _, s := range arr.AllSTRING() {
-								raw := s.GetText()
-								unquoted, err := strconv.Unquote(raw)
-								if err != nil {
-									unquoted = raw
-								}
-								parts = append(parts, unquoted)
-							}
-							vals = append(vals, strings.Join(parts, ","))
-						}
-					}
-				}
-				defaultAnnoMap[name] = append(defaultAnnoMap[name], vals...)
-			}
+			defaultAnnoMap := buildDefaultAnnotationMap(b)
+
+			// 检查是哪种 output 类型
 			if structCtx := b.OutputStruct(); structCtx != nil {
-				var fields []FieldDef
+				// var fields []FieldDef
 				for _, field := range structCtx.AllFieldDef() {
 					name := field.ID().GetText()
-					typ := field.Type_().GetText()
-
+					typ := "string"
+					if field.Type_().GetText() != "" {
+						typ = field.Type_().GetText()
+					}
+					if typ == "[]" {
+						typ = "[]string"
+					}
 					// 解析注解
 					var annotations []string
 					jsonName := name // 默认就是字段名
-
+					//是否是模型需要字段
+					var ismodel bool = false
 					for _, ann := range field.AllAnnotation() {
 						annName := ann.ID().GetText()
+						//if annName == "modeloutput"将该字段加入modelfield
+						if annName == "modeloutput"||annName == "model" {
+							fmt.Println("annName：", annName)
+							ismodel = true
+						}
 						if ann.AnnotationArgs() != nil {
 							for _, v := range ann.AnnotationArgs().AllAnnotationValue() {
 								var val string
@@ -202,11 +190,12 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 									val = strings.Join(parts, ",") // 或保留原结构
 								}
 
-								if annName == "jsonname" {
+								if annName == "jsonname"||annName == "jn" {
 									jsonName = val
 								} else {
 									annotations = append(annotations, val)
 								}
+
 							}
 						}
 						// 再加 defaultAnnotation 中对应注解的参数（如果有）
@@ -215,18 +204,19 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 						}
 					}
 
-					fields = append(fields, FieldDef{
+					field := FieldDef{
 						Name:        name,
 						Type:        typ,
 						JsonName:    jsonName,
 						Annotations: annotations,
-					})
+					}
+
+					result.OutFields = append(result.OutFields, field)
+					if ismodel {
+						fmt.Println("fmodeloutput")
+						result.ModelFields = append(result.ModelFields, field)
+					}
 				}
-
-				outNode := &OutputNode{Fields: fields}
-				result.OutFields = outNode.Fields
-				// result.SysNodes = append(result.SysNodes, outNode)
-
 			} else if mdCtx := b.OutputMarkdown(); mdCtx != nil {
 				text := mdCtx.MARKDOWN().GetText()
 				mdNode := &MarkdownNode{Content: cleanQuotes(text)}
@@ -622,4 +612,37 @@ func getParamName(p parser.IParamPathContext) string {
 		}
 	}
 	return strings.Join(parts, ".")
+}
+func buildDefaultAnnotationMap(b *parser.OutputSectionContext) map[string][]string {
+	defaultAnnotations := b.AllDefaultAnnotation()
+	defaultAnnoMap := make(map[string][]string)
+	for _, defAnn := range defaultAnnotations {
+		name := defAnn.ID().GetText()
+		var vals []string
+		if defAnn.AnnotationArgs() != nil {
+			for _, v := range defAnn.AnnotationArgs().AllAnnotationValue() {
+				if s := v.STRING(); s != nil {
+					raw := s.GetText()
+					unquoted, err := strconv.Unquote(raw)
+					if err != nil {
+						unquoted = raw
+					}
+					vals = append(vals, unquoted)
+				} else if arr := v.ArrayLiteral(); arr != nil {
+					var parts []string
+					for _, s := range arr.AllSTRING() {
+						raw := s.GetText()
+						unquoted, err := strconv.Unquote(raw)
+						if err != nil {
+							unquoted = raw
+						}
+						parts = append(parts, unquoted)
+					}
+					vals = append(vals, strings.Join(parts, ","))
+				}
+			}
+		}
+		defaultAnnoMap[name] = append(defaultAnnoMap[name], vals...)
+	}
+	return defaultAnnoMap
 }

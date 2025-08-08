@@ -32,7 +32,7 @@ func InitLog(logPath string) {
 }
 
 // 构建输出规范文本，用于根据字段列表生成 JSON 字符串表示。
-func BuildOutputSpecLines(fields []FieldDef, asArray bool) []string {
+func BuildModelOutputSpecLines(fields []FieldDef, asArray bool) []string {
 	var lines []string
 	if asArray {
 		lines = append(lines, "```json")
