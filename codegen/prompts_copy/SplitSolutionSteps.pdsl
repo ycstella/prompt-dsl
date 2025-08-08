@@ -2,6 +2,7 @@ prompt SplitSolutionSteps {
     in {
             Question: 
             Process: []
+            Test:int
     }
     
     @latex("严格遵守以下规定设计数学公式使用标准通用的latex格式")
@@ -11,7 +12,7 @@ prompt SplitSolutionSteps {
             Conditions: [] @jn("条件")  @latex @kl @model
             KnowledgePoint:  @jsonname("知识点")  @latex @kl @modeloutput
             ProcessResult:string  @jsonname("过程")  @latex @kl  @modeloutput
-            test: [] 
+            Test: [] 
 	}
 
 
@@ -51,7 +52,7 @@ prompt SplitSolutionSteps {
     
     user_content {
 
-        if (in.Question != ""){
+        if (in.Test >=5){
             -你好
         }
         else{
