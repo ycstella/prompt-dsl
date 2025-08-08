@@ -23,7 +23,8 @@ func main() {
 	config.InitConfig()
 	config.InitLogger()
 	// 指定 prompt 文件夹路径
-	promptDir := "../codegen/prompts_copy"
+
+	promptDir := os.Args[2]
 	entries, err := os.ReadDir(promptDir)
 	if err != nil {
 		log.Println("读取目录失败：", err)
@@ -39,7 +40,7 @@ func main() {
 			continue
 		}
 		// 拼接完整路径
-		path := "../codegen/prompts_copy/" + filename
+		path := promptDir + filename
 		// fileContent, err := os.ReadFile("./promptdsl-core/prompts/SplitSolutionSteps.prompt")
 		promptfileContent, err := os.ReadFile(path)
 		if err != nil {
@@ -57,7 +58,7 @@ func main() {
 	}
 
 	exename := os.Args[1]
-	dir := "../generated_code" 
+	dir := "generated_code" 
 	// go build
 	cmd := exec.Command("go", "build", "-o",exename, dir)
 	cmd.Dir = dir
@@ -70,13 +71,6 @@ func main() {
 	fmt.Println(string(cmdOutput))
 	fmt.Println("Go 程序编译完成，生成了 output.exe 文件")
 
-	// code := codegen.Generatworkflow("generated")
-	// outputFile := "../generated_code/workflow.go"
-	// err = os.WriteFile(outputFile, []byte(code), 0644)
-	// if err != nil {
-	// 	fmt.Fprintf(os.Stderr, "写入workflow文件失败: %v\n", err)
-	// 	os.Exit(1)
-	// }
 }
 
 // 假设 result 是 string，包含 JSON 数组（即模型返回结果）

@@ -13,7 +13,7 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
-// 生成单prompt代码，返回调用名
+// 生成单prompt代码，返回user，sys
 func RunPromptDSL(input string, filename string) (*final, error) {
 	InitLog("llm.log")
 	// 1. 解析输入 DSL 文本，生成 Parse Tree
@@ -36,12 +36,14 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	fmt.Printf("📦 fixcode: %+v\n", rootNode.FixCode)
 	// 3. 构造 Eval 上下文
 	str := &PromptEvalContext{
-		Vars:       make(map[string]interface{}),
 		InFields:   rootNode.InFields,
 		OutFields:  rootNode.OutFields,
 		ModuleDefs: rootNode.ModuleDefs,
+		ModelFields: rootNode.ModelFields,
 	}
-	// fmt.Println("😅")
+
+	fmt.Println("😅ModelFields:",str.ModelFields)
+	// fmt.Println("fmodeloutput")
 	//3.5before
 	// 3. 先执行 before 节点，填充 Vars
 	// for _, node := range rootNode.BeforeNodes {
@@ -61,8 +63,8 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 
 	code := Generateprompthandle(rootNode, "generated", outputParts, filename, rootNode.Goimport)
 
-	outputFile := "../generated_code/generated/" + filename + ".go"
-	err = installGoImports(rootNode.Goimport, "../generated_code")
+	outputFile := "generated_code/generated/" + filename + ".go"
+	err = installGoImports(rootNode.Goimport, "generated_code")
 	if err != nil {
 		log.Fatalf("安装依赖失败: %v", err)
 	}
