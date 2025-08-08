@@ -15,17 +15,17 @@ type FieldDef struct {
 	SubFields   []FieldDef
 }
 
-type PromptEvalContext struct {
-	Vars       map[string]interface{}
-	InFields   []FieldDef
-	OutFields  []FieldDef
-	ModelFields  []FieldDef
-	Input      any
-	ModuleDefs map[string][]Node
+type PromptGenContext struct {
+	Vars        map[string]interface{}
+	InFields    []FieldDef
+	OutFields   []FieldDef
+	ModelFields []FieldDef
+	Input       any
+	ModuleDefs  map[string][]Node
 }
 
 type Node interface {
-	Eval(_ *PromptEvalContext) ([]string, error)
+	Tocode(_ *PromptGenContext) ([]string, error)
 	// ConvertToCode() string
 }
 
@@ -60,7 +60,7 @@ type Expr struct {
 	Operant1 []*Expr
 }
 
-func (e *Expr) EvalToBool(ctx *PromptEvalContext) (bool, error) {
+func (e *Expr) TocodeToBool(ctx *PromptGenContext) (bool, error) {
 	// 如果是叶子节点，不能直接判断真假，必须是比较表达式
 	if e.Leaf != nil {
 		return false, fmt.Errorf("cannot evaluate leaf as boolean directly: %s", *e.Leaf)
@@ -72,11 +72,11 @@ func (e *Expr) EvalToBool(ctx *PromptEvalContext) (bool, error) {
 		leftExpr := e.Operant0[0]
 		rightExpr := e.Operant1[0]
 
-		leftVals, err := leftExpr.Eval(ctx)
+		leftVals, err := leftExpr.Tocode(ctx)
 		if err != nil {
 			return false, err
 		}
-		rightVals, err := rightExpr.Eval(ctx)
+		rightVals, err := rightExpr.Tocode(ctx)
 		if err != nil {
 			return false, err
 		}
@@ -97,7 +97,7 @@ func (e *Expr) EvalToBool(ctx *PromptEvalContext) (bool, error) {
 
 	return false, fmt.Errorf("unsupported boolean operator: %v", e.Op)
 }
-func (e *Expr) Eval(ctx *PromptEvalContext) ([]string, error) {
+func (e *Expr) Tocode(ctx *PromptGenContext) ([]string, error) {
 	// 如果是叶子节点
 
 	if e.Leaf != nil {
@@ -134,8 +134,8 @@ func (e *Expr) Eval(ctx *PromptEvalContext) ([]string, error) {
 		return []string{leafVal}, nil
 	}
 
-	// 非叶子节点暂时不支持Eval
-	return nil, fmt.Errorf("Eval not supported on non-leaf expressions yet")
+	// 非叶子节点暂时不支持Tocode
+	return nil, fmt.Errorf("Tocode not supported on non-leaf expressions yet")
 }
 func firstOrEmpty(list []string) string {
 	if len(list) == 0 {
@@ -143,15 +143,15 @@ func firstOrEmpty(list []string) string {
 	}
 	return list[0]
 }
-func (e *Expr) EvalToInt(_ *PromptEvalContext) (int, error) {
+func (e *Expr) TocodeToInt(_ *PromptGenContext) (int, error) {
 	return 0, nil
 }
 
-func (e *Expr) EvalToFloat(_ *PromptEvalContext) (float32, error) {
+func (e *Expr) TocodeToFloat(_ *PromptGenContext) (float32, error) {
 	return 0.0, nil
 }
 
-func (e *Expr) EvalToString(_ *PromptEvalContext) (string, error) {
+func (e *Expr) TocodeToString(_ *PromptGenContext) (string, error) {
 	return "", nil
 }
 
@@ -159,7 +159,7 @@ type StringNode struct {
 	Val string
 }
 
-func (node *StringNode) Eval(_ *PromptEvalContext) ([]string, error) {
+func (node *StringNode) Tocode(_ *PromptGenContext) ([]string, error) {
 	escaped := strings.ReplaceAll(node.Val, `"`, `\"`)
 	return []string{fmt.Sprintf(`b.WriteString("%s\n")`, escaped)}, nil
 	// return []string{node.Val}, nil
@@ -170,12 +170,12 @@ type OutputSpecNode struct {
 	RawTyp  string
 }
 
-func (node *OutputSpecNode) Eval(ctx *PromptEvalContext) ([]string, error) {
+func (node *OutputSpecNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	// TODO
 	var b strings.Builder
-	fields:=ctx.OutFields
-	if ctx.ModelFields!=nil{
-		fields=ctx.ModelFields
+	fields := ctx.OutFields
+	if ctx.ModelFields != nil {
+		fields = ctx.ModelFields
 	}
 	if node.IsArray {
 		for _, line := range BuildModelOutputSpecLines(fields, true) {
@@ -195,7 +195,7 @@ type ModuleRefNode struct {
 	Name string
 }
 
-func (m *ModuleRefNode) Eval(ctx *PromptEvalContext) ([]string, error) {
+func (m *ModuleRefNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 
 	nodes := ctx.ModuleDefs[m.Name]
 	if nodes == nil {
@@ -204,7 +204,7 @@ func (m *ModuleRefNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 	}
 	var result []string
 	for _, node := range nodes {
-		str, err := node.Eval(ctx)
+		str, err := node.Tocode(ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -217,8 +217,8 @@ type InputNode struct {
 	Fields []FieldDef
 }
 
-func (n *InputNode) Eval(ctx *PromptEvalContext) ([]string, error) {
-	// Eval逻辑根据需要实现
+func (n *InputNode) Tocode(ctx *PromptGenContext) ([]string, error) {
+	// Tocode逻辑根据需要实现
 	return nil, nil
 }
 
@@ -226,8 +226,8 @@ type OutputNode struct {
 	Fields []FieldDef
 }
 
-func (n *OutputNode) Eval(ctx *PromptEvalContext) ([]string, error) {
-	// Eval逻辑根据需要实现
+func (n *OutputNode) Tocode(ctx *PromptGenContext) ([]string, error) {
+	// Tocode逻辑根据需要实现
 	return nil, nil
 }
 
@@ -235,7 +235,7 @@ type MarkdownNode struct {
 	Content string
 }
 
-func (m *MarkdownNode) Eval(ctx *PromptEvalContext) ([]string, error) {
+func (m *MarkdownNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	return []string{m.Content}, nil
 }
 
@@ -264,7 +264,7 @@ func (op ExprOp) String() string {
 		return ""
 	}
 }
-func (node *IfNode) Eval(ctx *PromptEvalContext) ([]string, error) {
+func (node *IfNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 
 	var lines []string
 
@@ -275,9 +275,9 @@ func (node *IfNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 
 	// Then 分支
 	for _, n := range node.Then {
-		vals, err := n.Eval(ctx)
+		vals, err := n.Tocode(ctx)
 		if err != nil {
-			return nil, fmt.Errorf("Then branch Eval failed: %w", err)
+			return nil, fmt.Errorf("Then branch Tocode failed: %w", err)
 		}
 		for _, v := range vals {
 			lines = append(lines, fmt.Sprintf("    %s", v))
@@ -288,9 +288,9 @@ func (node *IfNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 	if len(node.Else) > 0 {
 		lines = append(lines, "} else {")
 		for _, n := range node.Else {
-			vals, err := n.Eval(ctx)
+			vals, err := n.Tocode(ctx)
 			if err != nil {
-				return nil, fmt.Errorf("Else branch Eval failed: %w", err)
+				return nil, fmt.Errorf("Else branch Tocode failed: %w", err)
 			}
 			for _, v := range vals {
 				lines = append(lines, fmt.Sprintf("    %s", v))
@@ -308,39 +308,8 @@ type ParamNode struct {
 	Path string
 }
 
-// 实现 Node 接口的 Eval 方法
-func (p *ParamNode) Eval(ctx *PromptEvalContext) ([]string, error) {
-
-	// var section, key string
-	// parts := strings.SplitN(p.Path, ".", 2)
-	// if len(parts) == 2 {
-	// 	section, key = parts[0], parts[1]
-	// } else if len(parts) == 1 {
-	// 	section = parts[0]
-	// 	key = ""
-	// } else {
-	// 	return nil, fmt.Errorf("invalid param path: %s", p.Path)
-	// }
-	// // section, key := parts[0], parts[1]
-
-	// switch section {
-	// case "input":
-	// 	// var input string
-	// 	// 从 ctx.Input 中获取真实值
-	// 	// fmt.Println("解释执行 ParamNode:", ctx.Input)
-	// 	inputMap, ok := ctx.Input.(map[string]any)
-	// 	if !ok {
-	// 		return nil, fmt.Errorf("input is not a valid map[string]any")
-	// 	}
-
-	// 	if val, ok := inputMap[key]; ok {
-	// 		return []string{fmt.Sprintf("%v", val)}, nil
-	// 	}
-	// case "output":
-	// default:
-	// 	return nil, fmt.Errorf("unknown param section: %s", section)
-	// }
-
+// 实现 Node 接口的 Tocode 方法
+func (p *ParamNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	return []string{fmt.Sprintf(`b.WriteString(%s)`, p.Path)}, nil
 }
 
@@ -355,7 +324,7 @@ type SwitchNode struct {
 	Default []Node
 }
 
-func (node *SwitchNode) Eval(ctx *PromptEvalContext) ([]string, error) {
+func (node *SwitchNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	var lines []string
 
 	cond := node.Switch // Expr -> string，比如 input.question != ""
@@ -365,9 +334,9 @@ func (node *SwitchNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 	for _, caseitem := range node.Cases {
 		lines = append(lines, fmt.Sprintf("case %s:", caseitem.Case))
 		for _, n := range caseitem.Body {
-			vals, err := n.Eval(ctx)
+			vals, err := n.Tocode(ctx)
 			if err != nil {
-				return nil, fmt.Errorf("Case branch Eval failed: %w", err)
+				return nil, fmt.Errorf("Case branch Tocode failed: %w", err)
 			}
 			for _, v := range vals {
 				lines = append(lines, fmt.Sprintf("    %s", v))
@@ -377,9 +346,9 @@ func (node *SwitchNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 	if node.Default != nil {
 		lines = append(lines, "default:")
 		for _, n := range node.Default {
-			vals, err := n.Eval(ctx)
+			vals, err := n.Tocode(ctx)
 			if err != nil {
-				return nil, fmt.Errorf("Default branch Eval failed: %w", err)
+				return nil, fmt.Errorf("Default branch Tocode failed: %w", err)
 			}
 			for _, v := range vals {
 				lines = append(lines, fmt.Sprintf("    %s", v))
@@ -402,7 +371,7 @@ type ForNode struct {
 	Body    []Node // 通用内容
 }
 
-func (node *ForNode) Eval(ctx *PromptEvalContext) ([]string, error) {
+func (node *ForNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	// fmt.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
 	var lines []string
 
@@ -411,9 +380,9 @@ func (node *ForNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 		lines = append(lines, fmt.Sprintf("for %s; %s; %s {", node.Init, node.Cond, node.Post))
 
 		for _, n := range node.Body {
-			vals, err := n.Eval(ctx)
+			vals, err := n.Tocode(ctx)
 			if err != nil {
-				return nil, fmt.Errorf("Then branch Eval failed: %w", err)
+				return nil, fmt.Errorf("Then branch Tocode failed: %w", err)
 			}
 			for _, v := range vals {
 				lines = append(lines, fmt.Sprintf("    %s", v))
@@ -428,9 +397,9 @@ func (node *ForNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 		lines = append(lines, fmt.Sprintf("for %s, %s := range %s {", node.Key, node.Val, node.Range))
 
 		for _, n := range node.Body {
-			vals, err := n.Eval(ctx)
+			vals, err := n.Tocode(ctx)
 			if err != nil {
-				return nil, fmt.Errorf("RangeWithIndex branch Eval failed: %w", err)
+				return nil, fmt.Errorf("RangeWithIndex branch Tocode failed: %w", err)
 			}
 			for _, v := range vals {
 				lines = append(lines, fmt.Sprintf("    %s", v))
@@ -445,9 +414,9 @@ func (node *ForNode) Eval(ctx *PromptEvalContext) ([]string, error) {
 		lines = append(lines, fmt.Sprintf("for %s := range %s {", node.Val, node.Range))
 
 		for _, n := range node.Body {
-			vals, err := n.Eval(ctx)
+			vals, err := n.Tocode(ctx)
 			if err != nil {
-				return nil, fmt.Errorf("RangeNoIndex branch Eval failed: %w", err)
+				return nil, fmt.Errorf("RangeNoIndex branch Tocode failed: %w", err)
 			}
 			for _, v := range vals {
 				lines = append(lines, fmt.Sprintf("    %s", v))
@@ -489,19 +458,19 @@ type final struct {
 	Sys  []string
 }
 
-func (r *PromptNode) Eval(ctx *PromptEvalContext) (*final, error) {
+func (r *PromptNode) Tocode(ctx *PromptGenContext) (*final, error) {
 
 	var user []string
 	var sys []string
 	for _, node := range r.SysNodes {
-		out, err := node.Eval(ctx)
+		out, err := node.Tocode(ctx)
 		if err != nil {
 			return nil, err
 		}
 		sys = append(sys, out...)
 	}
 	for _, node := range r.UserNodes {
-		out, err := node.Eval(ctx)
+		out, err := node.Tocode(ctx)
 		if err != nil {
 			return nil, err
 		}

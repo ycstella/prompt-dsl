@@ -35,26 +35,26 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	fmt.Printf("📦 aftercode: %+v\n", rootNode.AfterCode)
 	fmt.Printf("📦 fixcode: %+v\n", rootNode.FixCode)
 	// 3. 构造 Eval 上下文
-	str := &PromptEvalContext{
-		InFields:   rootNode.InFields,
-		OutFields:  rootNode.OutFields,
-		ModuleDefs: rootNode.ModuleDefs,
+	str := &PromptGenContext{
+		InFields:    rootNode.InFields,
+		OutFields:   rootNode.OutFields,
+		ModuleDefs:  rootNode.ModuleDefs,
 		ModelFields: rootNode.ModelFields,
 	}
 
-	fmt.Println("😅ModelFields:",str.ModelFields)
+	fmt.Println("😅ModelFields:", str.ModelFields)
 	// fmt.Println("fmodeloutput")
 	//3.5before
 	// 3. 先执行 before 节点，填充 Vars
 	// for _, node := range rootNode.BeforeNodes {
-	// 	err := node.Eval(str)
+	// 	err := node.Tocode(str)
 	// 	if err != nil {
 	// 		return "", err
 	// 	}
 	// }
 
 	// 4. 执行 AST，得到 prompt 字符串
-	outputParts, err := rootNode.Eval(str)
+	outputParts, err := rootNode.Tocode(str)
 	if err != nil {
 		return nil, err
 	}
@@ -73,6 +73,6 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
 		os.Exit(1)
 	}
-	
+
 	return outputParts, nil
 }
