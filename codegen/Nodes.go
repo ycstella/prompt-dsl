@@ -15,6 +15,7 @@ type FieldDef struct {
 	SubFields   []FieldDef
 }
 
+
 type PromptGenContext struct {
 	Vars        map[string]interface{}
 	InFields    []FieldDef
@@ -29,131 +30,13 @@ type Node interface {
 	// ConvertToCode() string
 }
 
-// 引用结点
 
-type ExprOp int
-
-const (
-	ExprOp_And ExprOp = iota
-	ExprOp_Or
-	ExprOp_Not
-	ExprOp_Equal
-	ExprOp_NotEqual
-	ExprOp_GreaterThan
-	ExprOp_LessThan
-	ExprOp_GreaterThanOrEqual
-	ExprOp_LessThanOrEqual
-	ExprOp_Add
-	ExprOp_Sub
-	ExprOp_Mul
-	ExprOp_Div
-	ExprOp_Mod
-
-	ExprOp_None // for leaf nodes
-)
-
-type Expr struct {
-	Leaf *string
-
-	Op       ExprOp
-	Operant0 []*Expr
-	Operant1 []*Expr
-}
-
-func (e *Expr) TocodeToBool(ctx *PromptGenContext) (bool, error) {
-	// 如果是叶子节点，不能直接判断真假，必须是比较表达式
-	if e.Leaf != nil {
-		return false, fmt.Errorf("cannot evaluate leaf as boolean directly: %s", *e.Leaf)
-	}
-
-	// 支持的布尔比较运算
-	switch e.Op {
-	case ExprOp_Equal, ExprOp_NotEqual:
-		leftExpr := e.Operant0[0]
-		rightExpr := e.Operant1[0]
-
-		leftVals, err := leftExpr.Tocode(ctx)
-		if err != nil {
-			return false, err
-		}
-		rightVals, err := rightExpr.Tocode(ctx)
-		if err != nil {
-			return false, err
-		}
-
-		left := firstOrEmpty(leftVals)
-		right := firstOrEmpty(rightVals)
-		fmt.Println("😶left:", left)
-		fmt.Println("😶right:", right)
-		// fmt.Println("🔍 Comparing:", left, e.Op, right)
-
-		switch e.Op {
-		case ExprOp_Equal:
-			return left == right, nil
-		case ExprOp_NotEqual:
-			return left != right, nil
-		}
-	}
-
-	return false, fmt.Errorf("unsupported boolean operator: %v", e.Op)
-}
-func (e *Expr) Tocode(ctx *PromptGenContext) ([]string, error) {
-	// 如果是叶子节点
-
-	if e.Leaf != nil {
-		leafVal := *e.Leaf
-		// 假设叶子是参数路径格式，比如 "input.question" 或 "output.answer"
-		parts := strings.SplitN(leafVal, ".", 2)
-
-		if len(parts) == 2 {
-			section, key := parts[0], parts[1]
-			var val any
-			var ok bool
-
-			switch section {
-			case "input":
-				// 假设 ctx.Input 是 map[string]any
-				if m, okCast := ctx.Input.(map[string]any); okCast {
-					val, ok = m[key]
-				}
-			case "outputspec":
-				// 你也可以在 ctx 中保存输出数据结构，这里示例用 OutFields 不一样，按实际需求调整
-				// 这里仅示例直接返回 key
-				val, ok = key, true
-			default:
-				return nil, fmt.Errorf("unknown section in leaf: %s", section)
-			}
-
-			if !ok {
-				return []string{""}, nil // 找不到值返回空字符串，或者你也可以返回错误
-			}
-			return []string{fmt.Sprintf("%v", val)}, nil
-		}
-
-		// 如果不是带点的路径，就直接返回叶子内容
-		return []string{leafVal}, nil
-	}
-
-	// 非叶子节点暂时不支持Tocode
-	return nil, fmt.Errorf("Tocode not supported on non-leaf expressions yet")
-}
-func firstOrEmpty(list []string) string {
-	if len(list) == 0 {
-		return ""
-	}
-	return list[0]
-}
-func (e *Expr) TocodeToInt(_ *PromptGenContext) (int, error) {
-	return 0, nil
-}
-
-func (e *Expr) TocodeToFloat(_ *PromptGenContext) (float32, error) {
-	return 0.0, nil
-}
-
-func (e *Expr) TocodeToString(_ *PromptGenContext) (string, error) {
-	return "", nil
-}
+// func firstOrEmpty(list []string) string {
+// 	if len(list) == 0 {
+// 		return ""
+// 	}
+// 	return list[0]
+// }
 
 type StringNode struct {
 	Val string
@@ -213,23 +96,22 @@ func (m *ModuleRefNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	return result, nil
 }
 
-type InputNode struct {
-	Fields []FieldDef
-}
+// type InputNode struct {
+// 	Fields []FieldDef
+// }
 
-func (n *InputNode) Tocode(ctx *PromptGenContext) ([]string, error) {
-	// Tocode逻辑根据需要实现
-	return nil, nil
-}
+// func (n *InputNode) Tocode(ctx *PromptGenContext) ([]string, error) {
+// 	return nil, nil
+// }
 
-type OutputNode struct {
-	Fields []FieldDef
-}
+// type OutputNode struct {
+// 	Fields []FieldDef
+// }
 
-func (n *OutputNode) Tocode(ctx *PromptGenContext) ([]string, error) {
-	// Tocode逻辑根据需要实现
-	return nil, nil
-}
+// func (n *OutputNode) Tocode(ctx *PromptGenContext) ([]string, error) {
+// 	// Tocode逻辑根据需要实现
+// 	return nil, nil
+// }
 
 type MarkdownNode struct {
 	Content string
@@ -245,25 +127,7 @@ type IfNode struct {
 	Else      []Node
 }
 
-func (e *Expr) String() string {
-	if e.Leaf != nil {
-		return *e.Leaf
-	}
-	if e.Op != ExprOp_None && len(e.Operant0) > 0 && len(e.Operant1) > 0 {
-		return fmt.Sprintf("%s %s %s", e.Operant0[0].String(), e.Op.String(), e.Operant1[0].String())
-	}
-	return ""
-}
-func (op ExprOp) String() string {
-	switch op {
-	case ExprOp_Equal:
-		return "=="
-	case ExprOp_NotEqual:
-		return "!="
-	default:
-		return ""
-	}
-}
+
 func (node *IfNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 
 	var lines []string
@@ -483,34 +347,34 @@ func (r *PromptNode) Tocode(ctx *PromptGenContext) (*final, error) {
 	}, nil
 }
 
-type ParsedPrompt struct {
-	InDef  []FieldDef
-	OutDef []FieldDef
+// type ParsedPrompt struct {
+// 	InDef  []FieldDef
+// 	OutDef []FieldDef
 
-	// Sys []Node
-	// User []Node
-	// Or:
-	SysVars  map[string][]Node
-	UserVars map[string][]Node
+// 	// Sys []Node
+// 	// User []Node
+// 	// Or:
+// 	SysVars  map[string][]Node
+// 	UserVars map[string][]Node
 
-	BeforeCode string
-	FixCode    string
-	AfterCode  string
-}
+// 	BeforeCode string
+// 	FixCode    string
+// 	AfterCode  string
+// }
 
-func (parsed *ParsedPrompt) GetSystemPrompt(inp any) (string, error) {
-	return "", nil
-}
+// func (parsed *ParsedPrompt) GetSystemPrompt(inp any) (string, error) {
+// 	return "", nil
+// }
 
-func (parsed *ParsedPrompt) GetUserPrompt(inp any) (string, error) {
-	return "", nil
-}
+// func (parsed *ParsedPrompt) GetUserPrompt(inp any) (string, error) {
+// 	return "", nil
+// }
 
-// Or
-func (parsed *ParsedPrompt) GenSystemPromptFn() (string, error) {
-	return "", nil
-}
+// // Or
+// func (parsed *ParsedPrompt) GenSystemPromptFn() (string, error) {
+// 	return "", nil
+// }
 
-func (parsed *ParsedPrompt) GenUserPromptFn() (string, error) {
-	return "", nil
-}
+// func (parsed *ParsedPrompt) GenUserPromptFn() (string, error) {
+// 	return "", nil
+// }

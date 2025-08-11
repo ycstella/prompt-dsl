@@ -2,9 +2,9 @@
 package generated
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
-	"encoding/json"
 	"os"
 	"service"
 )
@@ -12,6 +12,7 @@ import (
 type SplitSolutionStepsInputContext struct {
     Question string `json:"Question"`
     Process []string `json:"Process"`
+    Test int `json:"Test"`
     Add []string `json:"Add"`
 }
 
@@ -19,7 +20,7 @@ type SplitSolutionStepsOutputContext struct {
     Conditions []string `json:"条件"`
     KnowledgePoint string `json:"知识点"`
     ProcessResult string `json:"过程"`
-    Test []string `json:"test"`
+    Test []string `json:"Test"`
 }
 
 type SplitSolutionStepsModelOutputContext struct {
@@ -43,7 +44,7 @@ func SplitSolutionSteps_GenSys(in SplitSolutionStepsInputContext) string {
 func SplitSolutionSteps_GenUser(in SplitSolutionStepsInputContext) string {
     var b strings.Builder
     b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n")
-    if (in.Question!="") {
+    if (in.Test>=5) {
         b.WriteString("你好\n")
     } else {
         b.WriteString("siuehfebn\n")

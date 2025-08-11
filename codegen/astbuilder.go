@@ -58,27 +58,6 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 					result.outputspectNodes = *outSpec
 				}
 			}
-			// modName := b.ID().GetText()
-			// var contentNodes []Node
-			// for _, mc := range b.AllModuleContent() {
-			// 	mcCtx := mc.(*parser.ModuleContentContext)
-
-			// 	for i := 0; i < mcCtx.GetChildCount(); i++ {
-			// 		child := mcCtx.GetChild(i)
-			// 		switch sub := child.(type) {
-			// 		case *parser.TextLineContext:
-			// 			contentNodes = append(contentNodes, &StringNode{Val: cleanQuotes(sub.GetText())})
-			// 		case *parser.ParamPathContext:
-			// 			contentNodes = append(contentNodes, &ParamNode{Path: cleanQuotes(sub.GetText())})
-			// 		case *parser.IfStatementContext:
-			// 			contentNodes = append(contentNodes, buildIfNode(sub))
-			// 		case *parser.ExprContext:
-			// 			contentNodes = append(contentNodes, &StringNode{Val: cleanQuotes(sub.GetText())}) //表达式
-			// 		default:
-
-			// 		}
-			// 	}
-			// }
 			result.ModuleDefs[modName] = ModuleNode
 		case *parser.UserSectionContext:
 			if len(b.AllID()) > 0 {
@@ -259,55 +238,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 	return result
 }
 
-func BuildSysNodes(root antlr.Tree) []Node {
-	moduleContentMap := make(map[string][]Node)
 
-	// Step 1: 收集所有 moduleDef
-	var collectModules func(antlr.Tree)
-	collectModules = func(node antlr.Tree) {
-		switch ctx := node.(type) {
-		case *parser.ModuleDefContext:
-			moduleName := ctx.ID().GetText()
-			var nodes []Node
-			for _, mc := range ctx.AllModuleContent() {
-				for i := 0; i < mc.(antlr.Tree).GetChildCount(); i++ {
-					child := mc.(antlr.Tree).GetChild(i)
-					switch t := child.(type) {
-					case *parser.TextLineContext:
-						nodes = append(nodes, &StringNode{Val: cleanQuotes(t.GetText())})
-					}
-				}
-			}
-			moduleContentMap[moduleName] = nodes
-		}
-		for i := 0; i < node.GetChildCount(); i++ {
-			collectModules(node.GetChild(i))
-		}
-	}
-	collectModules(root)
-	// Step 2: 提取 sysSection 中的模块名，展开为 AST 节点
-	var result []Node
-	var expandSys func(antlr.Tree)
-	expandSys = func(node antlr.Tree) {
-		switch ctx := node.(type) {
-		case *parser.SystemSectionContext:
-			for _, id := range ctx.AllID() {
-				modName := id.GetText()
-				if nodes, ok := moduleContentMap[modName]; ok {
-					result = append(result, nodes...) // 展开合并
-				} else {
-					// 未定义模块也可以加提示节点
-					result = append(result, &StringNode{Val: fmt.Sprintf("[Missing module: %s]", modName)})
-				}
-			}
-		}
-		for i := 0; i < node.GetChildCount(); i++ {
-			expandSys(node.GetChild(i))
-		}
-	}
-	expandSys(root)
-	return result
-}
 func BuildSysNodesC(ctx parser.ISysContentContext) Node {
 	nodeCtx := ctx.(*parser.SysContentContext)
 	// 优先判断 ARRAY_OUTPUTSPEC（形如 []outputspec）
@@ -354,7 +285,7 @@ func BuildSysNodesC(ctx parser.ISysContentContext) Node {
 	return nil
 }
 
-// 构建一个 userContent 的 Node
+// 构建一个 userContent Node
 func BuildUserNode(ctx parser.IUserContentContext) Node {
 	// fmt.Println("😊buildUserNode:")
 	nodeCtx := ctx.(*parser.UserContentContext)
@@ -431,7 +362,7 @@ func BuildModuleNode(ctx parser.IModuleContentContext) Node {
 		child := nodeCtx.GetChild(i)
 		switch sub := child.(type) {
 		case *parser.ParamPathContext:
-			// fmt.Println("😊param path:", sub.GetText())
+			fmt.Println("😊param path:", sub.GetText())
 			return &ParamNode{Path: cleanQuotes(sub.GetText())}
 		case *parser.TextLineContext:
 			fmt.Println("😊stringtext:", sub.GetText())
@@ -570,31 +501,9 @@ func buildSwitchNode(ctx parser.ISwitchStatementContext) *SwitchNode {
 		Default: defultNode,
 	}
 }
-func buildExpr(exprCtx parser.IExprContext) *Expr {
-	switch expr := exprCtx.(type) {
-	case *parser.ExprContext:
-		if param := expr.ParamPath(); param != nil {
-			paramName := getParamName(param)
-			return &Expr{Leaf: &paramName}
-		}
-		if str := expr.DASH_STRING(); str != nil {
-			s := strings.Trim(str.GetText(), "-")
-			return &Expr{Leaf: &s}
-		}
-		if num := expr.NUMBER(); num != nil {
-			n := num.GetText()
-			return &Expr{Leaf: &n}
-		}
-		if b := expr.BOOL(); b != nil {
-			val := b.GetText()
-			return &Expr{Leaf: &val}
-		}
-	}
-	return &Expr{Op: ExprOp_None}
-}
 
+// 去掉开头和结尾的双引号（配对的）
 func cleanQuotes(s string) string {
-	// 去掉开头和结尾的双引号（如果真的是配对的）
 	if strings.HasPrefix(s, "\"") && strings.HasSuffix(s, "\"") {
 		s = strings.TrimPrefix(s, "\"")
 		s = strings.TrimSuffix(s, "\"")
@@ -603,16 +512,6 @@ func cleanQuotes(s string) string {
 	return s
 }
 
-func getParamName(p parser.IParamPathContext) string {
-	parts := []string{}
-	for _, id := range p.AllID() {
-		name := id.GetText()
-		if name != "in" {
-			parts = append(parts, name)
-		}
-	}
-	return strings.Join(parts, ".")
-}
 func buildDefaultAnnotationMap(b *parser.OutputSectionContext) map[string][]string {
 	defaultAnnotations := b.AllDefaultAnnotation()
 	defaultAnnoMap := make(map[string][]string)
