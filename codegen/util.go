@@ -1,12 +1,14 @@
 package codegen
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"unicode"
 
 	"regexp"
 
@@ -123,7 +125,7 @@ func extractRawText(ctx antlr.ParserRuleContext, tokens *antlr.CommonTokenStream
 		builder.WriteString(tok.GetText())
 	}
 	code := builder.String()
-	rePrefix := regexp.MustCompile(`(?i)^\s*(after|fix)\s*{`)
+	rePrefix := regexp.MustCompile(`(?i)^\s*(after|fix|before)\s*{`)
 	code = rePrefix.ReplaceAllString(code, "")
 	code = strings.TrimSuffix(code, "}")
 	return []string{code}
@@ -333,4 +335,58 @@ func isStandardPackage(pkg string) bool {
 		"fmt": true, "os": true, "io": true, "strings": true, "time": true, "bytes": true,
 	}
 	return stdPkgs[pkg]
+}
+func FixAuto[T any](response string) (T, error) {
+	// 用strings.Builder手动替换单反斜杠
+	fmt.Println("response:", response)
+	var results T
+	err := json.Unmarshal([]byte(response), &results)
+	if err != nil {
+		var buf strings.Builder
+		for i := 0; i < len(response); i++ {
+			if response[i] == '\\' {
+				// 判断是否有下一个字符
+				if i+1 < len(response) {
+					next := response[i+1]
+					// 如果是两个连续的反斜杠
+					if next == '\\' {
+						// 再判断第三个字符是否存在，且不是字母或反斜杠
+						if i+2 >= len(response) || !(unicode.IsLetter(rune(response[i+2])) || response[i+2] == '\\') {
+							// 变成 4 个斜杠
+							buf.WriteString(`\\\\`)
+						} else {
+							// 保留原样 2 个斜杠
+							buf.WriteString(`\\`)
+							if response[i+3] == '\\' {
+								i++
+							}
+						}
+						i++ // 跳过下一个斜杠
+					} else if next == '"' {
+						// 保留一个反斜杠
+						buf.WriteByte('\\')
+						i++ // 跳过 "
+					} else {
+						// fmt.Println("last char is \\")
+						// 单独的 \，不是合法转义，变成两个
+						buf.WriteString(`\\`)
+					}
+				} else {
+					// 最后一个字符是反斜杠，补一个
+					buf.WriteString(`\`)
+				}
+			} else {
+				buf.WriteByte(response[i])
+			}
+		}
+		fixed := buf.String()
+		fmt.Println("fixed:", fixed)
+
+		err := json.Unmarshal([]byte(fixed), &results)
+		if err != nil {
+			return results, err // 返回T的零值和错误
+		}
+		return results, nil
+	}
+	return results, nil
 }

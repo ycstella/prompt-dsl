@@ -2,12 +2,19 @@
 package generated
 
 import (
+	"strings"
 	"encoding/json"
 	"fmt"
-	"strings"
 	"os"
 	"service"
+	"codegen"
 )
+
+type SplitSolutionSteps struct {
+    Input SplitSolutionStepsInputContext
+    Output SplitSolutionStepsOutputContext
+    ModelOutput SplitSolutionStepsModelOutputContext
+}
 
 type SplitSolutionStepsInputContext struct {
     Question string `json:"Question"`
@@ -29,7 +36,7 @@ type SplitSolutionStepsModelOutputContext struct {
     ProcessResult string `json:"过程"`
 }
 
-func SplitSolutionSteps_GenSys(in SplitSolutionStepsInputContext) string {
+func (prompt *SplitSolutionSteps)GenSys(in SplitSolutionStepsInputContext) string {
     var b strings.Builder
     b.WriteString("你是一个擅长拆分解题步骤的数学老师\n")
     if (in.Question=="") {
@@ -41,7 +48,7 @@ func SplitSolutionSteps_GenSys(in SplitSolutionStepsInputContext) string {
 
 }
 
-func SplitSolutionSteps_GenUser(in SplitSolutionStepsInputContext) string {
+func (prompt *SplitSolutionSteps)GenUser(in SplitSolutionStepsInputContext) string {
     var b strings.Builder
     b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n")
     if (in.Test>=5) {
@@ -80,7 +87,7 @@ func SplitSolutionSteps_GenUser(in SplitSolutionStepsInputContext) string {
 
 }
 
-func SplitSolutionSteps_AfterProcess(model []SplitSolutionStepsModelOutputContext) []SplitSolutionStepsOutputContext {
+func (prompt *SplitSolutionSteps)AfterProcess(model []SplitSolutionStepsModelOutputContext) []SplitSolutionStepsOutputContext {
 
         trueCount := 0
         for _, item := range model {
@@ -93,20 +100,49 @@ func SplitSolutionSteps_AfterProcess(model []SplitSolutionStepsModelOutputContex
     
 }
 
-func SplitSolutionSteps_FixProcess(response string) ([]SplitSolutionStepsModelOutputContext ,error){
+func (prompt *SplitSolutionSteps)Before(in SplitSolutionStepsInputContext) (SplitSolutionStepsInputContext ,error){
 
-        // 用strings.Builder手动替换单反斜杠
-        fmt.Println("response:", response)
-        var results []SplitSolutionStepsModelOutputContext
-        err := json.Unmarshal([]byte(response), &results)
-        return results, err
+        for process:=range in.Process{
+            fmt.Println("process:",process)
+        }
+        in.Test=5
+        return in,nil
     
 }
+func (prompt *SplitSolutionSteps)FixProcess(response string) ([]SplitSolutionStepsModelOutputContext ,error){
 
-func SplitSolutionSteps(input SplitSolutionStepsInputContext) ([]SplitSolutionStepsOutputContext,error) {
+        // 用strings.Builder手动替换单反斜杠
+        
+        fixed,err:=codegen.FixAuto[[]SplitSolutionStepsModelOutputContext](response)
+
+        fmt.Println("response:", response)
+        var results []SplitSolutionStepsModelOutputContext
+        err = json.Unmarshal([]byte(response), &results)
+        return fixed, err
+    
+}
+func (prompt *SplitSolutionSteps)ValidateInput(input SplitSolutionStepsInputContext) (SplitSolutionStepsInputContext ,error){
+	if input.Question == "" {
+		return input, fmt.Errorf("Question 不能为空")
+	}
+	if len(input.Process) == 0 {
+		return input, fmt.Errorf("Process 不能为空")
+	}
+	if len(input.Add) == 0 {
+		return input, fmt.Errorf("Add 不能为空")
+	}
+    return input, nil
+}
+
+func (prompt *SplitSolutionSteps)SplitSolutionSteps(input SplitSolutionStepsInputContext)  ([]SplitSolutionStepsOutputContext,error) {
     fmt.Fprintln(os.Stderr, "[main] 程序启动，等待输入...")
-    sys := SplitSolutionSteps_GenSys(input)
-    user := SplitSolutionSteps_GenUser(input)
+    var err error
+    input,err=prompt.ValidateInput(input)
+    if err!=nil {
+    	return nil,err
+    }
+    sys := prompt.GenSys(input)
+    user := prompt.GenUser(input)
     apiKey := "sk-02e496929ecc485796d29bd94e7ce371"
     llm := service.NewLLMClient(apiKey)
     result, err := llm.GeneratePromptResponse(sys, user)
@@ -114,12 +150,12 @@ func SplitSolutionSteps(input SplitSolutionStepsInputContext) ([]SplitSolutionSt
         fmt.Fprintf(os.Stderr, "调用大模型失败: %v\n", err)
         os.Exit(1)
     }
-    model, err := SplitSolutionSteps_FixProcess(result)
+    model, err := prompt.FixProcess(result)
     if err != nil {
         fmt.Fprintf(os.Stderr, "解析输入 JSON 失败011111: %v\n", err)
         os.Exit(1)
     }
-    final := SplitSolutionSteps_AfterProcess(model)
+    final := prompt.AfterProcess(model)
     encoded, err := json.Marshal(final)
     if err != nil {
         fmt.Fprintf(os.Stderr, "输出编码失败: %v\n", err)

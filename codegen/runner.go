@@ -34,6 +34,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	fmt.Printf("📦 OutFields: %+v\n", rootNode.OutFields)
 	fmt.Printf("📦 aftercode: %+v\n", rootNode.AfterCode)
 	fmt.Printf("📦 fixcode: %+v\n", rootNode.FixCode)
+	fmt.Printf("📦 BeforeNodes: %+v\n", rootNode.BeforeCode)
 	// 3. 构造 Eval 上下文
 	str := &PromptGenContext{
 		InFields:    rootNode.InFields,

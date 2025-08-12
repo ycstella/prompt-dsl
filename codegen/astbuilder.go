@@ -21,10 +21,9 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		InFields:         []FieldDef{},
 		OutFields:        []FieldDef{},
 		ModelFields:      []FieldDef{},
-		BeforeCode:       "",
+		BeforeCode:       []string{},
 		AfterCode:        []string{},
 		FixCode:          []string{},
-		BeforeNodes:      []Node{},
 		Goimport:         []goimport{},
 		outputspectNodes: OutputSpecNode{},
 	}
@@ -93,17 +92,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 				// 解析注解
 				var annotations []string
 				for _, ann := range param.AllAnnotation() {
-					if ann.AnnotationArgs() != nil {
-						for _, v := range ann.AnnotationArgs().AllAnnotationValue() {
-							if s := v.STRING(); s != nil {
-								annotations = append(annotations, strings.Trim(s.GetText(), "\""))
-							} else if arr := v.ArrayLiteral(); arr != nil {
-								for _, s := range arr.AllSTRING() {
-									annotations = append(annotations, strings.Trim(s.GetText(), "\""))
-								}
-							}
-						}
-					}
+					annotations=append(annotations, ann.ID().GetText())
 				}
 
 				result.InFields = append(result.InFields, FieldDef{
@@ -118,7 +107,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		case *parser.OutputSectionContext:
 
 			// 先构建 defaultAnnotation map，方便查找
-			defaultAnnoMap := buildDefaultAnnotationMap(b)
+			defaultAnnoMap := buildDefaultAnnotationMap(b.AllDefaultAnnotation())
 
 			// 检查是哪种 output 类型
 			if structCtx := b.OutputStruct(); structCtx != nil {
@@ -140,7 +129,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 					for _, ann := range field.AllAnnotation() {
 						annName := ann.ID().GetText()
 						//if annName == "modeloutput"将该字段加入modelfield
-						if annName == "modeloutput"||annName == "model" {
+						if annName == "modeloutput" || annName == "model" {
 							fmt.Println("annName：", annName)
 							ismodel = true
 						}
@@ -169,7 +158,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 									val = strings.Join(parts, ",") // 或保留原结构
 								}
 
-								if annName == "jsonname"||annName == "jn" {
+								if annName == "jsonname" || annName == "jn" {
 									jsonName = val
 								} else {
 									annotations = append(annotations, val)
@@ -203,10 +192,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 			}
 
 		case *parser.BeforeSectionContext:
-			// for _, bc := range b.AllBeforeContent() {
-			// 	node := buildNodeFromBeforeContent(bc) // 你自定义的函数，返回 Node 接口实现
-			// 	result.BeforeNodes = append(result.BeforeNodes, node)
-			// }
+			result.BeforeCode = extractRawText(b, stream)
 		case *parser.AfterSectionContext:
 			fmt.Println("😊AfterSection", extractRawText(b, stream))
 
@@ -237,7 +223,6 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 
 	return result
 }
-
 
 func BuildSysNodesC(ctx parser.ISysContentContext) Node {
 	nodeCtx := ctx.(*parser.SysContentContext)
@@ -512,8 +497,7 @@ func cleanQuotes(s string) string {
 	return s
 }
 
-func buildDefaultAnnotationMap(b *parser.OutputSectionContext) map[string][]string {
-	defaultAnnotations := b.AllDefaultAnnotation()
+func buildDefaultAnnotationMap(defaultAnnotations []parser.IDefaultAnnotationContext) map[string][]string {
 	defaultAnnoMap := make(map[string][]string)
 	for _, defAnn := range defaultAnnotations {
 		name := defAnn.ID().GetText()

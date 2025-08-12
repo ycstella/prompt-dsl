@@ -305,7 +305,7 @@ type PromptNode struct {
 	InFields         []FieldDef
 	OutFields        []FieldDef
 	ModelFields      []FieldDef
-	BeforeCode       string
+	BeforeCode       []string
 	FixCode          []string
 	AfterCode        []string
 	Goimport         []goimport

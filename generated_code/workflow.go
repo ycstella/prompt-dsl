@@ -19,12 +19,13 @@ func main() {
 		log.Fatalf("无法读取文件: %v", err)
 	}
 	
-	var input gen.SplitSolutionStepsInputContext
-	err = json.Unmarshal([]byte(data), &input)
+	var prompt gen.SplitSolutionSteps
+	err = json.Unmarshal([]byte(data), &prompt.Input)
 	if err != nil {
 		log.Println(err)
 	}
-	ret1, err := gen.SplitSolutionSteps(input)
+	
+	ret1, err :=  prompt.SplitSolutionSteps(prompt.Input)
 	if err != nil {
 		log.Println(err)
 	}
