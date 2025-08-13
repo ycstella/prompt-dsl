@@ -19,7 +19,6 @@ OUTPUT   : 'output';
 FORMAT   : 'format';
 TYPE     : 'type';
 STRUCT   : 'struct';
-BEFORE   : 'before';
 SCHEMA   : 'schema';
 PARSE    : 'parse';
 JSONFIX  : 'jsonfix';
@@ -34,6 +33,7 @@ DEFAULT  : 'default';
 CASE     : 'case';
 GOIMPORT : 'goimport';
 
+BEFORE: 'before' WS* '{' -> pushMode(CODE_BLOCK);
 FIX: 'fix' WS* '{' -> pushMode(CODE_BLOCK);
 AFTER: 'after' WS* '{' -> pushMode(CODE_BLOCK);
 ARRAY_OUTPUTSPEC : '[' ']' OUTPUTSPEC ;
@@ -99,8 +99,11 @@ mode CODE_BLOCK;
 CODE_LBRACE: '{' -> type(LBRACE), pushMode(CODE_BLOCK);
 CODE_RBRACE: '}' -> type(RBRACE), popMode;
 
+CODE_STRING_SINGLE: '\'' CODE_STRING_CHAR* '\'';
 CODE_STRING: '"' CODE_STRING_CHAR* '"';
-fragment CODE_STRING_CHAR: ~["\n\r\\] | '\\\\' .;
+
+fragment CODE_STRING_CHAR: ~[\n\r\\] | '\\\\' .;
+
 CODE_TEXT: ~[{}"]+;
 
 // // 空白和注释

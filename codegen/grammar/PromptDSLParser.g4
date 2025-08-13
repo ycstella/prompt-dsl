@@ -10,6 +10,7 @@ promptDef   : PROMPT ID LBRACE promptBlock+ RBRACE ;
 promptBlock 
     : inputSection
     | outputSection
+    | beforeSection
     | systemSection
     | userSection
     | afterSection
@@ -38,20 +39,11 @@ outputSection
 outputStruct : LBRACE fieldDef+ RBRACE ;
 outputMarkdown : COLON MARKDOWN ;
 
+// before section - uses CODE_BLOCK mode
 beforeSection
-    : BEFORE LBRACE beforeContent* RBRACE
+    : BEFORE codeBlockContent RBRACE
     ;
 
-beforeContent
-    : varDef
-    | expr
-    | ifStatement
-    | textLine
-    ;
-
-varDef
-    : ID EQUAL expr
-    ;
 
 systemSection
     : SYSTEM LBRACE ID+ RBRACE

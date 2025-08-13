@@ -1,4 +1,2 @@
 github.com/sashabaranov/go-openai v1.40.5 h1:SwIlNdWflzR1Rxd1gv3pUg6pwPc6cQ2uMoHs8ai+/NY=
 github.com/sashabaranov/go-openai v1.40.5/go.mod h1:lj5b/K+zjTSFxVLijLSTDZuP7adOgerWeFyZLUhAKRg=
-github.com/wangii/littlepool v1.0.4 h1:KSvnCyJQZBV7iF8pG8KsdXh+3YvEgyxV4109bZvNAOc=
-github.com/wangii/littlepool v1.0.4/go.mod h1:peK1vPTqPR8TQt4wwBMjxFpBqn2LOsCYcAHq9z1tkTQ=

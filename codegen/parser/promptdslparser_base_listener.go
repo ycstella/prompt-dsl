@@ -80,18 +80,6 @@ func (s *BasePromptDSLParserListener) EnterBeforeSection(ctx *BeforeSectionConte
 // ExitBeforeSection is called when production beforeSection is exited.
 func (s *BasePromptDSLParserListener) ExitBeforeSection(ctx *BeforeSectionContext) {}
 
-// EnterBeforeContent is called when production beforeContent is entered.
-func (s *BasePromptDSLParserListener) EnterBeforeContent(ctx *BeforeContentContext) {}
-
-// ExitBeforeContent is called when production beforeContent is exited.
-func (s *BasePromptDSLParserListener) ExitBeforeContent(ctx *BeforeContentContext) {}
-
-// EnterVarDef is called when production varDef is entered.
-func (s *BasePromptDSLParserListener) EnterVarDef(ctx *VarDefContext) {}
-
-// ExitVarDef is called when production varDef is exited.
-func (s *BasePromptDSLParserListener) ExitVarDef(ctx *VarDefContext) {}
-
 // EnterSystemSection is called when production systemSection is entered.
 func (s *BasePromptDSLParserListener) EnterSystemSection(ctx *SystemSectionContext) {}
 

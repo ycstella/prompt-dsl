@@ -2,8 +2,8 @@
 package generated
 
 import (
-	"strings"
 	"encoding/json"
+	"strings"
 	"fmt"
 	"os"
 	"service"
@@ -72,15 +72,15 @@ func (prompt *SplitSolutionSteps)GenUser(in SplitSolutionStepsInputContext) stri
         b.WriteString("你好3\n")
     }
     b.WriteString("请将输出内容严格按照以下格式返回：\n")
-        b.WriteString("```json\n")
-    b.WriteString("[\n")
-    b.WriteString("  {\n")
-    b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
-    b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
-    b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
-    b.WriteString("  }\n")
-    b.WriteString("]\n")
-    b.WriteString("```\n")
+    b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
 
     b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")
     return b.String()
@@ -91,11 +91,16 @@ func (prompt *SplitSolutionSteps)AfterProcess(model []SplitSolutionStepsModelOut
 
         trueCount := 0
         for _, item := range model {
-            if item.ProcessResult!= "" {
+            if item.ProcessResult != "" {
                 trueCount++
             }
         }
-        var output []SplitSolutionStepsOutputContext
+        output := make([]SplitSolutionStepsOutputContext, len(model))
+        for i, step := range model {
+            output[i].Conditions = step.Conditions
+            output[i].KnowledgePoint = step.KnowledgePoint
+            output[i].ProcessResult = step.ProcessResult
+        }
         return output
     
 }
@@ -118,6 +123,7 @@ func (prompt *SplitSolutionSteps)FixProcess(response string) ([]SplitSolutionSte
         fmt.Println("response:", response)
         var results []SplitSolutionStepsModelOutputContext
         err = json.Unmarshal([]byte(response), &results)
+        // a:='
         return fixed, err
     
 }
@@ -127,9 +133,6 @@ func (prompt *SplitSolutionSteps)ValidateInput(input SplitSolutionStepsInputCont
 	}
 	if len(input.Process) == 0 {
 		return input, fmt.Errorf("Process 不能为空")
-	}
-	if len(input.Add) == 0 {
-		return input, fmt.Errorf("Add 不能为空")
 	}
     return input, nil
 }

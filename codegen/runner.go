@@ -44,15 +44,6 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	}
 
 	fmt.Println("😅ModelFields:", str.ModelFields)
-	// fmt.Println("fmodeloutput")
-	//3.5before
-	// 3. 先执行 before 节点，填充 Vars
-	// for _, node := range rootNode.BeforeNodes {
-	// 	err := node.Tocode(str)
-	// 	if err != nil {
-	// 		return "", err
-	// 	}
-	// }
 
 	// 4. 执行 AST，得到 prompt 字符串
 	outputParts, err := rootNode.Tocode(str)
@@ -62,6 +53,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	//生成sys+user+after+fix
 	// code:=Generateprompthandle(rootNode, getCurrentPackageName())
 
+	
 	code := Generateprompthandle(rootNode, "generated", outputParts, filename, rootNode.Goimport)
 
 	outputFile := "generated_code/generated/" + filename + ".go"

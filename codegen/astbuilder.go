@@ -92,7 +92,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 				// 解析注解
 				var annotations []string
 				for _, ann := range param.AllAnnotation() {
-					annotations=append(annotations, ann.ID().GetText())
+					annotations = append(annotations, ann.ID().GetText())
 				}
 
 				result.InFields = append(result.InFields, FieldDef{
@@ -106,11 +106,11 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 
 		case *parser.OutputSectionContext:
 
-			// 先构建 defaultAnnotation map，方便查找
-			defaultAnnoMap := buildDefaultAnnotationMap(b.AllDefaultAnnotation())
-
 			// 检查是哪种 output 类型
+
 			if structCtx := b.OutputStruct(); structCtx != nil {
+				// 先构建 defaultAnnotation map，方便查找
+				defaultAnnoMap := buildDefaultAnnotationMap(b.AllDefaultAnnotation())
 				// var fields []FieldDef
 				for _, field := range structCtx.AllFieldDef() {
 					name := field.ID().GetText()
@@ -186,9 +186,10 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 					}
 				}
 			} else if mdCtx := b.OutputMarkdown(); mdCtx != nil {
-				text := mdCtx.MARKDOWN().GetText()
-				mdNode := &MarkdownNode{Content: cleanQuotes(text)}
-				result.SysNodes = append(result.SysNodes, mdNode)
+				// fmt.Println("md👀")
+				// text := mdCtx.MARKDOWN().GetText()
+				// mdNode := &MarkdownNode{Content: cleanQuotes(text)}
+				// result.SysNodes = append(result.SysNodes, mdNode)
 			}
 
 		case *parser.BeforeSectionContext:
