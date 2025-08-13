@@ -36,6 +36,17 @@
         }
       ]
     },
+    {
+      "name": "string.quoted.double.promptdsl",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "name": "constant.character.escape.promptdsl",
+          "match": "\\\\."
+        }
+      ]
+    },
 
     {
       "name": "constant.language.boolean.promptdsl",
