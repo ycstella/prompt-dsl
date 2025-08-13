@@ -22,6 +22,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		OutFields:        []FieldDef{},
 		ModelFields:      []FieldDef{},
 		BeforeCode:       []string{},
+		SubFields:        []Subfield{},
 		AfterCode:        []string{},
 		FixCode:          []string{},
 		Goimport:         []goimport{},
@@ -78,29 +79,13 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 
 		case *parser.InputSectionContext:
 			// 解析输入字段，放到 result.InDef
-			for _, param := range b.AllFieldDef() {
-				name := param.ID().GetText()
-				typ := "string"
-				if param.Type_().GetText() != "" {
-					fmt.Println("😊空字符")
-					typ = param.Type_().GetText()
-				}
-				if typ == "[]" {
-					typ = "[]string"
-				}
-
-				// 解析注解
-				var annotations []string
-				for _, ann := range param.AllAnnotation() {
-					annotations = append(annotations, ann.ID().GetText())
-				}
-
-				result.InFields = append(result.InFields, FieldDef{
-					Name:        name,
-					Type:        typ,
-					JsonName:    name,
-					Annotations: annotations,
-				})
+			for _, field := range b.AllFieldDef() {
+				field, _ := processField(field, nil, result)
+				result.InFields = append(result.InFields, field)
+				// if ismodel {
+				// 	fmt.Println("fmodeloutput")
+				// 	result.ModelFields = append(result.ModelFields, field)
+				// }
 			}
 			fmt.Println("😅inNode:", result.InFields)
 
@@ -113,72 +98,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 				defaultAnnoMap := buildDefaultAnnotationMap(b.AllDefaultAnnotation())
 				// var fields []FieldDef
 				for _, field := range structCtx.AllFieldDef() {
-					name := field.ID().GetText()
-					typ := "string"
-					if field.Type_().GetText() != "" {
-						typ = field.Type_().GetText()
-					}
-					if typ == "[]" {
-						typ = "[]string"
-					}
-					// 解析注解
-					var annotations []string
-					jsonName := name // 默认就是字段名
-					//是否是模型需要字段
-					var ismodel bool = false
-					for _, ann := range field.AllAnnotation() {
-						annName := ann.ID().GetText()
-						//if annName == "modeloutput"将该字段加入modelfield
-						if annName == "modeloutput" || annName == "model" {
-							fmt.Println("annName：", annName)
-							ismodel = true
-						}
-						if ann.AnnotationArgs() != nil {
-							for _, v := range ann.AnnotationArgs().AllAnnotationValue() {
-								var val string
-
-								if s := v.STRING(); s != nil {
-									raw := s.GetText()
-									unquoted, err := strconv.Unquote(raw)
-									if err != nil {
-										unquoted = raw
-									}
-									val = unquoted
-								} else if arr := v.ArrayLiteral(); arr != nil {
-									// 拼接数组内容
-									var parts []string
-									for _, s := range arr.AllSTRING() {
-										raw := s.GetText()
-										unquoted, err := strconv.Unquote(raw)
-										if err != nil {
-											unquoted = raw
-										}
-										parts = append(parts, unquoted)
-									}
-									val = strings.Join(parts, ",") // 或保留原结构
-								}
-
-								if annName == "jsonname" || annName == "jn" {
-									jsonName = val
-								} else {
-									annotations = append(annotations, val)
-								}
-
-							}
-						}
-						// 再加 defaultAnnotation 中对应注解的参数（如果有）
-						if defVals, ok := defaultAnnoMap[annName]; ok {
-							annotations = append(annotations, defVals...)
-						}
-					}
-
-					field := FieldDef{
-						Name:        name,
-						Type:        typ,
-						JsonName:    jsonName,
-						Annotations: annotations,
-					}
-
+					field, ismodel := processField(field, defaultAnnoMap, result)
 					result.OutFields = append(result.OutFields, field)
 					if ismodel {
 						fmt.Println("fmodeloutput")
@@ -529,4 +449,105 @@ func buildDefaultAnnotationMap(defaultAnnotations []parser.IDefaultAnnotationCon
 		defaultAnnoMap[name] = append(defaultAnnoMap[name], vals...)
 	}
 	return defaultAnnoMap
+}
+
+func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]string, result *PromptNode) (FieldDef, bool) {
+	name := field.ID().GetText()
+	typ := "string"
+	if field.Type_().GetText() != "" {
+		typ = field.Type_().GetText()
+	}
+	if typ == "[]" {
+		typ = "[]string"
+	}
+	var subfieldlist []FieldDef
+	fmt.Println("type:😒", typ)
+	if strings.HasPrefix(typ, "struct") {
+		typ = "struct"
+		typeCtx := field.Type_()
+		for i := 0; i < typeCtx.GetChildCount(); i++ {
+			child := typeCtx.GetChild(i)
+			// 判断子节点是不是 FieldDef
+			if subFieldCtx, ok := child.(parser.IFieldDefContext); ok {
+				// fmt.Println("subing:😒",subFieldCtx.ID)
+				subfield, _ := processField(subFieldCtx, defaultAnnoMap, result)
+				subfieldlist = append(subfieldlist, subfield)
+			}
+		}
+		subfields := Subfield{
+			Name:   name,
+			Fields: subfieldlist,
+		}
+		result.SubFields = append(result.SubFields, subfields)
+		// for rawSubfield := range field. {
+		// 	subFieldCtx, ok := child.(parser.IFieldDefContext)
+		// 	subfield, subismodel := processfield(subFieldCtx, defaultAnnoMap)
+		// 	subfieldlist = append(subfieldlist, subfield)
+
+		// }
+	}
+	// 解析注解
+	var annotations []string
+	jsonName := name // 默认就是字段名
+	//是否是模型需要字段
+	var ismodel bool = false
+	for _, ann := range field.AllAnnotation() {
+		annName := ann.ID().GetText()
+
+		//if annName == "modeloutput"将该字段加入modelfield
+		if annName == "modeloutput" || annName == "model" {
+			fmt.Println("annName：", annName)
+			ismodel = true
+		}
+		if annName == "derived" {
+			fmt.Println("derivedS😢:")
+			annotations = append(annotations, "derived")
+		}
+		if ann.AnnotationArgs() != nil {
+			for _, v := range ann.AnnotationArgs().AllAnnotationValue() {
+				var val string
+
+				if s := v.STRING(); s != nil {
+					raw := s.GetText()
+					unquoted, err := strconv.Unquote(raw)
+					if err != nil {
+						unquoted = raw
+					}
+					val = unquoted
+				} else if arr := v.ArrayLiteral(); arr != nil {
+					// 拼接数组内容
+					var parts []string
+					for _, s := range arr.AllSTRING() {
+						raw := s.GetText()
+						unquoted, err := strconv.Unquote(raw)
+						if err != nil {
+							unquoted = raw
+						}
+						parts = append(parts, unquoted)
+					}
+					val = strings.Join(parts, ",") // 或保留原结构
+				}
+
+				if annName == "jsonname" || annName == "jn" {
+					jsonName = val
+				}  else {
+					annotations = append(annotations, val)
+				}
+
+			}
+		}
+		// 再加 defaultAnnotation 中对应注解的参数（如果有）
+		if defVals, ok := defaultAnnoMap[annName]; ok {
+			annotations = append(annotations, defVals...)
+		}
+
+	}
+	pfield := FieldDef{
+		Name:        name,
+		Type:        typ,
+		JsonName:    jsonName,
+		Annotations: annotations,
+		SubFields:   subfieldlist,
+	}
+	return pfield, ismodel
 }

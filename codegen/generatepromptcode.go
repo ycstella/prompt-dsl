@@ -99,7 +99,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	//main
 
 	requiredPkgs := []string{"os", "fmt", "service", "codegen"}
-	if len(root.FixCode)==0||len(root.AfterCode)==0{
+	if len(root.FixCode) == 0 || len(root.AfterCode) == 0 {
 		requiredPkgs = []string{"os", "fmt", "service", "strings"}
 	}
 	for _, req := range requiredPkgs {
@@ -120,6 +120,15 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 
 	// struct
 
+	//sub
+
+	for _, substruct := range root.SubFields {
+		b.WriteString("type " + filename + capitalizeFirst(substruct.Name) + " struct {\n")
+		for _, field := range substruct.Fields {
+			b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", field.Name, field.Type, field.JsonName))
+		}
+		b.WriteString("}\n\n")
+	}
 	b.WriteString("type " + filename + " struct {\n")
 	b.WriteString("    Input " + filename + "InputContext\n")
 	if len(root.OutFields) > 0 {
@@ -130,17 +139,27 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 		b.WriteString("    ModelOutput " + filename + "ModelOutputContext\n")
 	}
 	b.WriteString("}\n\n")
-
+	//InputContext
 	b.WriteString("type " + filename + "InputContext struct {\n")
 	for _, field := range root.InFields {
-		b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", field.Name, field.Type, field.JsonName))
+		fieldName := capitalizeFirst(field.Name)
+		if field.Type == "struct" {
+			b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, filename+fieldName, field.JsonName))
+			continue
+		}
+		b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
 	}
 	b.WriteString("}\n\n")
 
+	//OutputContext
 	if len(root.OutFields) > 0 {
 		b.WriteString("type " + filename + "OutputContext struct {\n")
 		for _, field := range root.OutFields {
 			fieldName := capitalizeFirst(field.Name)
+			if field.Type == "struct" {
+				b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, filename+fieldName, field.JsonName))
+				continue
+			}
 			b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
 		}
 		b.WriteString("}\n\n")
@@ -149,8 +168,12 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	//if modlefield不为空，则构造modelstruct，并且修改调用函数传参
 	if len(root.ModelFields) > 0 {
 		b.WriteString("type " + filename + "ModelOutputContext struct {\n")
-		for _, field := range root.ModelFields {
+		for _, field := range root.OutFields {
 			fieldName := capitalizeFirst(field.Name)
+			if field.Type == "struct" {
+				b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, filename+fieldName, field.JsonName))
+				continue
+			}
 			b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
 		}
 		b.WriteString("}\n\n")
@@ -213,7 +236,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 
 	// 写入 合法性校验 函数
 	b.WriteString(fmt.Sprintf("func (prompt *" + filename + ")ValidateInput(input " + filename + "InputContext) (" + filename + "InputContext ,error){\n"))
-	validationCode := GenValidationCodeFromFields(root.InFields)
+	validationCode := GenValidationCodeFromFields(root.InFields,filename)
 	b.WriteString(validationCode)
 	b.WriteString("    return input, nil\n}\n")
 
@@ -277,12 +300,11 @@ func Generatworkflow(pkgName string) string {
 
 	return b.String()
 }
-func GenValidationCodeFromFields(fields []FieldDef) string {
+func GenValidationCodeFromFields(fields []FieldDef,filename string) string {
 	var b strings.Builder
 	// fmt.Println("derived:👀")
 	for _, f := range fields {
 		// 如果包含 "derived" 注解，则跳过校验
-		// fmt.Println("derived:👀",f.Annotations)
 		skip := false
 		for _, ann := range f.Annotations {
 			fmt.Println("derived:👀", ann)
@@ -300,6 +322,10 @@ func GenValidationCodeFromFields(fields []FieldDef) string {
 			b.WriteString(fmt.Sprintf(
 				"\tif input.%s == \"\" {\n\t\treturn input, fmt.Errorf(\"%s 不能为空\")\n\t}\n",
 				f.Name, f.Name))
+		case "struct":
+			b.WriteString(fmt.Sprintf(
+				"\tif input.%s == ("+filename+"%s{}) {\n\t\treturn input, fmt.Errorf(\"%s 不能为空\")\n\t}\n",
+				f.Name, f.Name,f.Name))
 		case "int", "int32", "int64", "float32", "float64":
 			b.WriteString(fmt.Sprintf(
 				"\tif input.%s == 0 {\n\t\treturn input, fmt.Errorf(\"%s 不能为空\")\n\t}\n",

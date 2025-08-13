@@ -54,7 +54,7 @@ func (prompt *MdSolutionSteps)GenUser(in MdSolutionStepsInputContext) string {
         b.WriteString("你好3\n")
     }
     b.WriteString("请将输出内容严格按照以下格式返回：\n")
-        b.WriteString("'''markdown\n[]'''")
+        b.WriteString("```markdown\n[]```")
 
     b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")
     return b.String()

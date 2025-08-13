@@ -15,7 +15,6 @@ type FieldDef struct {
 	SubFields   []FieldDef
 }
 
-
 type PromptGenContext struct {
 	Vars        map[string]interface{}
 	InFields    []FieldDef
@@ -29,7 +28,6 @@ type Node interface {
 	Tocode(_ *PromptGenContext) ([]string, error)
 	// ConvertToCode() string
 }
-
 
 // func firstOrEmpty(list []string) string {
 // 	if len(list) == 0 {
@@ -60,7 +58,7 @@ func (node *OutputSpecNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	if ctx.ModelFields != nil {
 		fields = ctx.ModelFields
 	}
-	if len(ctx.OutFields)==0{
+	if len(ctx.OutFields) == 0 {
 		b.WriteString("    b.WriteString(\"```markdown\\n[]```\")\n")
 		return []string{b.String()}, nil
 	}
@@ -130,7 +128,6 @@ type IfNode struct {
 	Then      []Node
 	Else      []Node
 }
-
 
 func (node *IfNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 
@@ -308,14 +305,20 @@ type PromptNode struct {
 	ModuleDefs       map[string][]Node // 初始化 map
 	InFields         []FieldDef
 	OutFields        []FieldDef
+	SubFields        []Subfield
 	ModelFields      []FieldDef
 	BeforeCode       []string
 	FixCode          []string
 	AfterCode        []string
 	Goimport         []goimport
 	outputspectNodes OutputSpecNode
+
 	// IsArray     bool
 	// 其它部分
+}
+type Subfield struct {
+	Name   string
+	Fields []FieldDef
 }
 type goimport struct {
 	Alias string

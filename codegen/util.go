@@ -47,42 +47,7 @@ func BuildModelOutputSpecLines(fields []FieldDef, asArray bool) []string {
 	}
 
 	for i, f := range fields {
-		var example string
-		switch f.Type {
-		case "string":
-			example = "\"\""
-		case "int":
-			example = "0"
-		case "float":
-			example = "0.0"
-		case "bool":
-			example = "false"
-		default:
-			if strings.HasPrefix(f.Type, "[]") {
-				elemType := f.Type[2:]
-				switch elemType {
-				case "string":
-					example = "[\"\"]"
-				case "int":
-					example = "[0]"
-				case "float":
-					example = "[0.0]"
-				case "bool":
-					example = "[false]"
-				default:
-					example = "[]"
-				}
-			} else {
-				example = "{}"
-			}
-		}
-
-		// 添加字段及注释
-		line := fmt.Sprintf("    \"%s\": %s  // %s", f.JsonName, example, strings.Join(f.Annotations, ","))
-		if i < len(fields)-1 {
-			line += ","
-		}
-		lines = append(lines, line)
+		lines = append(lines, writefield(f, fields, i,"    ")...)
 	}
 
 	if asArray {
@@ -95,6 +60,66 @@ func BuildModelOutputSpecLines(fields []FieldDef, asArray bool) []string {
 
 	return lines
 }
+func writefield(f FieldDef, fields []FieldDef, i int, indent string) []string {
+    var lines []string
+
+    // struct 类型特殊处理
+    if f.Type == "struct" || (strings.HasPrefix(f.Type, "[]") && strings.Contains(f.Type, "struct")) {
+        line := fmt.Sprintf("%s\"%s\": {  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
+        lines = append(lines, line)
+
+        for idx, sub := range f.SubFields {
+            lines = append(lines, writefield(sub, f.SubFields, idx, indent+"    ")...)
+        }
+
+        closing := indent + "}"
+        if i < len(fields)-1 {
+            closing += ","
+        }
+        lines = append(lines, closing)
+        return lines
+    }
+
+    // 普通类型
+    var example string
+    switch f.Type {
+    case "string":
+        example = "\"\""
+    case "int":
+        example = "0"
+    case "float":
+        example = "0.0"
+    case "bool":
+        example = "false"
+    default:
+        if strings.HasPrefix(f.Type, "[]") {
+            elemType := f.Type[2:]
+            switch elemType {
+            case "string":
+                example = "[\"\"]"
+            case "int":
+                example = "[0]"
+            case "float":
+                example = "[0.0]"
+            case "bool":
+                example = "[false]"
+            default:
+                example = "[]"
+            }
+        } else {
+            example = "{}"
+        }
+    }
+
+    // 普通字段行
+    line := fmt.Sprintf("%s\"%s\": %s  // %s", indent, f.JsonName, example, strings.Join(f.Annotations, ","))
+    if i < len(fields)-1 {
+        line += ","
+    }
+    lines = append(lines, line)
+    return lines
+}
+
 
 func getCurrentPackageName() string {
 	_, file, _, ok := runtime.Caller(1)
