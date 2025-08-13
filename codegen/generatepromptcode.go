@@ -62,17 +62,19 @@ var symbolToImport = map[string]string{
 }
 
 func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filename string, goimport []goimport) string {
+	// fmt.Println("😅")
 	if len(root.ModelFields) > 0 {
 		fmt.Println("root.ModelFields:", root.ModelFields)
 	}
 
 	var b strings.Builder
-
 	outputTypeStr := filename + "OutputContext"
 	if root.outputspectNodes.IsArray {
 		outputTypeStr = "[]" + filename + "OutputContext"
 	}
-
+	if len(root.OutFields) == 0 {
+		outputTypeStr = "[]string"
+	}
 	var model string
 	if len(root.ModelFields) > 0 {
 		model = filename + "ModelOutputContext"
@@ -94,9 +96,12 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	allCode := afterCode + "\n" + fixCode + "\n" + beforeCode
 	// renderImportSectionWithAlias()
 	pkgs := inferImportsFromCode(allCode)
-
 	//main
-	requiredPkgs := []string{"os", "fmt", "service","codegen"}
+
+	requiredPkgs := []string{"os", "fmt", "service", "codegen"}
+	if len(root.FixCode)==0||len(root.AfterCode)==0{
+		requiredPkgs = []string{"os", "fmt", "service", "strings"}
+	}
 	for _, req := range requiredPkgs {
 		has := false
 		for _, pkg := range pkgs {
@@ -117,7 +122,10 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 
 	b.WriteString("type " + filename + " struct {\n")
 	b.WriteString("    Input " + filename + "InputContext\n")
-	b.WriteString("    Output " + filename + "OutputContext\n")
+	if len(root.OutFields) > 0 {
+		b.WriteString("    Output " + filename + "OutputContext\n")
+	}
+
 	if len(root.ModelFields) > 0 {
 		b.WriteString("    ModelOutput " + filename + "ModelOutputContext\n")
 	}
@@ -129,12 +137,14 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	}
 	b.WriteString("}\n\n")
 
-	b.WriteString("type " + filename + "OutputContext struct {\n")
-	for _, field := range root.OutFields {
-		fieldName := capitalizeFirst(field.Name)
-		b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
+	if len(root.OutFields) > 0 {
+		b.WriteString("type " + filename + "OutputContext struct {\n")
+		for _, field := range root.OutFields {
+			fieldName := capitalizeFirst(field.Name)
+			b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
+		}
+		b.WriteString("}\n\n")
 	}
-	b.WriteString("}\n\n")
 
 	//if modlefield不为空，则构造modelstruct，并且修改调用函数传参
 	if len(root.ModelFields) > 0 {
@@ -145,11 +155,6 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 		}
 		b.WriteString("}\n\n")
 	}
-
-	// b.WriteString("type " + filename + "FinalContext struct {\n")
-	// b.WriteString("    Input  " + filename + "InputContext\n")
-	// b.WriteString(fmt.Sprintf("    Output %s\n", outputTypeStr))
-	// b.WriteString("}\n\n")
 
 	//gensystem
 	//写入sys处理逻辑
@@ -196,14 +201,16 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	}
 
 	// 写入 Fix 函数（如果有）
-
-	if strings.TrimSpace(root.FixCode[0]) != "" {
-		fixauto := "codegen.FixAuto[" + output + "](response)\n"
-		re := regexp.MustCompile(`fix-auto`)
-		b.WriteString(fmt.Sprintf("func (prompt *"+filename+")FixProcess(response string) (%s ,error){\n", output))
-		b.WriteString(re.ReplaceAllString(root.FixCode[0],fixauto))
-		b.WriteString("\n}\n")
+	if len(root.FixCode) > 0 {
+		if strings.TrimSpace(root.FixCode[0]) != "" {
+			fixauto := "codegen.FixAuto[" + output + "](response)\n"
+			re := regexp.MustCompile(`fix-auto`)
+			b.WriteString(fmt.Sprintf("func (prompt *"+filename+")FixProcess(response string) (%s ,error){\n", output))
+			b.WriteString(re.ReplaceAllString(root.FixCode[0], fixauto))
+			b.WriteString("\n}\n")
+		}
 	}
+
 	// 写入 合法性校验 函数
 	b.WriteString(fmt.Sprintf("func (prompt *" + filename + ")ValidateInput(input " + filename + "InputContext) (" + filename + "InputContext ,error){\n"))
 	validationCode := GenValidationCodeFromFields(root.InFields)
@@ -228,19 +235,24 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("        os.Exit(1)\n")
 	b.WriteString("    }\n")
 
-	b.WriteString("    " + outname + ", err := prompt.FixProcess(result)\n")
-	b.WriteString("    if err != nil {\n")
-	b.WriteString("        fmt.Fprintf(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
-	b.WriteString("        os.Exit(1)\n")
-	b.WriteString("    }\n")
-	b.WriteString("    final := prompt.AfterProcess(" + outname + ")\n")
-	b.WriteString("    encoded, err := json.Marshal(final)\n")
-	b.WriteString("    if err != nil {\n")
-	b.WriteString("        fmt.Fprintf(os.Stderr, \"输出编码失败: %v\\n\", err)\n")
-	b.WriteString("        os.Exit(1)\n")
-	b.WriteString("    }\n")
-	b.WriteString("    fmt.Println(string(encoded))\n")
-	b.WriteString("    return final,err\n")
+	if len(root.OutFields) > 0 {
+		b.WriteString("    " + outname + ", err := prompt.FixProcess(result)\n")
+		b.WriteString("    if err != nil {\n")
+		b.WriteString("        fmt.Fprintf(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
+		b.WriteString("        os.Exit(1)\n")
+		b.WriteString("    }\n")
+		b.WriteString("    final := prompt.AfterProcess(" + outname + ")\n")
+		b.WriteString("    encoded, err := json.Marshal(final)\n")
+		b.WriteString("    if err != nil {\n")
+		b.WriteString("        fmt.Fprintf(os.Stderr, \"输出编码失败: %v\\n\", err)\n")
+		b.WriteString("        os.Exit(1)\n")
+		b.WriteString("    }\n")
+		b.WriteString("    fmt.Println(string(encoded))\n")
+		b.WriteString("    return final,err\n")
+	} else {
+		b.WriteString("    return []string{result},err\n")
+	}
+
 	b.WriteString("}\n")
 
 	return b.String()

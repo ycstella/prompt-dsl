@@ -4,6 +4,7 @@ package main
 import (
 	// "fmt"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -18,17 +19,28 @@ func main() {
 	if err != nil {
 		log.Fatalf("无法读取文件: %v", err)
 	}
-	
-	var prompt gen.SplitSolutionSteps
+	var prompt2 gen.SplitSolutionSteps
+	err = json.Unmarshal([]byte(data), &prompt2.Input)
+	if err != nil {
+		log.Println(err)
+	}
+	ret2, err2 :=  prompt2.SplitSolutionSteps(prompt2.Input)
+	if err != nil {
+		log.Println("ret2:",err2)
+	}
+	fmt.Println("ret2:",ret2)
+	var prompt gen.MdSolutionSteps
 	err = json.Unmarshal([]byte(data), &prompt.Input)
 	if err != nil {
 		log.Println(err)
 	}
 	
-	ret1, err :=  prompt.SplitSolutionSteps(prompt.Input)
+	ret1, err :=  prompt.MdSolutionSteps(prompt.Input)
 	if err != nil {
 		log.Println(err)
 	}
-	// ret2:=gen.CheckAndCompleteStepConditions(ret1)
 	log.Println(ret1)
+	
+	// ret2:=gen.CheckAndCompleteStepConditions(ret1)
+	
 }

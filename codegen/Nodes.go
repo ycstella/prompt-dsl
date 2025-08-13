@@ -60,9 +60,13 @@ func (node *OutputSpecNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	if ctx.ModelFields != nil {
 		fields = ctx.ModelFields
 	}
+	if len(ctx.OutFields)==0{
+		b.WriteString("    b.WriteString(\"```markdown\\n[]```\")\n")
+		return []string{b.String()}, nil
+	}
 	if node.IsArray {
 		for _, line := range BuildModelOutputSpecLines(fields, true) {
-			b.WriteString(fmt.Sprintf("    b.WriteString(\"%s\\n\")\n", strings.ReplaceAll(line, "\"", "\\\"")))
+			b.WriteString(fmt.Sprintf("b.WriteString(\"%s\\n\")\n", strings.ReplaceAll(line, "\"", "\\\"")))
 		}
 		return []string{b.String()}, nil
 	}
