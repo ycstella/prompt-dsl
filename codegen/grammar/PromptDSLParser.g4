@@ -210,7 +210,7 @@ afterSection
 
 // Handle nested braces and strings in code blocks
 codeBlockContent
-    : (CODE_TEXT | CODE_STRING | LBRACE codeBlockContent RBRACE)*
+    : (CODE_TEXT | CODE_STRING_SINGLE |CODE_STRING | LBRACE codeBlockContent RBRACE)*
     ;
 
 type
@@ -218,7 +218,7 @@ type
     | STRUCT LBRACE fieldDef* RBRACE
     | FLOAT_TYPE
     | INT_TYPE
-    | LBRACK RBRACK type  // 这里你之前用的是 '[]' type，建议改写对应你Lexer中的表示数组的token，如果没有，需要补充
+    | LBRACK RBRACK type  
     | STRING_TYPE   
     | ID 
     ;

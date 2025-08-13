@@ -3,12 +3,22 @@ package generated
 
 import (
 	"encoding/json"
-	"strings"
 	"fmt"
+	"strings"
 	"os"
 	"service"
 	"codegen"
 )
+
+type SplitSolutionStepsAub struct {
+    Question string `json:"Question"`
+    Answer string `json:"Answer"`
+}
+
+type SplitSolutionStepsSub struct {
+    Question string `json:"小问题干"`
+    Answer string `json:"小问答案"`
+}
 
 type SplitSolutionSteps struct {
     Input SplitSolutionStepsInputContext
@@ -20,6 +30,7 @@ type SplitSolutionStepsInputContext struct {
     Question string `json:"Question"`
     Process []string `json:"Process"`
     Test int `json:"Test"`
+    Aub SplitSolutionStepsAub `json:"小问"`
     Add []string `json:"Add"`
 }
 
@@ -27,13 +38,14 @@ type SplitSolutionStepsOutputContext struct {
     Conditions []string `json:"条件"`
     KnowledgePoint string `json:"知识点"`
     ProcessResult string `json:"过程"`
-    Test []string `json:"Test"`
+    Sub SplitSolutionStepsSub `json:"小问"`
 }
 
 type SplitSolutionStepsModelOutputContext struct {
     Conditions []string `json:"条件"`
     KnowledgePoint string `json:"知识点"`
     ProcessResult string `json:"过程"`
+    Sub SplitSolutionStepsSub `json:"小问"`
 }
 
 func (prompt *SplitSolutionSteps)GenSys(in SplitSolutionStepsInputContext) string {
@@ -77,7 +89,11 @@ b.WriteString("[\n")
 b.WriteString("  {\n")
 b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
 b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
-b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
 b.WriteString("  }\n")
 b.WriteString("]\n")
 b.WriteString("```\n")
@@ -123,7 +139,7 @@ func (prompt *SplitSolutionSteps)FixProcess(response string) ([]SplitSolutionSte
         fmt.Println("response:", response)
         var results []SplitSolutionStepsModelOutputContext
         err = json.Unmarshal([]byte(response), &results)
-        // a:='
+        // a:='a'
         return fixed, err
     
 }

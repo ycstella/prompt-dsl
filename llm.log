@@ -158,3 +158,1406 @@ b.WriteString("]\n")
 b.WriteString("```\n")
  b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
 2025/08/13 10:10:02 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 10:33:35 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:33:35 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 10:33:35 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:33:35 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 10:34:02 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:34:02 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 10:34:02 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:34:02 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 10:37:47 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:37:47 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 10:37:47 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:37:47 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 10:38:02 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:38:02 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 10:38:02 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:38:02 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 10:40:01 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:40:01 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 10:40:01 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:40:01 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 10:58:37 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:58:37 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 10:58:37 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:58:37 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 10:59:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:59:00 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 10:59:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 10:59:01 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:08:27 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:08:27 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:08:27 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:08:27 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:12:44 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("'''markdown\n[]'''")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:12:44 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:12:44 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:12:44 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:12:49 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:12:49 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:12:49 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:12:49 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:13:12 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:13:12 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:13:12 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:13:12 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:13:18 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:13:18 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:13:18 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:13:18 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:15:51 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:15:51 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:15:51 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:15:51 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:21:52 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:21:52 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:21:52 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:21:52 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 11:22:18 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:22:18 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 11:22:18 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 11:22:18 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 13:43:10 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 13:43:10 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 13:43:10 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 13:43:10 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 14:23:56 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 14:23:56 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 14:23:56 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 14:23:56 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 14:55:52 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 14:55:52 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 14:55:52 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 14:55:52 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 14:56:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 14:56:00 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 14:56:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 14:56:00 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:08:32 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:08:32 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:08:32 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:08:32 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:09:09 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:09:09 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:09:09 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:09:09 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:09:51 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:09:51 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:09:51 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:09:51 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:10:19 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:10:19 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:10:19 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"Test\": {}  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:10:19 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:13:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:13:43 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:13:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:13:43 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:22:46 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:22:46 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:22:46 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:22:46 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:24:07 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:24:07 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:24:07 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:24:07 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:25:19 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:25:19 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:25:19 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:25:19 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:36:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:36:43 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:36:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:36:43 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:36:47 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:36:47 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:36:47 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:36:47 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:38:39 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:38:39 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:38:39 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:38:39 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:39:32 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:39:32 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:39:32 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:39:32 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:58:58 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:58:58 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:58:58 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:58:58 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 15:59:52 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:59:52 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 15:59:53 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 15:59:53 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:04:22 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:04:22 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:04:22 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:04:22 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:07:05 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:07:05 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:07:05 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:07:05 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:12:36 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:12:36 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:12:36 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:12:36 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:13:34 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:13:34 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:13:34 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:13:34 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:36:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:36:43 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:36:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("{\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("}\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:36:43 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:38:10 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:38:10 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:38:10 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:38:10 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:40:51 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:40:51 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:41:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:41:00 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:41:30 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:41:30 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:41:30 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:41:30 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:43:07 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:43:07 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:44:15 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:44:15 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:44:15 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("{\n")
+b.WriteString("    \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("}\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:44:15 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:47:02 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:47:02 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:47:02 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("	{\n")
+b.WriteString("    \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("	}\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:47:02 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:49:39 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:49:39 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:49:39 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("		{\n")
+b.WriteString("    \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("		}\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:49:39 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:53:45 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:53:45 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:53:45 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {}  // \n")
+b.WriteString("			{\n")
+b.WriteString("    \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("			}\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:53:45 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:54:20 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:54:20 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:54:20 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\":   // \n")
+b.WriteString("			{\n")
+b.WriteString("    \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("			}\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:54:20 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:57:33 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:57:33 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:57:33 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\":   // \n")
+b.WriteString("			{\n")
+b.WriteString("    \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("			}\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:57:33 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 16:59:19 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:59:19 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 16:59:19 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("\"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("\"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("\"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("\"小问\": {  // \n")
+b.WriteString("    \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("}\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 16:59:19 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:01:38 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:01:38 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:01:38 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:01:38 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:09:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:09:43 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:09:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:09:43 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:14:01 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```json\n")
+    b.WriteString("{\n")
+    b.WriteString("}\n")
+    b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:14:01 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:14:01 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"Question\": \"\"  // ,\n")
+b.WriteString("        \"Answer\": \"\"  // \n")
+b.WriteString("    },\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:14:01 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:15:16 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:15:16 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:15:16 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:15:16 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:17:26 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:17:26 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:17:26 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:17:26 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:18:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:18:00 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:18:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:18:00 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:18:40 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:18:40 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:18:40 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:18:40 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:19:18 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:19:18 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:19:18 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:19:18 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:20:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:20:43 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:20:43 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:20:43 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:32:39 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:32:39 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:32:39 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:32:39 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:32:50 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:32:50 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:32:50 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:32:50 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:35:59 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:35:59 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:35:59 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:35:59 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:47:14 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:47:14 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:47:14 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:47:15 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:47:36 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:47:36 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:47:36 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:47:36 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:55:01 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:55:01 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:55:01 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:55:01 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:55:44 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:55:44 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:55:44 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:55:44 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:56:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:56:00 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:56:00 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:56:00 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:56:32 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:56:32 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:56:32 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:56:32 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:57:34 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:57:34 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:57:34 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:57:34 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 17:57:41 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:57:41 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 17:57:41 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 17:57:41 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:08:48 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:08:48 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:08:48 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:08:48 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:12:47 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:12:47 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:12:47 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:12:47 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:14:03 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:14:03 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:14:03 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:14:03 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:15:04 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:15:04 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:15:04 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:15:04 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:16:20 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:16:20 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:16:20 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:16:20 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:17:57 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:17:57 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:17:57 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:17:57 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:19:07 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:19:07 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:19:07 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:19:07 test.go:68: 执行 go build 失败: exit status 1
+2025/08/13 18:20:09 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Question!="") {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n")     b.WriteString("```markdown\n[]```")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:20:09 test.go:35: 开始处理文件： SplitSolutionSteps.pdsl
+2025/08/13 18:20:09 test.go:57: 生成的 Prompt:
+ &{[b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n") if (in.Test>=5) {     b.WriteString("你好\n") } else {     b.WriteString("siuehfebn\n") } b.WriteString("条件，知识点，结果\n") b.WriteString("题目：\n") b.WriteString(in.Question) b.WriteString("过程：\n") for i := range in.Process {     b.WriteString(in.Process[i]) } switch in.Process[0] { case "a":     b.WriteString("你好\n") case "b":     b.WriteString("你好2\n") default:     b.WriteString("你好3\n") } b.WriteString("请将输出内容严格按照以下格式返回：\n") b.WriteString("```json\n")
+b.WriteString("[\n")
+b.WriteString("  {\n")
+b.WriteString("    \"条件\": [\"\"]  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"知识点\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"过程\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("    \"小问\": {  // \n")
+b.WriteString("        \"小问题干\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格,\n")
+b.WriteString("        \"小问答案\": \"\"  // 严格遵守以下规定设计数学公式使用标准通用的latex格式,数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格\n")
+b.WriteString("    }\n")
+b.WriteString("  }\n")
+b.WriteString("]\n")
+b.WriteString("```\n")
+ b.WriteString("特别提醒：本题可能涉及 extra_hint，请根据步骤合理提取对应知识点。\n")] [b.WriteString("你是一个擅长拆分解题步骤的数学老师\n") if (in.Question=="") {     b.WriteString("当前任务是将解题步骤进行合理拆分\n") } else {     b.WriteString("当前任务是将解题步骤进行合理拆分2\n") }]}
+2025/08/13 18:20:09 test.go:68: 执行 go build 失败: exit status 1

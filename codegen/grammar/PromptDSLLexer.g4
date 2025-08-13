@@ -99,11 +99,11 @@ mode CODE_BLOCK;
 CODE_LBRACE: '{' -> type(LBRACE), pushMode(CODE_BLOCK);
 CODE_RBRACE: '}' -> type(RBRACE), popMode;
 
-CODE_STRING_SINGLE: '\'' CODE_STRING_CHAR* '\'';
+CODE_STRING_SINGLE: '\'' CODE_STRING_CHAR '\'';
 CODE_STRING: '"' CODE_STRING_CHAR* '"';
 
-fragment CODE_STRING_CHAR: ~[\n\r\\] | '\\\\' .;
-
+// fragment CODE_STRING_CHAR_S: ~[\'\n\r\\] | '\\\\' .;
+fragment CODE_STRING_CHAR: ~["\n\r\\] | '\\\\' .;
 CODE_TEXT: ~[{}"]+;
 
 // // 空白和注释
