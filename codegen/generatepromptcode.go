@@ -241,7 +241,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("    return input, nil\n}\n")
 
 	// 写 主调用 函数
-	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext)  (" + outputTypeStr + ",error) {\n")
+	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext,modelname string)  (" + outputTypeStr + ",error) {\n")
 	b.WriteString("    fmt.Fprintln(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
 	b.WriteString("    var err error\n")
 	b.WriteString("    input,err=prompt.ValidateInput(input)\n")
@@ -250,8 +250,8 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("    }\n")
 	b.WriteString("    sys := prompt.GenSys(input)\n")
 	b.WriteString("    user := prompt.GenUser(input)\n")
-	b.WriteString("    modelConfig := config.Cfg.Model\n")
-	b.WriteString("    llm := service.NewLLMClient(modelConfig)\n")
+	b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
+	b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
 	b.WriteString("    result, err := llm.GeneratePromptResponse(sys, user)\n")
 	b.WriteString("    if err != nil {\n")
 	b.WriteString("        fmt.Fprintf(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")

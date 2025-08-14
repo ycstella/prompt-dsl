@@ -30,7 +30,7 @@ type ModelConfig struct {
 type Config struct {
 	Server ServerConfig
 	Log    LogConfig
-	Model  ModelConfig
+	Models  []ModelConfig
 }
 
 var Cfg Config
@@ -38,7 +38,7 @@ var Cfg Config
 func InitConfig() {
 	viper.SetConfigName("default")//名
 	viper.SetConfigType("yaml")//类型
-	viper.AddConfigPath("config") //路径，当前程序目录下的
+	viper.AddConfigPath("../config") //路径，当前程序目录下的
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -65,4 +65,12 @@ func InitLogger() {
 	if Cfg.Log.Level == "debug" {
 		log.Println("日志等级为 DEBUG")
 	}
+}
+func GetModelConfig(name string) *ModelConfig {
+    for _, m := range Cfg.Models {
+        if m.Model == name {
+            return &m
+        }
+    }
+    return nil
 }
