@@ -8,11 +8,14 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"config"
 	gen "workflow/generated"
 )
 
 func main() {
 	//在此组织工作流
+	config.InitConfig()
+	config.InitLogger()
 	inputfile := os.Args[1]
 	// 读取文件内容
 	data, err := ioutil.ReadFile(inputfile)

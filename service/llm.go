@@ -6,6 +6,7 @@ import (
 	"log"
 	"regexp"
 	"strings"
+	"config"
 
 	openai "github.com/sashabaranov/go-openai"
 )
@@ -16,10 +17,9 @@ type LLMClient struct {
 }
 
 // NewLLMClient 创建 LLMClient 实例，传入 API Key
-func NewLLMClient(apiKey string) *LLMClient {
-	cfg := openai.DefaultConfig(apiKey)
-	cfg.BaseURL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-
+func NewLLMClient(model config.ModelConfig) *LLMClient {
+	cfg := openai.DefaultConfig(model.ApiKey)
+	cfg.BaseURL = model.BaseURL
 	return &LLMClient{
 		client: openai.NewClientWithConfig(cfg),
 	}
@@ -68,10 +68,10 @@ func (c *LLMClient) GeneratePromptResponse(systemPrompt, userPrompt string) (str
 
 // 提取 JSON 数组
 func extractJSONArray(text string) string {
-	re := regexp.MustCompile("(?s)```json\\s*(\\{.*?\\}|\\[.*?\\])\\s*```")
+	re := regexp.MustCompile("(?s)```(json|markdown)\\s*(\\{.*?\\}|\\[.*?\\])\\s*```")
 	matches := re.FindStringSubmatch(text)
 	if len(matches) > 1 {
-		return matches[1] // 第一个子匹配是数组
+		return matches[2] // 第一个子匹配是数组
 	}
 	return ""
 }

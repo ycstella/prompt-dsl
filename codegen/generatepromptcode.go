@@ -98,9 +98,9 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	pkgs := inferImportsFromCode(allCode)
 	//main
 
-	requiredPkgs := []string{"os", "fmt", "service", "codegen"}
+	requiredPkgs := []string{"os", "fmt", "service", "codegen","config"}
 	if len(root.FixCode) == 0 || len(root.AfterCode) == 0 {
-		requiredPkgs = []string{"os", "fmt", "service", "strings"}
+		requiredPkgs = []string{"os", "fmt", "service", "strings","config"}
 	}
 	for _, req := range requiredPkgs {
 		has := false
@@ -168,7 +168,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	//if modlefield不为空，则构造modelstruct，并且修改调用函数传参
 	if len(root.ModelFields) > 0 {
 		b.WriteString("type " + filename + "ModelOutputContext struct {\n")
-		for _, field := range root.OutFields {
+		for _, field := range root.ModelFields {
 			fieldName := capitalizeFirst(field.Name)
 			if field.Type == "struct" {
 				b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, filename+fieldName, field.JsonName))
@@ -250,8 +250,8 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("    }\n")
 	b.WriteString("    sys := prompt.GenSys(input)\n")
 	b.WriteString("    user := prompt.GenUser(input)\n")
-	b.WriteString("    apiKey := \"sk-02e496929ecc485796d29bd94e7ce371\"\n")
-	b.WriteString("    llm := service.NewLLMClient(apiKey)\n")
+	b.WriteString("    modelConfig := config.Cfg.Model\n")
+	b.WriteString("    llm := service.NewLLMClient(modelConfig)\n")
 	b.WriteString("    result, err := llm.GeneratePromptResponse(sys, user)\n")
 	b.WriteString("    if err != nil {\n")
 	b.WriteString("        fmt.Fprintf(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")

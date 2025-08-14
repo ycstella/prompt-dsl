@@ -8,7 +8,7 @@ log:
 
 model:
   provider: "openai"
-  api_key: "sk-xxxx"
-  base_url: "https://api.openai.com/v1"
+  api_key: "sk-02e496929ecc485796d29bd94e7ce371"
+  base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
   model: "gpt-4o"
   temperature: 0.7

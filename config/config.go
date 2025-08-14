@@ -27,18 +27,18 @@ type ModelConfig struct {
 	MaxTokens   int `mapstructure:"max_tokens"`
 }
 
-type AppConfig struct {
+type Config struct {
 	Server ServerConfig
 	Log    LogConfig
 	Model  ModelConfig
 }
 
-var Cfg AppConfig
+var Cfg Config
 
 func InitConfig() {
-	viper.SetConfigName("default")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("config") // 相对路径，可按需调整
+	viper.SetConfigName("default")//名
+	viper.SetConfigType("yaml")//类型
+	viper.AddConfigPath("config") //路径，当前程序目录下的
 
 	err := viper.ReadInConfig()
 	if err != nil {
