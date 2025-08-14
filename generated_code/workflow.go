@@ -3,13 +3,12 @@ package main
 
 import (
 	// "fmt"
+	"github.com/along416/promptDSL/config"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
-	"config"
-	gen "workflow/generated"
+	gen "github.com/along416/promptDSL/workflow/generated"
 )
 
 func main() {
@@ -27,23 +26,23 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-	ret2, err2 :=  prompt2.SplitSolutionSteps(prompt2.Input)
+	ret2, err2 := prompt2.SplitSolutionSteps(prompt2.Input, "qwen-max")
 	if err != nil {
-		log.Println("ret2:",err2)
+		log.Println("ret2:", err2)
 	}
-	fmt.Println("ret2:",ret2)
+	log.Println("ret2:", ret2)
+
 	var prompt gen.MdSolutionSteps
 	err = json.Unmarshal([]byte(data), &prompt.Input)
 	if err != nil {
 		log.Println(err)
 	}
-	
-	ret1, err :=  prompt.MdSolutionSteps(prompt.Input)
+
+	ret1, err := prompt.MdSolutionSteps(prompt.Input, "qwen-max")
 	if err != nil {
 		log.Println(err)
 	}
 	log.Println(ret1)
-	
 	// ret2:=gen.CheckAndCompleteStepConditions(ret1)
-	
+
 }

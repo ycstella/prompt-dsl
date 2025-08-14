@@ -2,7 +2,7 @@ package main
 
 import (
 	// "encoding/json"
-	"codegen"
+	"github.com/along416/promptDSL/codegen"
 	"fmt"
 	"log"
 	"os/exec"

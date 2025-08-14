@@ -13,7 +13,7 @@ import (
 	"regexp"
 
 	// "path/filepath"
-	"codegen/parser"
+	"github.com/along416/promptDSL/codegen/parser"
 	"strconv"
 
 	// "runtime"
@@ -23,7 +23,6 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
-// eval
 // log
 func InitLog(logPath string) {
 	logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
