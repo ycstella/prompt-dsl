@@ -1,4 +1,4 @@
-module config
+module github.com/along416/promptDSL/config
 
 go 1.24.6
 

@@ -6,4 +6,5 @@ use (
 	./generated_code
 	./service
 	./config
+	./cmd
 )

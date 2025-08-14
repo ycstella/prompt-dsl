@@ -1,4 +1,4 @@
-module service
+module github.com/along416/promptDSL/service
 
 go 1.24.6
 

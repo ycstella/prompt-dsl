@@ -1,4 +1,4 @@
-module workflow
+module github.com/along416/promptDSL/workflow
 
 go 1.24.6
 

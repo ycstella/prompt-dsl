@@ -1,4 +1,4 @@
-module web-backend
+module github.com/along416/promptDSL/web-backend
 
 go 1.24.6
 
