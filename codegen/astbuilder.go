@@ -2,7 +2,7 @@
 package codegen
 
 import (
-	"codegen/parser"
+	"github.com/along416/promptDSL/codegen/parser"
 	"fmt"
 
 	// "log"

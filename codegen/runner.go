@@ -7,7 +7,7 @@ import (
 	"os"
 
 	// "service"
-	"codegen/parser"
+	"github.com/along416/promptDSL/codegen/parser"
 	// "strings"
 
 	"github.com/antlr4-go/antlr/v4"
