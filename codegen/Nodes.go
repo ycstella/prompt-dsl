@@ -16,11 +16,9 @@ type FieldDef struct {
 }
 
 type PromptGenContext struct {
-	Vars        map[string]interface{}
 	InFields    []FieldDef
 	OutFields   []FieldDef
 	ModelFields []FieldDef
-	Input       any
 	ModuleDefs  map[string][]Node
 }
 
