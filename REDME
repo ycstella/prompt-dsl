@@ -1,2 +1,3 @@
 运行命令
-.\codegener.exe "CodeRunner.exe" "D:\work\promptDSL\codegen\prompts_copy\"
+.\codegener.exe "..\CodeRunner.exe" "D:\work\promptDSL\codegen\prompts\"
+.\CodeRunner.exe .\generated_code\input.json

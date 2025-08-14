@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"service"
 	"strings"
+	"config"
 )
 
 type MdSolutionSteps struct {
@@ -80,8 +81,8 @@ func (prompt *MdSolutionSteps)MdSolutionSteps(input MdSolutionStepsInputContext)
     }
     sys := prompt.GenSys(input)
     user := prompt.GenUser(input)
-    apiKey := "sk-02e496929ecc485796d29bd94e7ce371"
-    llm := service.NewLLMClient(apiKey)
+    modelConfig := config.Cfg.Model
+    llm := service.NewLLMClient(modelConfig)
     result, err := llm.GeneratePromptResponse(sys, user)
     if err != nil {
         fmt.Fprintf(os.Stderr, "调用大模型失败: %v\n", err)

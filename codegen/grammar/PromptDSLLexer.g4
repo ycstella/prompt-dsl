@@ -37,6 +37,10 @@ BEFORE: 'before' WS* '{' -> pushMode(CODE_BLOCK);
 FIX: 'fix' WS* '{' -> pushMode(CODE_BLOCK);
 AFTER: 'after' WS* '{' -> pushMode(CODE_BLOCK);
 ARRAY_OUTPUTSPEC : '[' ']' OUTPUTSPEC ;
+// Rune literals
+// fragment RUNE: '\'' (UNICODE_VALUE | BYTE_VALUE) '\''; //: '\'' (~[\n\\] | ESCAPED_VALUE) '\'';
+// RUNE_LIT: RUNE -> mode(NLSEMI);
+
 
 // 补充符号Token定义
 LBRACE : '{' ;
@@ -99,12 +103,19 @@ mode CODE_BLOCK;
 CODE_LBRACE: '{' -> type(LBRACE), pushMode(CODE_BLOCK);
 CODE_RBRACE: '}' -> type(RBRACE), popMode;
 
-CODE_STRING_SINGLE: '\'' CODE_STRING_CHAR '\'';
-CODE_STRING: '"' CODE_STRING_CHAR* '"';
+CODE_STRING_SINGLE
+    : '\'' ( ESC_SEQ | ~['\n\r\\] ) '\''
+    ;
 
-// fragment CODE_STRING_CHAR_S: ~[\'\n\r\\] | '\\\\' .;
-fragment CODE_STRING_CHAR: ~["\n\r\\] | '\\\\' .;
-CODE_TEXT: ~[{}"]+;
+CODE_STRING
+    : '"' ( ESC_SEQ | ~["\n\r\\] )* '"'
+    ;
+
+fragment ESC_SEQ
+    : '\\' [\\'"nrtbf] // 常见转义
+    | '\\' .            // 任意转义兜底
+    ;
+CODE_TEXT: ~['{}"]+;
 
 // // 空白和注释
 // WS            : [ \t\r\n]+      -> channel(HIDDEN) ;

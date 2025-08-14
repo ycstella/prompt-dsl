@@ -1,7 +1,9 @@
-go 1.24.4
+go 1.24.6
 
 use (
 	./codegen
 	./web-backend
 	./generated_code
+	./service
+	./config
 )

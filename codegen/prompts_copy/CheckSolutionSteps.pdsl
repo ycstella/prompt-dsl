@@ -1,36 +1,25 @@
-prompt SplitSolutionSteps {
+prompt CheckSolutionSteps {
     in {
-        Question: 
-        Process: []
-        Test:int @l123 @derived 
-        Aub: struct {
-            Question:    
-            Answer: 
-        } @jn("小问") @derived 
+            Question: 
+            Process: []
     }
     
     @latex("严格遵守以下规定设计数学公式使用标准通用的latex格式")
     @kl("数学公式以美元符号包裹，$或$$与公式内容之间不允许有任何空格")
     
     output {
-        Conditions: [] @jn("条件")  @latex @kl @model
-        KnowledgePoint:  @jsonname("知识点")  @latex @kl @modeloutput
-        ProcessResult:string  @jsonname("过程")  @latex @kl  @modeloutput
-        sub: struct {
-            Question:  @jsonname("小问题干")  @latex @kl  
-            Answer:  @jsonname("小问答案")  @latex @kl  
-        } @jn("小问") @modeloutput
+            Conditions: [] @jn("条件")  @latex @kl 
+            KnowledgePoint:  @jsonname("知识点")  @latex @kl 
+            ProcessResult:string  @jsonname("过程")  @latex @kl  
+            test: [] 
 	}
-
 
     before{
         for process:=range in.Process{
             fmt.Println("process:",process)
         }
-        in.Test=5
         return in,nil
     }
-
 
     sys {
        sys_role
@@ -42,7 +31,7 @@ prompt SplitSolutionSteps {
         -你是一个擅长拆分解题步骤的数学老师
     }
 
-    in Add: []string @derived 
+    in Add: []string
             
     
     sys_expertise {
@@ -67,7 +56,7 @@ prompt SplitSolutionSteps {
     
     user_content {
 
-        if (in.Test >=5){
+        if (in.Question != ""){
             -你好
         }
         else{
@@ -103,28 +92,19 @@ prompt SplitSolutionSteps {
 
     fix{
         // 用strings.Builder手动替换单反斜杠
-        
-        fixed,err:=fix-auto
         fmt.Println("response:", response)
-        var results []SplitSolutionStepsModelOutputContext
-        err = json.Unmarshal([]byte(response), &results)
-        // a:='a'
-        return fixed, err
+        var results prompt.Output
+        err := json.Unmarshal([]byte(response), &results)
+        return results, err
     }
        
 
     after{
         trueCount := 0
-        for _, item := range model {
-            if item.ProcessResult != "" {
+        for _, item := range output {
+            if item.ProcessResult!= "" {
                 trueCount++
             }
-        }
-        output := make([]SplitSolutionStepsOutputContext, len(model))
-        for i, step := range model {
-            output[i].Conditions = step.Conditions
-            output[i].KnowledgePoint = step.KnowledgePoint
-            output[i].ProcessResult = step.ProcessResult
         }
         return output
     }

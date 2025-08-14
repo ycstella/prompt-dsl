@@ -2,48 +2,42 @@
 package generated
 
 import (
+	"encoding/json"
 	"strings"
 	"fmt"
-	"encoding/json"
 	"os"
 	"service"
 	"codegen"
 	"config"
 )
 
-type SplitSolutionStepsPrompt struct {
-    Question string `json:"小问题干"`
-    Answer string `json:"小问答案"`
+type CheckSolutionSteps struct {
+    Input CheckSolutionStepsInputContext
+    Output CheckSolutionStepsOutputContext
+    ModelOutput CheckSolutionStepsModelOutputContext
 }
 
-type SplitSolutionSteps struct {
-    Input SplitSolutionStepsInputContext
-    Output SplitSolutionStepsOutputContext
-    ModelOutput SplitSolutionStepsModelOutputContext
-}
-
-type SplitSolutionStepsInputContext struct {
+type CheckSolutionStepsInputContext struct {
     Question string `json:"Question"`
     Process []string `json:"Process"`
     Test int `json:"Test"`
-    Prompt SplitSolutionStepsPrompt `json:"小问"`
     Add []string `json:"Add"`
 }
 
-type SplitSolutionStepsOutputContext struct {
+type CheckSolutionStepsOutputContext struct {
     Conditions []string `json:"条件"`
     KnowledgePoint string `json:"知识点"`
     ProcessResult string `json:"过程"`
     Prompt SplitSolutionStepsPrompt `json:"Prompt"`
 }
 
-type SplitSolutionStepsModelOutputContext struct {
+type CheckSolutionStepsModelOutputContext struct {
     Conditions []string `json:"条件"`
     KnowledgePoint string `json:"知识点"`
     ProcessResult string `json:"过程"`
 }
 
-func (prompt *SplitSolutionSteps)GenSys(in SplitSolutionStepsInputContext) string {
+func (prompt *CheckSolutionSteps)GenSys(in CheckSolutionStepsInputContext) string {
     var b strings.Builder
     b.WriteString("你是一个擅长拆分解题步骤的数学老师 \n")
     if (in.Question=="") {
@@ -55,7 +49,7 @@ func (prompt *SplitSolutionSteps)GenSys(in SplitSolutionStepsInputContext) strin
 
 }
 
-func (prompt *SplitSolutionSteps)GenUser(in SplitSolutionStepsInputContext) string {
+func (prompt *CheckSolutionSteps)GenUser(in CheckSolutionStepsInputContext) string {
     var b strings.Builder
     b.WriteString("请根据以下输入题目及其解答内容，将完整的解答过程拆分为多个“短链”，每个“短链”包含以下三个要素：\n")
     if (in.Test>=5) {
@@ -94,7 +88,7 @@ b.WriteString("```\n")
 
 }
 
-func (prompt *SplitSolutionSteps)AfterProcess(model []SplitSolutionStepsModelOutputContext) []SplitSolutionStepsOutputContext {
+func (prompt *CheckSolutionSteps)AfterProcess(model []CheckSolutionStepsModelOutputContext) []CheckSolutionStepsOutputContext {
 
         trueCount := 0
         for _, item := range model {
@@ -102,7 +96,7 @@ func (prompt *SplitSolutionSteps)AfterProcess(model []SplitSolutionStepsModelOut
                 trueCount++
             }
         }
-        output := make([]SplitSolutionStepsOutputContext, len(model))
+        output := make([]CheckSolutionStepsOutputContext, len(model))
         for i, step := range model {
             output[i].Conditions = step.Conditions
             output[i].KnowledgePoint = step.KnowledgePoint
@@ -112,7 +106,7 @@ func (prompt *SplitSolutionSteps)AfterProcess(model []SplitSolutionStepsModelOut
     
 }
 
-func (prompt *SplitSolutionSteps)Before(in SplitSolutionStepsInputContext) (SplitSolutionStepsInputContext ,error){
+func (prompt *CheckSolutionSteps)Before(in CheckSolutionStepsInputContext) (CheckSolutionStepsInputContext ,error){
 
         for process:=range in.Process{
             fmt.Println("process:",process)
@@ -121,20 +115,20 @@ func (prompt *SplitSolutionSteps)Before(in SplitSolutionStepsInputContext) (Spli
         return in,nil
     
 }
-func (prompt *SplitSolutionSteps)FixProcess(response string) ([]SplitSolutionStepsModelOutputContext ,error){
+func (prompt *CheckSolutionSteps)FixProcess(response string) ([]CheckSolutionStepsModelOutputContext ,error){
 
         // 用strings.Builder手动替换单反斜杠
         
-        fixed,err:=codegen.FixAuto[[]SplitSolutionStepsModelOutputContext](response)
+        fixed,err:=codegen.FixAuto[[]CheckSolutionStepsModelOutputContext](response)
 
         fmt.Println("response:", response)
-        var results []SplitSolutionStepsModelOutputContext
+        var results []CheckSolutionStepsModelOutputContext
         err = json.Unmarshal([]byte(response), &results)
         // a:='"'
         return fixed, err
     
 }
-func (prompt *SplitSolutionSteps)ValidateInput(input SplitSolutionStepsInputContext) (SplitSolutionStepsInputContext ,error){
+func (prompt *CheckSolutionSteps)ValidateInput(input CheckSolutionStepsInputContext) (CheckSolutionStepsInputContext ,error){
 	if input.Question == "" {
 		return input, fmt.Errorf("Question 不能为空")
 	}
@@ -144,7 +138,7 @@ func (prompt *SplitSolutionSteps)ValidateInput(input SplitSolutionStepsInputCont
     return input, nil
 }
 
-func (prompt *SplitSolutionSteps)SplitSolutionSteps(input SplitSolutionStepsInputContext)  ([]SplitSolutionStepsOutputContext,error) {
+func (prompt *CheckSolutionSteps)CheckSolutionSteps(input CheckSolutionStepsInputContext)  ([]CheckSolutionStepsOutputContext,error) {
     fmt.Fprintln(os.Stderr, "[main] 程序启动，等待输入...")
     var err error
     input,err=prompt.ValidateInput(input)

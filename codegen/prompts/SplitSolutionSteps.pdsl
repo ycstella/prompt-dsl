@@ -1,8 +1,13 @@
-prompt CheckSolutionSteps {
+prompt SplitSolutionSteps {
     in {
         Question: 
         Process: []
         Test:int @l123 @derived 
+        Prompt: struct {
+            Question:  @jsonname("小问题干")  @latex @kl  
+            Answer:  @jsonname("小问答案")  @latex @kl  
+        } @jn("小问") @derived 
+        
     }
     
     @latex("严格遵守以下规定设计数学公式使用标准通用的latex格式")
@@ -98,8 +103,8 @@ prompt CheckSolutionSteps {
         // 用strings.Builder手动替换单反斜杠
         
         fixed,err:=fix-auto
-        fmt.Println("response:", response)
-        var results []CheckSolutionStepsModelOutputContext
+        // fmt.Println("response:", response)
+        var results []SplitSolutionStepsModelOutputContext
         err = json.Unmarshal([]byte(response), &results)
         // a:='"'
         return fixed, err
@@ -113,7 +118,7 @@ prompt CheckSolutionSteps {
                 trueCount++
             }
         }
-        output := make([]CheckSolutionStepsOutputContext, len(model))
+        output := make([]SplitSolutionStepsOutputContext, len(model))
         for i, step := range model {
             output[i].Conditions = step.Conditions
             output[i].KnowledgePoint = step.KnowledgePoint
