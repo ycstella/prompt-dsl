@@ -25,7 +25,14 @@ func main() {
 	if err != nil {
 		log.Println("读取目录失败：", err)
 	}
-
+	// 确保生成代码目录存在
+	
+	genDir := "generated_code/generated"
+	err = os.MkdirAll(genDir, os.ModePerm)
+	if err != nil {
+		fmt.Println("创建目录失败: %v", err)
+	}
+	fmt.Println("创建目录: %v", err)
 	for _, entry := range entries {
 		filename := entry.Name()
 		log.Println("开始处理文件：", filename)
@@ -43,26 +50,21 @@ func main() {
 			panic(fmt.Errorf("读取 DSL 文件失败: %v", err))
 		}
 
-		promptfileContentstr := string(promptfileContent)
+		promptFileContentstr := string(promptfileContent)
 		nameWithoutExt := strings.TrimSuffix(filename, ".pdsl")
 
-		prompt, err := codegen.RunPromptDSL(promptfileContentstr, nameWithoutExt)
+		prompt, err := codegen.RunPromptDSL(promptFileContentstr, nameWithoutExt)
 		if err != nil {
 			log.Fatalf("RunPromptDSL error: %v", err)
 		}
 		log.Println("生成的 Prompt:\n", prompt)
 	}
 
-	exename := os.Args[1]
-	// 确保生成代码目录存在
-	genDir := "generated_code/generated"
-	err = os.MkdirAll(genDir, os.ModePerm)
-	if err != nil {
-		log.Fatalf("创建目录失败: %v", err)
-	}
+	exeName := os.Args[1]
+	
 	// go build
-	cmd := exec.Command("go", "build", "-o", exename, ".")
-	cmd.Dir = genDir
+	cmd := exec.Command("go", "build", "-o", exeName, ".")
+	cmd.Dir = "generated_code"
 	// 获取命令的输出和错误信息
 	cmdOutput, err := cmd.CombinedOutput()
 	if err != nil {
