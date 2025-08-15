@@ -244,7 +244,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext,modelname string)  (" + outputTypeStr + ",error) {\n")
 	b.WriteString("    fmt.Fprintln(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
 	b.WriteString("    var err error\n")
-	b.WriteString("    input,err=prompt.ValidateInput(input)\n")
+	b.WriteString("    err=prompt.ValidateInput(input)\n")
 	b.WriteString("    if err!=nil {\n")
 	b.WriteString("    \treturn nil,err\n")
 	b.WriteString("    }\n")
@@ -253,7 +253,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	if strings.TrimSpace(root.BeforeCode[0]) != "" {
 		b.WriteString("    input, err = prompt.Before(input)\n")
 		b.WriteString("    if err!=nil {\n")
-		b.WriteString("    \tfmt.Fprintf(os.Stderr, \"预处理失败 %v\n\", err)\n")
+		b.WriteString("    \tfmt.Fprintf(os.Stderr, \"预处理失败 %v\", err)\n")
 		b.WriteString("    \tos.Exit(1)\n")
 		b.WriteString("    }\n")
 	}
