@@ -1,10 +1,10 @@
-module promptDSL
+module github.com/along416/promptDSL
+
 
 go 1.24.6
 
 require (
-	github.com/along416/promptDSL/codegen v0.1.3
-	github.com/along416/promptDSL/config v0.1.3
+	github.com/along416/promptDSL v0.1.4
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/sashabaranov/go-openai v1.41.1
 	github.com/spf13/viper v1.20.1
