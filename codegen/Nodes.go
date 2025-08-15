@@ -173,6 +173,9 @@ type ParamNode struct {
 
 // 实现 Node 接口的 Tocode 方法
 func (p *ParamNode) Tocode(ctx *PromptGenContext) ([]string, error) {
+	if p.Path=="break"{
+		return []string{"break"}, nil
+	}
 	return []string{fmt.Sprintf(`b.WriteString(%s)`, p.Path)}, nil
 }
 
