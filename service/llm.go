@@ -6,14 +6,14 @@ import (
 	"log"
 	"regexp"
 	"strings"
-	"config"
-
+	"github.com/along416/promptDSL/config"
 	openai "github.com/sashabaranov/go-openai"
 )
 
 // LLMClient 封装了 OpenAI 客户端
 type LLMClient struct {
 	client *openai.Client
+	model config.ModelConfig
 }
 
 // NewLLMClient 创建 LLMClient 实例，传入 API Key
@@ -22,6 +22,7 @@ func NewLLMClient(model config.ModelConfig) *LLMClient {
 	cfg.BaseURL = model.BaseURL
 	return &LLMClient{
 		client: openai.NewClientWithConfig(cfg),
+		model:  model, // 保存模型名称
 	}
 }
 
@@ -29,7 +30,7 @@ func NewLLMClient(model config.ModelConfig) *LLMClient {
 func (c *LLMClient) GeneratePromptResponse(systemPrompt, userPrompt string) (string, error) {
 	// fmt.Println("GeneratePromptResponse:")
 	req := openai.ChatCompletionRequest{
-		Model: "qwen-max", // 你这里替换成你具体的 qwen 模型名字符串
+		Model: c.model.Model, 
 		Messages: []openai.ChatCompletionMessage{
 			{
 				Role:    openai.ChatMessageRoleSystem,
