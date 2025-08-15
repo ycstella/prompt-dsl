@@ -35,10 +35,10 @@ type Config struct {
 
 var Cfg Config
 
-func InitConfig() {
+func InitConfig(configpath string) {
 	viper.SetConfigName("default")//名
 	viper.SetConfigType("yaml")//类型
-	viper.AddConfigPath("../config") //路径，当前程序目录下的
+	viper.AddConfigPath(configpath) //
 
 	err := viper.ReadInConfig()
 	if err != nil {

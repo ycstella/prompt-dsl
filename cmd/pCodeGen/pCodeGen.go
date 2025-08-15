@@ -2,18 +2,18 @@ package main
 
 import (
 	// "encoding/json"
-	"github.com/along416/promptDSL/codegen"
 	"fmt"
 	"log"
 	"os/exec"
 	"strings"
+
+	"github.com/along416/promptDSL/codegen"
 
 	// "strings"
 
 	// "net/http"
 	// "codegen"
 
-	
 	"os"
 )
 
@@ -54,10 +54,15 @@ func main() {
 	}
 
 	exename := os.Args[1]
-	dir := "generated_code"
+	// 确保生成代码目录存在
+	genDir := "generated_code/generated"
+	err = os.MkdirAll(genDir, os.ModePerm)
+	if err != nil {
+		log.Fatalf("创建目录失败: %v", err)
+	}
 	// go build
 	cmd := exec.Command("go", "build", "-o", exename, ".")
-	cmd.Dir = dir
+	cmd.Dir = genDir
 	// 获取命令的输出和错误信息
 	cmdOutput, err := cmd.CombinedOutput()
 	if err != nil {
@@ -66,4 +71,3 @@ func main() {
 	}
 	fmt.Println("Go 程序编译完成，生成了 CodeRunner.exe 文件")
 }
-

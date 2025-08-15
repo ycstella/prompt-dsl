@@ -98,9 +98,9 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	pkgs := inferImportsFromCode(allCode)
 	//main
 
-	requiredPkgs := []string{"os", "fmt", "service", "codegen","config"}
+	requiredPkgs := []string{"os", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen","github.com/along416/promptDSL/config"}
 	if len(root.FixCode) == 0 || len(root.AfterCode) == 0 {
-		requiredPkgs = []string{"os", "fmt", "service", "strings","config"}
+		requiredPkgs = []string{"os", "fmt", "github.com/along416/promptDSL/service", "strings","github.com/along416/promptDSL/config"}
 	}
 	for _, req := range requiredPkgs {
 		has := false

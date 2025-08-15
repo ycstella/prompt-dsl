@@ -13,7 +13,7 @@ import (
 
 func main() {
 	//在此组织工作流
-	config.InitConfig()
+	config.InitConfig(os.Args[2])
 	config.InitLogger()
 	inputfile := os.Args[1]
 	// 读取文件内容

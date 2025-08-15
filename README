@@ -1,0 +1,9 @@
+运行命令
+.\codegener.exe "..\CodeRunner.exe" "D:\work\promptDSL\codegen\prompts\"
+.\CodeRunner.exe .\generated_code\input.json
+
+
+下载命令go install github.com/along416/promptDSL/cmd/pCodeGen
+运行命令& "C:\Users\Administrator\go\bin\pCodegen.exe" "..\CodeRunner.exe" "D:\work\promptDSL\codegen\prompts\"
+运行目录下有
+generated_code\prompt_code
