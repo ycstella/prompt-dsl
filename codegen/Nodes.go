@@ -173,10 +173,14 @@ type ParamNode struct {
 
 // 实现 Node 接口的 Tocode 方法
 func (p *ParamNode) Tocode(ctx *PromptGenContext) ([]string, error) {
-	if p.Path=="break"{
+	switch p.Path {
+	case "break":
 		return []string{"break"}, nil
+	case "continue":
+		return []string{"continue"}, nil
+	default:
+		return []string{fmt.Sprintf(`b.WriteString(%s)`, p.Path)}, nil
 	}
-	return []string{fmt.Sprintf(`b.WriteString(%s)`, p.Path)}, nil
 }
 
 type CasePair struct {
@@ -318,8 +322,8 @@ type PromptNode struct {
 	// 其它部分
 }
 
-func NewPromptNode() *PromptNode{
-	p:=&PromptNode{
+func NewPromptNode() *PromptNode {
+	p := &PromptNode{
 		SysNodes:         []Node{},
 		UserNodes:        []Node{},
 		ModuleDefs:       map[string][]Node{}, // 初始化 map
@@ -335,6 +339,7 @@ func NewPromptNode() *PromptNode{
 	}
 	return p
 }
+
 type Subfield struct {
 	Name   string
 	Fields []FieldDef
