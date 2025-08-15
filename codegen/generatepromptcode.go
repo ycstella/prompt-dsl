@@ -235,10 +235,10 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	}
 
 	// 写入 合法性校验 函数
-	b.WriteString(fmt.Sprintf("func (prompt *" + filename + ")ValidateInput(input " + filename + "InputContext) (" + filename + "InputContext ,error){\n"))
+	b.WriteString(fmt.Sprintf("func (prompt *" + filename + ")ValidateInput(input " + filename + "InputContext) (error){\n"))
 	validationCode := GenValidationCodeFromFields(root.InFields,filename)
 	b.WriteString(validationCode)
-	b.WriteString("    return input, nil\n}\n")
+	b.WriteString("    return nil\n}\n")
 
 	// 写 主调用 函数
 	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext,modelname string)  (" + outputTypeStr + ",error) {\n")
@@ -248,8 +248,18 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("    if err!=nil {\n")
 	b.WriteString("    \treturn nil,err\n")
 	b.WriteString("    }\n")
+	
+	//before
+	if strings.TrimSpace(root.BeforeCode[0]) != "" {
+		b.WriteString("    input, err = prompt.Before(input)\n")
+		b.WriteString("    if err!=nil {\n")
+		b.WriteString("    \tfmt.Fprintf(os.Stderr, \"预处理失败 %v\n\", err)\n")
+		b.WriteString("    \tos.Exit(1)\n")
+		b.WriteString("    }\n")
+	}
 	b.WriteString("    sys := prompt.GenSys(input)\n")
 	b.WriteString("    user := prompt.GenUser(input)\n")
+
 	b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
 	b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
 	b.WriteString("    result, err := llm.GeneratePromptResponse(sys, user)\n")
@@ -297,7 +307,6 @@ func Generatworkflow(pkgName string) string {
 	b.WriteString("    //在此组织工作流\n")
 	b.WriteString("    //\n")
 	b.WriteString("}\n")
-
 	return b.String()
 }
 func GenValidationCodeFromFields(fields []FieldDef,filename string) string {
@@ -307,7 +316,7 @@ func GenValidationCodeFromFields(fields []FieldDef,filename string) string {
 		// 如果包含 "derived" 注解，则跳过校验
 		skip := false
 		for _, ann := range f.Annotations {
-			fmt.Println("derived:👀", ann)
+			// fmt.Println("derived:👀", ann)
 			if ann == "derived" {
 				skip = true
 				break
@@ -320,19 +329,19 @@ func GenValidationCodeFromFields(fields []FieldDef,filename string) string {
 		switch f.Type {
 		case "string":
 			b.WriteString(fmt.Sprintf(
-				"\tif input.%s == \"\" {\n\t\treturn input, fmt.Errorf(\"%s 不能为空\")\n\t}\n",
-				f.Name, f.Name))
+				"\tif input.%s == \"\" {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
+				f.Name,filename,f.Name))
 		case "struct":
 			b.WriteString(fmt.Sprintf(
-				"\tif input.%s == ("+filename+"%s{}) {\n\t\treturn input, fmt.Errorf(\"%s 不能为空\")\n\t}\n",
+				"\tif input.%s == ("+filename+"%s{}) {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
 				f.Name, f.Name,f.Name))
 		case "int", "int32", "int64", "float32", "float64":
 			b.WriteString(fmt.Sprintf(
-				"\tif input.%s == 0 {\n\t\treturn input, fmt.Errorf(\"%s 不能为空\")\n\t}\n",
+				"\tif input.%s == 0 {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
 				f.Name, f.Name))
 		case "[]string", "[]int", "[]float64", "map[string]string":
 			b.WriteString(fmt.Sprintf(
-				"\tif len(input.%s) == 0 {\n\t\treturn input, fmt.Errorf(\"%s 不能为空\")\n\t}\n",
+				"\tif len(input.%s) == 0 {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
 				f.Name, f.Name))
 		}
 	}
