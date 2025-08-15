@@ -13,21 +13,7 @@ import (
 )
 
 func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.CommonTokenStream, inputStream *antlr.InputStream) *PromptNode {
-	result := &PromptNode{
-		Vars:             make(map[string]interface{}), // 初始化空map
-		SysNodes:         []Node{},
-		UserNodes:        []Node{},
-		ModuleDefs:       map[string][]Node{}, // 初始化 map
-		InFields:         []FieldDef{},
-		OutFields:        []FieldDef{},
-		ModelFields:      []FieldDef{},
-		BeforeCode:       []string{},
-		SubFields:        []Subfield{},
-		AfterCode:        []string{},
-		FixCode:          []string{},
-		Goimport:         []goimport{},
-		outputspectNodes: OutputSpecNode{},
-	}
+	result := NewPromptNode()
 	fmt.Println("Building AST...")
 	def := parseTree.PromptDef(0)
 	for _, block := range def.AllPromptBlock() {
@@ -135,13 +121,6 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 			result.Goimport = imports
 		}
 	}
-	// fix := extractCodeBlocks(stream, "fix")
-	// after := extractCodeBlocks(stream, "after")
-	// fixPos := Range{stream.Get(fix.start).GetStart(), stream.Get(fix.end).GetStop() + 1}
-	// afterPos := Range{stream.Get(after.start).GetStart(), stream.Get(after.end).GetStop() + 1}
-	// result.FixCode =inputStream.GetText(fixPos.start, fixPos.end)
-	// result.AfterCode =inputStream.GetText(afterPos.start, afterPos.end)
-
 	return result
 }
 

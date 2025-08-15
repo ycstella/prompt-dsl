@@ -314,6 +314,24 @@ type PromptNode struct {
 	// IsArray     bool
 	// 其它部分
 }
+
+func NewPromptNode() *PromptNode{
+	p:=&PromptNode{
+		SysNodes:         []Node{},
+		UserNodes:        []Node{},
+		ModuleDefs:       map[string][]Node{}, // 初始化 map
+		InFields:         []FieldDef{},
+		OutFields:        []FieldDef{},
+		ModelFields:      []FieldDef{},
+		BeforeCode:       []string{},
+		SubFields:        []Subfield{},
+		AfterCode:        []string{},
+		FixCode:          []string{},
+		Goimport:         []goimport{},
+		outputspectNodes: OutputSpecNode{},
+	}
+	return p
+}
 type Subfield struct {
 	Name   string
 	Fields []FieldDef
