@@ -2,13 +2,13 @@
 package generated
 
 import (
-	"strings"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"strings"
 	"os"
-	"service"
-	"codegen"
-	"config"
+	"github.com/along416/promptDSL/service"
+	"github.com/along416/promptDSL/codegen"
+	"github.com/along416/promptDSL/config"
 )
 
 type SplitSolutionStepsPrompt struct {
@@ -127,7 +127,7 @@ func (prompt *SplitSolutionSteps)FixProcess(response string) ([]SplitSolutionSte
         
         fixed,err:=codegen.FixAuto[[]SplitSolutionStepsModelOutputContext](response)
 
-        fmt.Println("response:", response)
+        // fmt.Println("response:", response)
         var results []SplitSolutionStepsModelOutputContext
         err = json.Unmarshal([]byte(response), &results)
         // a:='"'
@@ -144,7 +144,7 @@ func (prompt *SplitSolutionSteps)ValidateInput(input SplitSolutionStepsInputCont
     return input, nil
 }
 
-func (prompt *SplitSolutionSteps)SplitSolutionSteps(input SplitSolutionStepsInputContext)  ([]SplitSolutionStepsOutputContext,error) {
+func (prompt *SplitSolutionSteps)SplitSolutionSteps(input SplitSolutionStepsInputContext,modelname string)  ([]SplitSolutionStepsOutputContext,error) {
     fmt.Fprintln(os.Stderr, "[main] 程序启动，等待输入...")
     var err error
     input,err=prompt.ValidateInput(input)
@@ -153,8 +153,8 @@ func (prompt *SplitSolutionSteps)SplitSolutionSteps(input SplitSolutionStepsInpu
     }
     sys := prompt.GenSys(input)
     user := prompt.GenUser(input)
-    modelConfig := config.Cfg.Model
-    llm := service.NewLLMClient(modelConfig)
+    modelConfig := config.GetModelConfig(modelname)
+    llm := service.NewLLMClient(*modelConfig)
     result, err := llm.GeneratePromptResponse(sys, user)
     if err != nil {
         fmt.Fprintf(os.Stderr, "调用大模型失败: %v\n", err)
