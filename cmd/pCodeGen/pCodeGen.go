@@ -26,8 +26,8 @@ func main() {
 		log.Println("读取目录失败：", err)
 	}
 	// 确保生成代码目录存在
-	
-	genDir := "generated_code/generated"
+
+	genDir := "generated_code"
 	err = os.MkdirAll(genDir, os.ModePerm)
 	if err != nil {
 		fmt.Println("创建目录失败: %v", err)
@@ -58,18 +58,17 @@ func main() {
 			log.Fatalf("RunPromptDSL error: %v", err)
 		}
 		log.Println("生成的 Prompt:\n", prompt)
+		exeName := os.Args[1]+nameWithoutExt+".exe"
+		// go build
+		cmd := exec.Command("go", "build", "-o", exeName, ".")
+		cmd.Dir = "generated_code/" + nameWithoutExt
+		// 获取命令的输出和错误信息
+		cmdOutput, err := cmd.CombinedOutput()
+		if err != nil {
+			fmt.Println(string(cmdOutput)) // 打印 go build 的错误输出
+			log.Fatalf("执行 go build 失败: %v\n", err)
+		}
+		fmt.Println("Go 程序编译完成，生成了 CodeRunner.exe 文件")
 	}
 
-	exeName := os.Args[1]
-	
-	// go build
-	cmd := exec.Command("go", "build", "-o", exeName, ".")
-	cmd.Dir = "generated_code"
-	// 获取命令的输出和错误信息
-	cmdOutput, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Println(string(cmdOutput)) // 打印 go build 的错误输出
-		log.Fatalf("执行 go build 失败: %v\n", err)
-	}
-	fmt.Println("Go 程序编译完成，生成了 CodeRunner.exe 文件")
 }
