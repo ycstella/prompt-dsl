@@ -55,7 +55,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	//生成sys+user+after+fix
 	// code:=Generateprompthandle(rootNode, getCurrentPackageName())
 
-	code := Generateprompthandle(rootNode, "generated", outputParts, filename, rootNode.Goimport)
+	code := GeneratepromptCode(rootNode, "generated", outputParts, filename, rootNode.Goimport)
 
 	genDir := "generated_code/" + filename
 	err = os.MkdirAll(genDir, os.ModePerm)
@@ -90,7 +90,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 		fmt.Println("go.mod已存在，跳过初始化")
 	}
 	// 获取指定依赖
-	getCmd := exec.Command("go", "get", "go get github.com/along416/promptDSL@v0.1.11")
+	getCmd := exec.Command("go", "get", "github.com/along416/promptDSL@v0.1.11")
 	getCmd.Dir = genDir
 	if getOutput, err := getCmd.CombinedOutput(); err != nil {
 		fmt.Printf("go get 输出: %s\n", getOutput)
@@ -144,7 +144,7 @@ func WRunPromptDSL(input string, filename string, workflow string) (*final, erro
 	//生成sys+user+after+fix
 	// code:=Generateprompthandle(rootNode, getCurrentPackageName())
 
-	code := Generateprompthandle(rootNode, "generated", outputParts, filename, rootNode.Goimport)
+	code := GeneratepromptCode(rootNode, "generated", outputParts, filename, rootNode.Goimport)
 
 	outputFile := "generated_code/generated/" + filename + ".go"
 	err = installGoImports(rootNode.Goimport, "generated_code")

@@ -61,7 +61,7 @@ var symbolToImport = map[string]string{
 	"container/heap.": "container/heap",
 }
 
-func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filename string, goimport []goimport) string {
+func GeneratepromptCode(root *PromptNode, pkgName string, eval *final, filename string, goimport []goimport) string {
 	// fmt.Println("😅")
 	if len(root.ModelFields) > 0 {
 		fmt.Println("root.ModelFields:", root.ModelFields)
@@ -263,7 +263,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
 	b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
 
-	b.WriteString("    if stream == \"true\" {\n")
+	b.WriteString("    if stream  {\n")
 	b.WriteString("        // 流式模式，直接输出，不做 JSON 解析\n")
 	b.WriteString("        _, err := llm.GeneratePromptResponse(sys, user, true)\n")
 	b.WriteString("        if err != nil {\n")
@@ -296,7 +296,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	} else {
 		b.WriteString("        return []string{result}, err\n")
 	}
-
+	b.WriteString("        }\n")
 	b.WriteString("    }\n")
 
 	//写入main函数

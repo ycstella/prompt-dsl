@@ -124,7 +124,7 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	}
 
 	bodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("POST", c.model.BaseURL+"/chat/completions", bytes.NewReader(bodyBytes))
+	req, err := http.NewRequest("POST", c.model.BaseURL, bytes.NewReader(bodyBytes))
 	if err != nil {
 		return "", fmt.Errorf("创建 DeepSeek 请求失败: %w", err)
 	}
