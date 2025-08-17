@@ -112,6 +112,7 @@ func (c *LLMClient) generateOpenAI(systemPrompt, userPrompt string, stream bool)
 
 // ---- DeepSeek 调用 ----
 func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream bool) (string, error) {
+	// 构建请求体
 	reqBody := map[string]interface{}{
 		"model": c.model.Model,
 		"messages": []map[string]string{
@@ -123,11 +124,14 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	}
 
 	bodyBytes, _ := json.Marshal(reqBody)
-	req, _ := http.NewRequest("POST", c.deepseekURL, strings.NewReader(string(bodyBytes)))
+	req, err := http.NewRequest("POST", c.deepseekURL+"/chat/completions", bytes.NewReader(bodyBytes))
+	if err != nil {
+		return "", fmt.Errorf("创建 DeepSeek 请求失败: %w", err)
+	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+c.model.ApiKey)
 
-	fmt.Println("请求 URL:", c.model.BaseURL+"/chat/completions")
+	fmt.Println("请求 URL:", c.deepseekURL+"/chat/completions")
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -143,6 +147,7 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	}
 
 	if stream {
+		// 流式处理
 		reader := bufio.NewReader(resp.Body)
 		var builder strings.Builder
 		for {
@@ -181,9 +186,9 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 
 		return builder.String(), nil
 	}
-	// 非流式
-	data, _ := io.ReadAll(resp.Body)
 
+	// 非流式处理
+	data, _ := io.ReadAll(resp.Body)
 	var result struct {
 		Choices []struct {
 			Message struct {
@@ -195,8 +200,10 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	if err := json.Unmarshal(data, &result); err != nil {
 		return "", fmt.Errorf("DeepSeek 解析 JSON 失败: %w", err)
 	}
+
 	if len(result.Choices) > 0 {
 		return result.Choices[0].Message.Content, nil
 	}
+
 	return "", fmt.Errorf("DeepSeek 返回内容为空")
 }
