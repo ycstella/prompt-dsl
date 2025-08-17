@@ -124,14 +124,14 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	}
 
 	bodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("POST", c.deepseekURL+"/chat/completions", bytes.NewReader(bodyBytes))
+	req, err := http.NewRequest("POST", c.model.BaseURL+"/chat/completions", bytes.NewReader(bodyBytes))
 	if err != nil {
 		return "", fmt.Errorf("创建 DeepSeek 请求失败: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+c.model.ApiKey)
 
-	fmt.Println("请求 URL:", c.deepseekURL+"/chat/completions")
+	// fmt.Println("请求 URL:", c.deepseekURL+"/chat/completions")
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
