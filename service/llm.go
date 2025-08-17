@@ -137,7 +137,7 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 
 	// fmt.Println("请求 URL:", c.deepseekURL+"/chat/completions")
 
-	resp, err := c.httpClient.Do(req)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("DeepSeek 请求失败: %w", err)
 	}
