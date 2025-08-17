@@ -98,9 +98,9 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	pkgs := inferImportsFromCode(allCode)
 	//main
 
-	requiredPkgs := []string{"os","log", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen", "github.com/along416/promptDSL/config","encoding/json"}
+	requiredPkgs := []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen", "github.com/along416/promptDSL/config", "encoding/json"}
 	if len(root.FixCode) == 0 || len(root.AfterCode) == 0 {
-		requiredPkgs = []string{"os","log", "fmt", "github.com/along416/promptDSL/service", "strings", "github.com/along416/promptDSL/config","encoding/json"}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "strings", "github.com/along416/promptDSL/config", "encoding/json"}
 	}
 	for _, req := range requiredPkgs {
 		has := false
@@ -241,7 +241,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 	b.WriteString("    return nil\n}\n")
 
 	// 写 主调用 函数
-	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext,modelname string)  (" + outputTypeStr + ",error) {\n")
+	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext,modelname string, stream bool)  (" + outputTypeStr + ",error) {\n")
 	b.WriteString("    fmt.Fprintln(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
 	b.WriteString("    var err error\n")
 	b.WriteString("    err=prompt.ValidateInput(input)\n")
@@ -262,31 +262,41 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 
 	b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
 	b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
-	b.WriteString("    result, err := llm.GeneratePromptResponse(sys, user)\n")
-	b.WriteString("    if err != nil {\n")
-	b.WriteString("        fmt.Fprintf(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")
-	b.WriteString("        os.Exit(1)\n")
-	b.WriteString("    }\n")
+	b.WriteString("    if stream == \"true\" {\n")
+	b.WriteString("        // 流式模式，直接输出，不做 JSON 解析\n")
+	b.WriteString("        _, err := llm.GeneratePromptResponse(sys, user, true)\n")
+	b.WriteString("        if err != nil {\n")
+	b.WriteString("            fmt.Fprintf(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")
+	b.WriteString("            os.Exit(1)\n")
+	b.WriteString("        }\n")
+	b.WriteString("        return nil, nil\n")
+	b.WriteString("    } else {\n")
+	b.WriteString("        // 非流式模式，拿完整结果再处理\n")
+	b.WriteString("        result, err := llm.GeneratePromptResponse(sys, user, false)\n")
+	b.WriteString("        if err != nil {\n")
+	b.WriteString("            fmt.Fprintf(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")
+	b.WriteString("            os.Exit(1)\n")
+	b.WriteString("        }\n")
 
 	if len(root.OutFields) > 0 {
-		b.WriteString("    " + outname + ", err := prompt.FixProcess(result)\n")
-		b.WriteString("    if err != nil {\n")
-		b.WriteString("        fmt.Fprintf(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
-		b.WriteString("        os.Exit(1)\n")
-		b.WriteString("    }\n")
-		b.WriteString("    final := prompt.AfterProcess(" + outname + ")\n")
-		b.WriteString("    encoded, err := json.Marshal(final)\n")
-		b.WriteString("    if err != nil {\n")
-		b.WriteString("        fmt.Fprintf(os.Stderr, \"输出编码失败: %v\\n\", err)\n")
-		b.WriteString("        os.Exit(1)\n")
-		b.WriteString("    }\n")
-		b.WriteString("    fmt.Println(string(encoded))\n")
-		b.WriteString("    return final,err\n")
+		b.WriteString("        " + outname + ", err := prompt.FixProcess(result)\n")
+		b.WriteString("        if err != nil {\n")
+		b.WriteString("            fmt.Fprintf(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
+		b.WriteString("            os.Exit(1)\n")
+		b.WriteString("        }\n")
+		b.WriteString("        final := prompt.AfterProcess(" + outname + ")\n")
+		b.WriteString("        encoded, err := json.Marshal(final)\n")
+		b.WriteString("        if err != nil {\n")
+		b.WriteString("            fmt.Fprintf(os.Stderr, \"输出编码失败: %v\\n\", err)\n")
+		b.WriteString("            os.Exit(1)\n")
+		b.WriteString("        }\n")
+		b.WriteString("        fmt.Println(string(encoded))\n")
+		b.WriteString("        return final, err\n")
 	} else {
-		b.WriteString("    return []string{result},err\n")
+		b.WriteString("        return []string{result}, err\n")
 	}
 
-	b.WriteString("}\n")
+	b.WriteString("    }\n")
 
 	//写入main函数
 	b.WriteString("\nfunc main(){\n")
@@ -316,8 +326,13 @@ func writeMain(b *strings.Builder, filename string) {
 	b.WriteString("        log.Fatalf(\"解析输入JSON失败: %v\", err)\n")
 	b.WriteString("    }\n\n")
 	b.WriteString("    modelname:=os.Args[3]\n")
+	b.WriteString("    stream:=config.Cfg.stream\n")
+	b.WriteString("    if len(os.Args) > 4 {\n")
+	b.WriteString("        stream = os.Args[4]\n")
+	b.WriteString("    }\n")
+
 	b.WriteString("    // 调用主处理函数\n")
-	b.WriteString("    result, err := prompt." + filename + "(prompt.Input, modelname)\n")
+	b.WriteString("    result, err := prompt." + filename + "(prompt.Input, modelname,stream)\n")
 	b.WriteString("    if err != nil {\n")
 	b.WriteString("        log.Fatalf(\"处理失败: %v\", err)\n")
 	b.WriteString("    }\n\n")

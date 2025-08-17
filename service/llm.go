@@ -1,150 +1,198 @@
 package service
 
 import (
+	"bufio"
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
-	"regexp"
 	"strings"
+	"time"
 
 	"github.com/along416/promptDSL/config"
 	openai "github.com/sashabaranov/go-openai"
 )
 
-// LLMClient 封装了 OpenAI 客户端
-type LLMClient struct {
-	client *openai.Client
-	model  config.ModelConfig
+// LLMClientInterface 统一接口
+type LLMClientInterface interface {
+	GeneratePromptResponse(systemPrompt, userPrompt string, stream bool) (string, error)
 }
 
-// NewLLMClient 创建 LLMClient 实例，传入 API Key
+// LLMClient 封装大模型客户端
+type LLMClient struct {
+	model       config.ModelConfig
+	openaiCli   *openai.Client
+	deepseekURL string
+	httpClient  *http.Client
+}
+
+// NewLLMClient 创建客户端
 func NewLLMClient(model config.ModelConfig) *LLMClient {
-	cfg := openai.DefaultConfig(model.ApiKey)
-	cfg.BaseURL = model.BaseURL
-	proxy:=model.Proxy
-	// 如果有 proxy 设置，则配置 HTTPClient
-	if proxy != "" {
-		proxyURL, err := url.Parse(proxy)
+	httpClient := &http.Client{Timeout: 60 * time.Second}
+
+	if model.Proxy != "" {
+		proxyURL, err := url.Parse(model.Proxy)
 		if err != nil {
 			log.Fatalf("❌ 无效的代理 URL: %v", err)
 		}
-		cfg.HTTPClient = &http.Client{
-			Transport: &http.Transport{
-				Proxy: http.ProxyURL(proxyURL),
-			},
-		}
+		httpClient.Transport = &http.Transport{Proxy: http.ProxyURL(proxyURL)}
 	}
 
-	return &LLMClient{
-		client:   openai.NewClientWithConfig(cfg),
-		model:    model,
+	client := &LLMClient{
+		model:      model,
+		httpClient: httpClient,
 	}
+
+	// OpenAI/Gemini 客户端
+	if !strings.HasPrefix(strings.ToLower(model.Model), "deepseek") {
+		cfg := openai.DefaultConfig(model.ApiKey)
+		cfg.BaseURL = model.BaseURL
+		cfg.HTTPClient = httpClient
+		client.openaiCli = openai.NewClientWithConfig(cfg)
+	} else {
+		client.deepseekURL = model.BaseURL // DeepSeek API URL
+	}
+
+	return client
 }
 
-// GeneratePromptResponse 使用 GPT-3.5 Turbo 生成对话回复
-func (c *LLMClient) GeneratePromptResponse(systemPrompt, userPrompt string) (string, error) {
-	// fmt.Println("GeneratePromptResponse:")
-	// Gemini 特殊处理
-	if strings.HasPrefix(strings.ToLower(c.model.Model), "gemini") {
-		return c.generateGeminiResponse(systemPrompt, userPrompt)
+// GeneratePromptResponse 统一生成函数
+func (c *LLMClient) GeneratePromptResponse(systemPrompt, userPrompt string, stream bool) (string, error) {
+	if strings.HasPrefix(strings.ToLower(c.model.Model), "deepseek") {
+		return c.generateDeepSeek(systemPrompt, userPrompt, stream)
 	}
+	return c.generateOpenAI(systemPrompt, userPrompt, stream)
+}
+
+// ---- OpenAI / Gemini 调用 ----
+func (c *LLMClient) generateOpenAI(systemPrompt, userPrompt string, stream bool) (string, error) {
 	req := openai.ChatCompletionRequest{
 		Model: c.model.Model,
 		Messages: []openai.ChatCompletionMessage{
-			{
-				Role:    openai.ChatMessageRoleSystem,
-				Content: systemPrompt,
-			},
-			{
-				Role:    openai.ChatMessageRoleUser,
-				Content: userPrompt,
-			},
+			{Role: openai.ChatMessageRoleSystem, Content: systemPrompt},
+			{Role: openai.ChatMessageRoleUser, Content: userPrompt},
 		},
-	}
-	fmt.Println("发送给模型的内容:", req.Messages)
-	resp, err := c.client.CreateChatCompletion(context.Background(), req)
-	fmt.Println("AI thingking...")
-	// fmt.Println("GeneratePromptResponse:",resp)
-	if err != nil {
-		return "", fmt.Errorf("调用 OpenAI 失败: %w", err)
+		Temperature: float32(c.model.Temperature),
 	}
 
+	if stream {
+		streamer, err := c.openaiCli.CreateChatCompletionStream(context.Background(), req)
+		if err != nil {
+			return "", fmt.Errorf("OpenAI stream 请求失败: %w", err)
+		}
+		defer streamer.Close()
+
+		var builder strings.Builder
+		for {
+			resp, err := streamer.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				return "", fmt.Errorf("OpenAI stream 接收失败: %w", err)
+			}
+			builder.WriteString(resp.Choices[0].Delta.Content)
+		}
+		return builder.String(), nil
+	}
+
+	resp, err := c.openaiCli.CreateChatCompletion(context.Background(), req)
+	if err != nil {
+		return "", fmt.Errorf("OpenAI 请求失败: %w", err)
+	}
 	if len(resp.Choices) == 0 {
 		return "", fmt.Errorf("OpenAI 返回空响应")
 	}
-
-	content := strings.TrimSpace(resp.Choices[0].Message.Content)
-	if content == "" {
-		return "", fmt.Errorf("OpenAI 返回空字符串")
-	}
-	log.Println("OpenAI 输出:", content)
-	jsonPart := extractJSONArray(content)
-
-	if jsonPart == "" {
-		return "", fmt.Errorf("未能从模型响应中提取 JSON 数组")
-	}
-	return jsonPart, nil
+	return strings.TrimSpace(resp.Choices[0].Message.Content), nil
 }
 
-
-// generateGeminiResponse 专门处理 Gemini 调用
-func (c *LLMClient) generateGeminiResponse(systemPrompt, userPrompt string) (string, error) {
-	key := c.model.ApiKey
-	if key == "" {
-		return "", fmt.Errorf("❌ Gemini API Key 未设置")
+// ---- DeepSeek 调用 ----
+func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream bool) (string, error) {
+	reqBody := map[string]interface{}{
+		"model": "deepseek-chat",
+		"messages": []map[string]string{
+			{"role": "system", "content": systemPrompt},
+			{"role": "user", "content": userPrompt},
+		},
+		"temperature": c.model.Temperature,
+		"stream":      stream,
 	}
 
-	// 使用代理
-	httpClient := &http.Client{}
-	if c.model.Proxy != "" {
-		proxyURL, _ := url.Parse(c.model.Proxy)
-		httpClient = &http.Client{
-			Transport: &http.Transport{
-				Proxy: http.ProxyURL(proxyURL),
-			},
-		}
-	}
+	bodyBytes, _ := json.Marshal(reqBody)
+	req, _ := http.NewRequest("POST", c.deepseekURL, strings.NewReader(string(bodyBytes)))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+c.model.ApiKey)
 
-	cfg := openai.DefaultConfig(key)
-	cfg.BaseURL = c.model.BaseURL
-	cfg.HTTPClient = httpClient
-	client := openai.NewClientWithConfig(cfg)
-
-	messages := []openai.ChatCompletionMessage{
-		{Role: openai.ChatMessageRoleSystem, Content: systemPrompt},
-		{Role: openai.ChatMessageRoleUser, Content: userPrompt},
-	}
-
-	resp, err := client.CreateChatCompletion(context.Background(), openai.ChatCompletionRequest{
-		Model:    c.model.Model,
-		Messages: messages,
-	})
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("❌ Gemini API 请求失败: %w", err)
+		return "", fmt.Errorf("DeepSeek 请求失败: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		data, _ := io.ReadAll(resp.Body)
+		return "", fmt.Errorf("DeepSeek 返回错误: %s", string(data))
 	}
 
-	if len(resp.Choices) == 0 {
-		return "", fmt.Errorf("Gemini 返回空响应")
+	if stream {
+		reader := bufio.NewReader(resp.Body)
+		var builder strings.Builder
+		for {
+			line, err := reader.ReadBytes('\n')
+			if err != nil {
+				if err == io.EOF {
+					break
+				}
+				return "", fmt.Errorf("DeepSeek stream 读取失败: %w", err)
+			}
+
+			if !bytes.HasPrefix(line, []byte("data: ")) {
+				continue
+			}
+
+			chunk := bytes.TrimPrefix(line, []byte("data: "))
+			if bytes.Equal(chunk, []byte("[DONE]\n")) {
+				break
+			}
+
+			var parsed struct {
+				Choices []struct {
+					Delta struct {
+						Content string `json:"content,omitempty"`
+					} `json:"delta"`
+				} `json:"choices"`
+			}
+
+			if err := json.Unmarshal(chunk, &parsed); err != nil {
+				continue
+			}
+			if len(parsed.Choices) > 0 {
+				builder.WriteString(parsed.Choices[0].Delta.Content)
+			}
+		}
+
+		return builder.String(), nil
+	}
+	// 非流式
+	data, _ := io.ReadAll(resp.Body)
+
+	var result struct {
+		Choices []struct {
+			Message struct {
+				Content string `json:"content"`
+			} `json:"message"`
+		} `json:"choices"`
 	}
 
-	content := strings.TrimSpace(resp.Choices[0].Message.Content)
-	log.Println("Gemini 输出:", content)
-	jsonPart := extractJSONArray(content)
-	if jsonPart == "" {
-		return "", fmt.Errorf("未能从 Gemini 响应中提取 JSON 数组")
+	if err := json.Unmarshal(data, &result); err != nil {
+		return "", fmt.Errorf("DeepSeek 解析 JSON 失败: %w", err)
 	}
-	return jsonPart, nil
-}
-
-
-// 提取 JSON 数组
-func extractJSONArray(text string) string {
-	re := regexp.MustCompile("(?s)```(json|markdown)\\s*(\\{.*?\\}|\\[.*?\\])\\s*```")
-	matches := re.FindStringSubmatch(text)
-	if len(matches) > 1 {
-		return matches[2] // 第一个子匹配是数组
+	if len(result.Choices) > 0 {
+		return result.Choices[0].Message.Content, nil
 	}
-	return ""
+	return "", fmt.Errorf("DeepSeek 返回内容为空")
 }

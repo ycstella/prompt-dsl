@@ -19,27 +19,28 @@ type LogConfig struct {
 }
 
 type ModelConfig struct {
-	Provider    string
-	ApiKey      string `mapstructure:"api_key"`
-	BaseURL     string `mapstructure:"base_url"`
-	Model       string
-	Temperature float64
-	MaxTokens   int `mapstructure:"max_tokens"`
-	MaxConcurrency int 
-	Proxy string 
+	Provider       string
+	ApiKey         string `mapstructure:"api_key"`
+	BaseURL        string `mapstructure:"base_url"`
+	Model          string
+	Temperature    float64
+	MaxTokens      int `mapstructure:"max_tokens"`
+	MaxConcurrency int
+	Proxy          string
+	Stream         bool
 }
 
 type Config struct {
 	Server ServerConfig
 	Log    LogConfig
-	Models  []ModelConfig
+	Models []ModelConfig
 }
 
 var Cfg Config
 
 func InitConfig(configpath string) {
-	viper.SetConfigName("default")//名
-	viper.SetConfigType("yaml")//类型
+	viper.SetConfigName("default")  //名
+	viper.SetConfigType("yaml")     //类型
 	viper.AddConfigPath(configpath) //
 
 	err := viper.ReadInConfig()
@@ -69,10 +70,10 @@ func InitLogger() {
 	}
 }
 func GetModelConfig(name string) *ModelConfig {
-    for _, m := range Cfg.Models {
-        if m.Model == name {
-            return &m
-        }
-    }
-    return nil
+	for _, m := range Cfg.Models {
+		if m.Model == name {
+			return &m
+		}
+	}
+	return nil
 }
