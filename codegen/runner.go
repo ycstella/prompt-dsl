@@ -90,7 +90,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 		fmt.Println("go.mod已存在，跳过初始化")
 	}
 	// 获取指定依赖
-	getCmd := exec.Command("go", "get", "go get github.com/along416/promptDSL@latest")
+	getCmd := exec.Command("go", "get", "go get github.com/along416/promptDSL@v0.1.8")
 	getCmd.Dir = genDir
 	if getOutput, err := getCmd.CombinedOutput(); err != nil {
 		fmt.Printf("go get 输出: %s\n", getOutput)
