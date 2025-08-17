@@ -32,7 +32,11 @@ type LLMClient struct {
 
 // NewLLMClient 创建客户端
 func NewLLMClient(model config.ModelConfig) *LLMClient {
-	httpClient := &http.Client{Timeout: 60 * time.Second}
+	t:=60*time.Second
+	if model.Model=="deepssek-r1"{
+		t=0*time.Second
+	}
+	httpClient := &http.Client{Timeout: t}
 
 	if model.Proxy != "" {
 		proxyURL, err := url.Parse(model.Proxy)
