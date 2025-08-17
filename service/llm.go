@@ -156,6 +156,7 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 		var builder strings.Builder
 		for {
 			line, err := reader.ReadBytes('\n')
+			fmt.Println(string(line))
 			if err != nil {
 				if err == io.EOF {
 					break
