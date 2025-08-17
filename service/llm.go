@@ -113,7 +113,7 @@ func (c *LLMClient) generateOpenAI(systemPrompt, userPrompt string, stream bool)
 // ---- DeepSeek 调用 ----
 func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream bool) (string, error) {
 	reqBody := map[string]interface{}{
-		"model": "deepseek-chat",
+		"model": c.model.Model,
 		"messages": []map[string]string{
 			{"role": "system", "content": systemPrompt},
 			{"role": "user", "content": userPrompt},
@@ -135,6 +135,8 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 
 	if resp.StatusCode != 200 {
 		data, _ := io.ReadAll(resp.Body)
+		fmt.Println("HTTP 状态码:", resp.StatusCode)
+		fmt.Println("返回内容:", string(data))
 		return "", fmt.Errorf("DeepSeek 返回错误: %s", string(data))
 	}
 

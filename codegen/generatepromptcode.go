@@ -262,6 +262,7 @@ func Generateprompthandle(root *PromptNode, pkgName string, eval *final, filenam
 
 	b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
 	b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
+
 	b.WriteString("    if stream == \"true\" {\n")
 	b.WriteString("        // 流式模式，直接输出，不做 JSON 解析\n")
 	b.WriteString("        _, err := llm.GeneratePromptResponse(sys, user, true)\n")
@@ -326,9 +327,11 @@ func writeMain(b *strings.Builder, filename string) {
 	b.WriteString("        log.Fatalf(\"解析输入JSON失败: %v\", err)\n")
 	b.WriteString("    }\n\n")
 	b.WriteString("    modelname:=os.Args[3]\n")
-	b.WriteString("    stream:=config.Cfg.stream\n")
+	b.WriteString("    stream := false\n")
 	b.WriteString("    if len(os.Args) > 4 {\n")
-	b.WriteString("        stream = os.Args[4]\n")
+	b.WriteString("        if os.Args[4] == \"true\" || os.Args[4] == \"1\" {\n")
+	b.WriteString("            stream = true\n")
+	b.WriteString("        }\n\n")
 	b.WriteString("    }\n")
 
 	b.WriteString("    // 调用主处理函数\n")
