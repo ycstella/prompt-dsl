@@ -26,6 +26,7 @@ type ModelConfig struct {
 	Temperature float64
 	MaxTokens   int `mapstructure:"max_tokens"`
 	MaxConcurrency int 
+	Proxy string 
 }
 
 type Config struct {
