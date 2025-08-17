@@ -124,7 +124,7 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	}
 
 	bodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("POST", c.model.BaseURL, bytes.NewReader(bodyBytes))
+	req, err := http.NewRequest("POST", c.model.BaseURL+"/chat/completions", bytes.NewReader(bodyBytes))
 	if err != nil {
 		return "", fmt.Errorf("创建 DeepSeek 请求失败: %w", err)
 	}
@@ -139,12 +139,12 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != 200 {
-		data, _ := io.ReadAll(resp.Body)
-		fmt.Println("HTTP 状态码:", resp.StatusCode)
-		fmt.Println("返回内容:", string(data))
-		return "", fmt.Errorf("DeepSeek 返回错误: %s", string(data))
-	}
+	// if resp.StatusCode != 200 {
+	// 	data, _ := io.ReadAll(resp.Body)
+	// 	fmt.Println("HTTP 状态码:", resp.StatusCode)
+	// 	fmt.Println("返回内容:", string(data))
+	// 	return "", fmt.Errorf("DeepSeek 返回错误: %s", string(data))
+	// }
 
 	if stream {
 		// 流式处理
