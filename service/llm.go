@@ -127,6 +127,8 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+c.model.ApiKey)
 
+	fmt.Println("请求 URL:", c.model.BaseURL+"/chat/completions")
+
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("DeepSeek 请求失败: %w", err)
