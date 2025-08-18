@@ -81,8 +81,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	cmdRun := exec.Command(exePath, os.Args[2], cwd)
-	
+	cmdRun := exec.Command(exePath, os.Args[2], cwd,os.Args[3])
+
 	cmdRun.Dir = outDir
 	cmdRun.Stdout = os.Stdout
 	cmdRun.Stderr = os.Stderr
