@@ -156,7 +156,7 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 		var builder strings.Builder
 		for {
 			line, err := reader.ReadBytes('\n')
-			fmt.Println(string(line))
+			// fmt.Println(string(line))
 			if err != nil {
 				if err == io.EOF {
 					break
@@ -185,10 +185,14 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 				continue
 			}
 			if len(parsed.Choices) > 0 {
-				builder.WriteString(parsed.Choices[0].Delta.Content)
+			text := parsed.Choices[0].Delta.Content
+			if text != "" {
+				// ✅ 实时打印
+				fmt.Print(text)
+				builder.WriteString(text)
 			}
 		}
-
+		fmt.Println()
 		return builder.String(), nil
 	}
 
