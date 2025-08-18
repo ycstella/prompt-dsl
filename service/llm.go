@@ -156,7 +156,6 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 		var builder strings.Builder
 		for {
 			line, err := reader.ReadBytes('\n')
-			// fmt.Println(string(line))
 			if err != nil {
 				if err == io.EOF {
 					break
@@ -176,7 +175,8 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 			var parsed struct {
 				Choices []struct {
 					Delta struct {
-						Content string `json:"content,omitempty"`
+						Content          string `json:"content,omitempty"`
+						ReasoningContent string `json:"reasoning_content,omitempty"`
 					} `json:"delta"`
 				} `json:"choices"`
 			}
@@ -185,18 +185,25 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 				continue
 			}
 			if len(parsed.Choices) > 0 {
-				text := parsed.Choices[0].Delta.Content
+				delta := parsed.Choices[0].Delta
+				text := ""
+				if delta.Content != "" {
+					text = delta.Content
+				} else if delta.ReasoningContent != "" {
+					// ⚠️ 如果你不想看到中间 reasoning 内容，可以注释掉
+					// text = delta.ReasoningContent
+				}
+
 				if text != "" {
-					// ✅ 实时打印
-					fmt.Print(text)
+					fmt.Print(text) // ✅ 实时打印
 					builder.WriteString(text)
 				}
 			}
-
 		}
 		fmt.Println()
 		return builder.String(), nil
 	}
+
 	// 非流式处理
 	data, _ := io.ReadAll(resp.Body)
 	var result struct {
