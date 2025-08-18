@@ -64,7 +64,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 	}
 
 	outputFile := genDir + "/main.go"
-	err = installGoImports(rootNode.Goimport, "generated_code")
+	err = installGoImports(rootNode.Goimport, filename)
 	if err != nil {
 		log.Fatalf("安装依赖失败: %v", err)
 	}
@@ -74,15 +74,13 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 		os.Exit(1)
 	}
 
-	os.Setenv("GOPROXY", "direct")
-	os.Setenv("GOSUMDB", "off")
+	os.Setenv("GOPROXY", "https://goproxy.cn,direct")
 
 	// 检查go.mod文件是否存在，不存在才初始化
-	// 假设 genDir 是你创建 go.mod 的目录
 	goModPath := filepath.Join(genDir, "go.mod")
 	if _, err := os.Stat(goModPath); os.IsNotExist(err) {
 		// 使用合法 module 名
-		modInitCmd := exec.Command("go", "mod", "init", "generated_code")
+		modInitCmd := exec.Command("go", "mod", "init", filename)
 		modInitCmd.Dir = genDir
 		if output, err := modInitCmd.CombinedOutput(); err != nil {
 			fmt.Printf("go mod init 输出: %s\n", output)
@@ -97,7 +95,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 
 	// 在 go.mod 所在目录执行 go get
 	getCmd := exec.Command("go", "get", "github.com/along416/promptDSL@v0.1.13")
-	getCmd.Dir = filepath.Dir(goModPath) // 指向 go.mod 所在目录
+	getCmd.Dir = filepath.Dir(goModPath)
 	log.Println("目录：", getCmd.Dir)
 	if output, err := getCmd.CombinedOutput(); err != nil {
 		fmt.Printf("go get 输出: %s\n", output)
@@ -106,7 +104,7 @@ func RunPromptDSL(input string, filename string) (*final, error) {
 
 	// 在 go.mod 所在目录执行 go mod tidy
 	tidyCmd := exec.Command("go", "mod", "tidy")
-	tidyCmd.Dir = filepath.Dir(goModPath) // 指向 go.mod 所在目录
+	tidyCmd.Dir = filepath.Dir(goModPath)
 	if output, err := tidyCmd.CombinedOutput(); err != nil {
 		fmt.Printf("go mod tidy 输出: %s\n", output)
 		log.Fatalf("go mod tidy 失败: %v", err)
