@@ -59,7 +59,7 @@ func InitLogger() {
 	logPath := Cfg.Log.File
 	logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatalf("无法打开日志文件: %v", err)
+		log.Println("无法打开日志文件: %v", err)
 	}
 
 	log.SetOutput(logFile)

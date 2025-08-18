@@ -66,8 +66,13 @@ func main() {
 	exeName := nameWithoutExt + ".exe"
 	cmd := exec.Command("go", "build", "-o", exeName, ".")
 	cmd.Dir = outDir
-
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("config根目录:",filepath.Join(cwd, os.Args[3]))
 	output, err := cmd.CombinedOutput()
+
 	if err != nil {
 		fmt.Println(string(output))
 		log.Fatalf("执行 go build 失败: %v", err)
@@ -76,13 +81,10 @@ func main() {
 	fmt.Println("Go 程序编译完成，生成了", exeName)
 
 	exePath := filepath.Join(outDir, exeName)
-
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
-	}
-	cmdRun := exec.Command(exePath, os.Args[2], cwd,os.Args[3])
-
+	log.Printf("input路径%v",filepath.Join(cwd, os.Args[3]))
+	log.Printf("根目录路径%v",cwd)
+	cmdRun := exec.Command(filepath.Join(cwd,exePath), os.Args[2], cwd,filepath.Join(cwd, os.Args[3]))
+	
 	cmdRun.Dir = outDir
 	cmdRun.Stdout = os.Stdout
 	cmdRun.Stderr = os.Stderr
