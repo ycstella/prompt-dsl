@@ -241,7 +241,7 @@ func GeneratepromptCode(root *PromptNode, pkgName string, eval *final, filename 
 	b.WriteString("    return nil\n}\n")
 
 	// 写 主调用 函数
-	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext,modelname string, stream bool)  (" + outputTypeStr + ",error) {\n")
+	b.WriteString("\nfunc (prompt *" + filename + ")" + filename + "(input " + filename + "InputContext,modelname string)  (" + outputTypeStr + ",error) {\n")
 	b.WriteString("    fmt.Fprintln(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
 	b.WriteString("    var err error\n")
 	b.WriteString("    err=prompt.ValidateInput(input)\n")
@@ -263,7 +263,7 @@ func GeneratepromptCode(root *PromptNode, pkgName string, eval *final, filename 
 	b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
 	b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
 
-	b.WriteString("    if stream  {\n")
+	b.WriteString("    if modelConfig.Stream  {\n")
 	b.WriteString("        // 流式模式，直接输出，不做 JSON 解析\n")
 	b.WriteString("        _, err := llm.GeneratePromptResponse(sys, user, true)\n")
 	b.WriteString("        if err != nil {\n")
@@ -327,15 +327,8 @@ func writeMain(b *strings.Builder, filename string) {
 	b.WriteString("        log.Fatalf(\"解析输入JSON失败: %v\", err)\n")
 	b.WriteString("    }\n\n")
 	b.WriteString("    modelname:=os.Args[3]\n")
-	b.WriteString("    stream := false\n")
-	b.WriteString("    if len(os.Args) > 4 {\n")
-	b.WriteString("        if os.Args[4] == \"true\" || os.Args[4] == \"1\" {\n")
-	b.WriteString("            stream = true\n")
-	b.WriteString("        }\n\n")
-	b.WriteString("    }\n")
-
 	b.WriteString("    // 调用主处理函数\n")
-	b.WriteString("    result, err := prompt." + filename + "(prompt.Input, modelname,stream)\n")
+	b.WriteString("    result, err := prompt." + filename + "(prompt.Input, modelname)\n")
 	b.WriteString("    if err != nil {\n")
 	b.WriteString("        log.Fatalf(\"处理失败: %v\", err)\n")
 	b.WriteString("    }\n\n")
