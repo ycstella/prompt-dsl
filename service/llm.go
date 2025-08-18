@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 	"time"
 
@@ -111,7 +112,13 @@ func (c *LLMClient) generateOpenAI(systemPrompt, userPrompt string, stream bool)
 	if len(resp.Choices) == 0 {
 		return "", fmt.Errorf("OpenAI 返回空响应")
 	}
-	return strings.TrimSpace(resp.Choices[0].Message.Content), nil
+	jsonPart := extractJSONArray(strings.TrimSpace(resp.Choices[0].Message.Content))
+
+	if jsonPart == "" {
+		return "", fmt.Errorf("未能从模型响应中提取 JSON 数组")
+	}
+	return jsonPart, nil
+	// return strings.TrimSpace(resp.Choices[0].Message.Content), nil
 }
 
 // ---- DeepSeek 调用 ----
@@ -223,4 +230,12 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 	}
 
 	return "", fmt.Errorf("DeepSeek 返回内容为空")
+}
+func extractJSONArray(text string) string {
+	re := regexp.MustCompile("(?s)```(json|markdown)\\s*(\\{.*?\\}|\\[.*?\\])\\s*```")
+	matches := re.FindStringSubmatch(text)
+	if len(matches) > 1 {
+		return matches[2] // 第一个子匹配是数组
+	}
+	return ""
 }
