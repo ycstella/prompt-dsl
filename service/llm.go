@@ -32,9 +32,9 @@ type LLMClient struct {
 
 // NewLLMClient 创建客户端
 func NewLLMClient(model config.ModelConfig) *LLMClient {
-	t:=60*time.Second
-	if model.Model=="deepssek-r1"{
-		t=0*time.Second
+	t := 60 * time.Second
+	if model.Model == "deepssek-r1" {
+		t = 0 * time.Second
 	}
 	httpClient := &http.Client{Timeout: t}
 
@@ -185,17 +185,18 @@ func (c *LLMClient) generateDeepSeek(systemPrompt, userPrompt string, stream boo
 				continue
 			}
 			if len(parsed.Choices) > 0 {
-			text := parsed.Choices[0].Delta.Content
-			if text != "" {
-				// ✅ 实时打印
-				fmt.Print(text)
-				builder.WriteString(text)
+				text := parsed.Choices[0].Delta.Content
+				if text != "" {
+					// ✅ 实时打印
+					fmt.Print(text)
+					builder.WriteString(text)
+				}
 			}
+
 		}
 		fmt.Println()
 		return builder.String(), nil
 	}
-
 	// 非流式处理
 	data, _ := io.ReadAll(resp.Body)
 	var result struct {
