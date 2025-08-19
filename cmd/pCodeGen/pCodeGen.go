@@ -55,12 +55,13 @@ func main() {
 	}
 
 	// 生成 Prompt
-	prompt, err := codegen.RunPromptDSL(string(content), nameWithoutExt)
+	ptc:= codegen.NewPromptToGenCode(string(content), nameWithoutExt)
+	err=ptc.PromptToGenCode()
 	if err != nil {
-		log.Fatalf("RunPromptDSL error: %v", err)
+		log.Fatalf("PromptToGenCode error: %v", err)
 	}
 
-	log.Println("生成的 Prompt:\n", prompt)
+	// log.Println("生成的 Prompt:\n", prompt)
 
 	// 编译生成 exe
 	exeName := nameWithoutExt + ".exe"
