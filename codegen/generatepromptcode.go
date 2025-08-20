@@ -128,9 +128,9 @@ func (c *CodeBuilder) buildImport() error {
 	pkgs := inferImportsFromCode(allCode)
 	//main
 
-	requiredPkgs := []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen", "github.com/along416/promptDSL/config", "encoding/json"}
+	requiredPkgs := []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen", "github.com/along416/promptDSL/config", "encoding/json","path/filepath"}
 	if len(c.promptNode.FixCode) == 0 || len(c.promptNode.AfterCode) == 0 {
-		requiredPkgs = []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "strings", "github.com/along416/promptDSL/config", "encoding/json"}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "strings", "github.com/along416/promptDSL/config", "encoding/json","path/filepath"}
 	}
 	for _, req := range requiredPkgs {
 		has := false
@@ -285,7 +285,7 @@ func (c *CodeBuilder) writeFix() error {
 func (c *CodeBuilder) buildIsValid() error {
 	c.b.WriteString(fmt.Sprintf("func (prompt *" + c.fileName + ")ValidateInput(input " + c.fileName + "InputContext) (error){\n"))
 	// fmt.Println("derived:👀")
-	for _, f := range c.promptNode.InFields{
+	for _, f := range c.promptNode.InFields {
 		// 如果包含 "derived" 注解，则跳过校验
 		skip := false
 		for _, ann := range f.Annotations {
@@ -324,7 +324,6 @@ func (c *CodeBuilder) buildIsValid() error {
 
 func (c *CodeBuilder) buildExecutePipeline() error {
 	c.b.WriteString("\nfunc (prompt *" + c.fileName + ")" + c.fileName + "(input " + c.fileName + "InputContext,modelname string)  (" + c.outputTypeStr + ",error) {\n")
-	c.b.WriteString("    log.Println(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
 	c.b.WriteString("    var err error\n")
 	c.b.WriteString("    err=prompt.ValidateInput(input)\n")
 	c.b.WriteString("    if err!=nil {\n")
@@ -389,8 +388,10 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.b.WriteString("    if len(os.Args) < 3 {\n")
 	c.b.WriteString("        log.Fatal(\"请提供输入文件路径和配置路径作为参数\")\n")
 	c.b.WriteString("    }\n")
-	c.b.WriteString("    log.Println(\"config目录\", os.Args[2])\n")
-	c.b.WriteString("    log.Println(\"input路径\", os.Args[3])\n")
+
+	c.b.WriteString("    log.Println(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
+	// c.b.WriteString("    log.Println(\"config目录\", os.Args[2])\n")
+	// c.b.WriteString("    log.Println(\"input路径\", os.Args[3])\n")
 	c.b.WriteString("    config.InitConfig(os.Args[2])\n")
 	c.b.WriteString("    config.InitLogger()\n\n")
 	c.b.WriteString("    // 读取输入文件\n")
@@ -407,18 +408,24 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.b.WriteString("    }\n\n")
 	c.b.WriteString("    modelname:=os.Args[1]\n")
 	c.b.WriteString("    // 调用主处理函数\n")
-	c.b.WriteString("    result, err := prompt." +c.fileName + "(prompt.Input, modelname)\n")
+	c.b.WriteString("    result, err := prompt." + c.fileName + "(prompt.Input, modelname)\n")
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"处理失败: %v\", err)\n")
 	c.b.WriteString("    }\n\n")
 	c.b.WriteString("    // 输出结果\n")
 	c.b.WriteString("    log.Println(\"处理结果:\", result)\n")
 	c.b.WriteString("    // 将结果写入output.json文件\n")
+	c.b.WriteString("    exePath, err := os.Executable()\n")
+	c.b.WriteString("    if err != nil {\n")
+	c.b.WriteString("     	log.Fatalf(\"获取可执行文件路径失败: %v\", err)\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    exeDir := filepath.Dir(exePath)\n")
+	c.b.WriteString("    outputPath := filepath.Join(exeDir, \"output.json\")\n")
 	c.b.WriteString("    output, err := json.MarshalIndent(result, \"\", \"  \")\n")
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"结果序列化失败: %v\", err)\n")
 	c.b.WriteString("    }\n")
-	c.b.WriteString("    err = os.WriteFile(\"output.json\", output, 0644)\n")
+	c.b.WriteString("    err = os.WriteFile(outputPath, output, 0644)\n")
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"写入输出文件失败: %v\", err)\n")
 	c.b.WriteString("    }\n")
@@ -466,8 +473,6 @@ func (c *CodeBuilder) combineSingleCode() error {
 	return nil
 }
 
-
-
 func Generatworkflow(pkgName string) string {
 	var b strings.Builder
 
@@ -487,4 +492,3 @@ func Generatworkflow(pkgName string) string {
 	b.WriteString("}\n")
 	return b.String()
 }
-

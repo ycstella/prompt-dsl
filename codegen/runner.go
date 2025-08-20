@@ -10,6 +10,7 @@ import (
 
 	// "service"
 	"github.com/along416/promptDSL/codegen/parser"
+	"github.com/along416/promptDSL/config"
 	// "strings"
 
 	"github.com/antlr4-go/antlr/v4"
@@ -35,7 +36,7 @@ func NewPromptToGenCode(input, filename string) *promptToGenCode {
 	}
 }
 func (ptc *promptToGenCode) parsePrompt() error {
-	InitLog("llm.log")
+    config.InitLogger()
 	// 1. 解析输入 DSL 文本，生成 Parse Tree
 	ptc.inputStream = antlr.NewInputStream(ptc.input)
 	lexer := parser.NewPromptDSLLexer(ptc.inputStream)
@@ -57,7 +58,7 @@ func (ptc *promptToGenCode) astToNode() error {
 	fmt.Printf("📦 BeforeNodes: %+v\n", ptc.promptNode.BeforeCode)
 	return nil
 }
-
+//准备use&sys的构造代码
 func (ptc *promptToGenCode) buildPGCxtAndToCode() error {
 	str := &PromptGenContext{
 		InFields:    ptc.promptNode.InFields,
