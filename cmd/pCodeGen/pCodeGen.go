@@ -18,6 +18,7 @@ type PCodeGen struct {
 	pdslFile       string
 	outDir         string
 	nameWithoutExt string
+	srcDir string
 }
 
 func NewPCodeGen(pdsl string) *PCodeGen {
@@ -74,14 +75,16 @@ func (p *PCodeGen) parserAndGen() error {
 	return nil
 }
 func (p *PCodeGen) tempparserAndGen() error {
-	// 读取 pdsl 文件
+	p.srcDir = filepath.Dir(p.pdslFile)
 	content, err := os.ReadFile(p.pdslFile)
 	if err != nil {
 		log.Fatalf("读取 pdsl 文件失败: %v", err)
 	}
-
+	filename := filepath.Base(p.pdslFile)
+	p.nameWithoutExt = strings.TrimSuffix(filename, ".pdsl")
 	// 生成 Prompt
 	ptc := codegen.NewPromptToGenCode(string(content), p.nameWithoutExt)
+	ptc.GenDirSet(p.srcDir)
 	err = ptc.TempGoGen()
 	if err != nil {
 		log.Fatalf("PromptToGenCode error: %v", err)
@@ -91,14 +94,9 @@ func (p *PCodeGen) tempparserAndGen() error {
 func (p *PCodeGen) copyGoFiles() error {
 	//将pdslFile 同目录下的.go文件复制一份放到生成的.exe文件同目录下
 	srcDir := filepath.Dir(p.pdslFile)
-	files, err := filepath.Glob(filepath.Join(srcDir, "*.go"))
-	if err != nil {
-
-		log.Fatalf("查找 .go 文件失败: %v", err)
-	}
-
-	for _, srcFile := range files {
-		dstFile := filepath.Join(p.outDir, filepath.Base(srcFile)) // 保持原始文件名
+	for _, filename := range config.Cfg.Utils {
+		srcFile := filepath.Join(srcDir, filename)
+		dstFile := filepath.Join(p.outDir, filename)
 		data, err := os.ReadFile(srcFile)
 		if err != nil {
 			log.Fatalf("读取 %s 失败: %v", srcFile, err)
@@ -144,15 +142,6 @@ func (p *PCodeGen) pcodegen() error {
 	}
 	return nil
 }
-func (p *PCodeGen) tempGoGen() error {
-	if err := p.initGenDirs(); err != nil {
-		return err
-	}
-	if err := p.tempparserAndGen(); err != nil {
-		return err
-	}
-	return nil
-}
 func main() {
 	p := NewPCodeGen(os.Args[1])
 	log.Println("参数数量：", len(os.Args))
@@ -162,8 +151,10 @@ func main() {
 			log.Fatal(err)
 		}
 	} else {
-		log.Println("偷偷编译中")
-		err := p.tempGoGen()
+		log.Println("偷偷编译中,路径：", filepath.Dir(p.pdslFile))
+		config.InitConfig(filepath.Dir(p.pdslFile))
+		config.InitLogger()
+		err := p.tempparserAndGen()
 		if err != nil {
 			log.Fatal(err)
 		}

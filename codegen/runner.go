@@ -11,6 +11,7 @@ import (
 	// "service"
 	"github.com/along416/promptDSL/codegen/parser"
 	"github.com/along416/promptDSL/config"
+
 	// "strings"
 
 	"github.com/antlr4-go/antlr/v4"
@@ -36,7 +37,7 @@ func NewPromptToGenCode(input, filename string) *promptToGenCode {
 	}
 }
 func (ptc *promptToGenCode) parsePrompt() error {
-    config.InitLogger()
+	config.InitLogger()
 	// 1. 解析输入 DSL 文本，生成 Parse Tree
 	ptc.inputStream = antlr.NewInputStream(ptc.input)
 	lexer := parser.NewPromptDSLLexer(ptc.inputStream)
@@ -58,7 +59,8 @@ func (ptc *promptToGenCode) astToNode() error {
 	fmt.Printf("📦 BeforeNodes: %+v\n", ptc.promptNode.BeforeCode)
 	return nil
 }
-//准备use&sys的构造代码
+
+// 准备use&sys的构造代码
 func (ptc *promptToGenCode) buildPGCxtAndToCode() error {
 	str := &PromptGenContext{
 		InFields:    ptc.promptNode.InFields,
@@ -79,7 +81,7 @@ func (ptc *promptToGenCode) buildPGCxtAndToCode() error {
 
 // 生成代码
 func (ptc *promptToGenCode) genCode() error {
-	CodeBuilder:=NewCodeBuilder(ptc.promptNode, ptc.fileName, ptc.codeGenUserAndSys)
+	CodeBuilder := NewCodeBuilder(ptc.promptNode, ptc.fileName, ptc.codeGenUserAndSys)
 	CodeBuilder.combineSingleCode()
 	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
 
@@ -178,15 +180,20 @@ func (ptc *promptToGenCode) PromptToGenCode() error {
 }
 func (ptc *promptToGenCode) tempGenCode() error {
 	var temp *final
-	CodeBuilder:=NewCodeBuilder(ptc.promptNode, ptc.fileName,temp)
+	CodeBuilder := NewCodeBuilder(ptc.promptNode, ptc.fileName, temp)
 	CodeBuilder.TcombineSingleCode()
 	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
-	err := os.WriteFile(ptc.genDir, []byte(CodeBuilder.b.String()), 0644)
+	err := os.WriteFile(filepath.Join(ptc.genDir, ptc.fileName+".go"), []byte(CodeBuilder.b.String()), 0644)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "偷偷编译失败: %v\n", err)
 		os.Exit(1)
 	}
+	fmt.Fprintf(os.Stderr, "偷偷编译成功: \n")
 	return err
+}
+func (ptc *promptToGenCode) GenDirSet(g string) error {
+	ptc.genDir = g
+	return nil
 }
 func (ptc *promptToGenCode) TempGoGen() error {
 	if err := ptc.parsePrompt(); err != nil {
@@ -242,7 +249,7 @@ func (ptc *promptToGenCode) TempGoGen() error {
 // 	}
 // 	//生成sys+user+after+fix
 // 	// code:=Generateprompthandle(rootNode, getCurrentPackageName())
-	
+
 // 	code := GeneratepromptCode(rootNode, "generated", outputParts, filename, rootNode.Goimport)
 
 // 	outputFile := "generated_code/generated/" + filename + ".go"
