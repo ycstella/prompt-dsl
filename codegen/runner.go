@@ -130,7 +130,7 @@ func (ptc *promptToGenCode) ensureGoModule() error {
 // 在 go.mod 所在目录执行 go get
 func (ptc *promptToGenCode) runGoGet() error {
 	// 在 go.mod 所在目录执行 go get
-	getCmd := exec.Command("go", "get", "github.com/along416/promptDSL@dev")
+	getCmd := exec.Command("go", "get", "github.com/along416/promptDSL@v0.1.15")
 	getCmd.Dir = filepath.Dir(ptc.goModPath)
 	log.Println("目录：", getCmd.Dir)
 	if output, err := getCmd.CombinedOutput(); err != nil {
