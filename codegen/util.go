@@ -22,16 +22,6 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
-// log
-// func InitLog(logPath string) {
-// 	logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-// 	if err != nil {
-// 		log.Fatalf("无法打开日志文件: %v", err)
-// 	}
-// 	log.SetOutput(logFile)
-// 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
-// }
-
 // 构建输出规范文本，用于根据字段列表生成 JSON 字符串表示。
 func BuildModelOutputSpecLines(fields []FieldDef, asArray bool) []string {
 	var lines []string

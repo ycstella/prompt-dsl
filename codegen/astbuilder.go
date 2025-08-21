@@ -68,10 +68,6 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 			for _, field := range b.AllFieldDef() {
 				field, _ := processField(field, nil, result)
 				result.InFields = append(result.InFields, field)
-				// if ismodel {
-				// 	fmt.Println("fmodeloutput")
-				// 	result.ModelFields = append(result.ModelFields, field)
-				// }
 			}
 			fmt.Println("😅inNode:", result.InFields)
 
@@ -481,6 +477,10 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 		if annName == "derived" {
 			fmt.Println("derivedS😢:")
 			annotations = append(annotations, "derived")
+		}
+		if annName == "outignore" {
+			fmt.Println("outignore:")
+			annotations = append(annotations, "outignore")
 		}
 		if ann.AnnotationArgs() != nil {
 			for _, v := range ann.AnnotationArgs().AllAnnotationValue() {

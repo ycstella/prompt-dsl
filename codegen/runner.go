@@ -128,7 +128,7 @@ func (ptc *promptToGenCode) ensureGoModule() error {
 // 在 go.mod 所在目录执行 go get
 func (ptc *promptToGenCode) runGoGet() error {
 	// 在 go.mod 所在目录执行 go get
-	getCmd := exec.Command("go", "get", "github.com/along416/promptDSL@v0.1.13")
+	getCmd := exec.Command("go", "get", "github.com/along416/promptDSL@dev")
 	getCmd.Dir = filepath.Dir(ptc.goModPath)
 	log.Println("目录：", getCmd.Dir)
 	if output, err := getCmd.CombinedOutput(); err != nil {
@@ -172,6 +172,33 @@ func (ptc *promptToGenCode) PromptToGenCode() error {
 		return err
 	}
 	if err := ptc.runGoModTidy(); err != nil {
+		return err
+	}
+	return nil
+}
+func (ptc *promptToGenCode) tempGenCode() error {
+	var temp *final
+	CodeBuilder:=NewCodeBuilder(ptc.promptNode, ptc.fileName,temp)
+	CodeBuilder.TcombineSingleCode()
+	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
+	err := os.WriteFile(ptc.genDir, []byte(CodeBuilder.b.String()), 0644)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "偷偷编译失败: %v\n", err)
+		os.Exit(1)
+	}
+	return err
+}
+func (ptc *promptToGenCode) TempGoGen() error {
+	if err := ptc.parsePrompt(); err != nil {
+		return err
+	}
+	if err := ptc.astToNode(); err != nil {
+		return err
+	}
+	if err := ptc.buildPGCxtAndToCode(); err != nil {
+		return err
+	}
+	if err := ptc.tempGenCode(); err != nil {
 		return err
 	}
 	return nil

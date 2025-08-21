@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/viper"
 )
@@ -57,6 +58,14 @@ func InitConfig(configpath string) {
 }
 func InitLogger() {
 	logPath := Cfg.Log.File
+
+	// 获取目录部分
+	logDir := filepath.Dir(logPath)
+
+	// 确保日志目录存在
+	if err := os.MkdirAll(logDir, 0755); err != nil {
+		log.Fatalf("无法创建日志目录: %v", err)
+	}
 	logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Println("无法打开日志文件: %v", err)

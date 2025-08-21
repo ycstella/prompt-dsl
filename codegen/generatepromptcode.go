@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strings"
 )
@@ -184,6 +185,19 @@ func (c *CodeBuilder) buildOutputContext() {
 	if len(c.promptNode.OutFields) > 0 {
 		c.b.WriteString("type " + c.fileName + "OutputContext struct {\n")
 		for _, field := range c.promptNode.OutFields {
+			skip := false
+			for _, ann := range field.Annotations {
+				if ann == "outignore" {
+					skip = true
+					break
+				}
+			}
+			log.Println(field.Annotations)
+			if skip {
+				continue
+				
+
+			}
 			fieldName := capitalizeFirst(field.Name)
 			if field.Type == "struct" {
 				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
@@ -468,6 +482,19 @@ func (c *CodeBuilder) combineSingleCode() error {
 		return err
 	}
 	if err := c.buildSingleMain(); err != nil {
+		return err
+	}
+	return nil
+}
+//temp
+func (c *CodeBuilder) TcombineSingleCode() error {
+	if err := c.isArray(); err != nil {
+		return err
+	}
+	if err := c.writeGeneratedHeader(); err != nil {
+		return err
+	}
+	if err := c.buildstruct(); err != nil {
 		return err
 	}
 	return nil
