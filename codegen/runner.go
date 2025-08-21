@@ -137,7 +137,6 @@ func (ptc *promptToGenCode) runGoGet() error {
 		fmt.Printf("go get 输出: %s\n", output)
 		log.Fatalf("go get 失败: %v", err)
 	}
-
 	return nil
 }
 

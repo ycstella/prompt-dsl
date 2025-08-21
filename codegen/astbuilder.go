@@ -438,7 +438,11 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 	var subfieldlist []FieldDef
 	fmt.Println("type:😒", typ)
 	if strings.HasPrefix(typ, "struct") {
-		typ = "struct"
+		if strings.HasPrefix(typ, "[]struct"){
+			typ = "[]struct"
+		}else{
+			typ = "struct"
+		}
 		typeCtx := field.Type_()
 		for i := 0; i < typeCtx.GetChildCount(); i++ {
 			child := typeCtx.GetChild(i)
@@ -454,12 +458,6 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 			Fields: subfieldlist,
 		}
 		result.SubFields = append(result.SubFields, subfields)
-		// for rawSubfield := range field. {
-		// 	subFieldCtx, ok := child.(parser.IFieldDefContext)
-		// 	subfield, subismodel := processfield(subFieldCtx, defaultAnnoMap)
-		// 	subfieldlist = append(subfieldlist, subfield)
-
-		// }
 	}
 	// 解析注解
 	var annotations []string

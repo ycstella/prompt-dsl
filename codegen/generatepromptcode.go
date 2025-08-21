@@ -129,9 +129,9 @@ func (c *CodeBuilder) buildImport() error {
 	pkgs := inferImportsFromCode(allCode)
 	//main
 
-	requiredPkgs := []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen", "github.com/along416/promptDSL/config", "encoding/json","path/filepath"}
+	requiredPkgs := []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen", "github.com/along416/promptDSL/config", "encoding/json", "path/filepath"}
 	if len(c.promptNode.FixCode) == 0 || len(c.promptNode.AfterCode) == 0 {
-		requiredPkgs = []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "strings", "github.com/along416/promptDSL/config", "encoding/json","path/filepath"}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "strings", "github.com/along416/promptDSL/config", "encoding/json", "path/filepath"}
 	}
 	for _, req := range requiredPkgs {
 		has := false
@@ -177,6 +177,10 @@ func (c *CodeBuilder) buildInputContext() {
 			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
 			continue
 		}
+		if field.Type == "[]struct" {
+			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+c.fileName+fieldName, field.JsonName))
+			continue
+		}
 		c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
 	}
 	c.b.WriteString("}\n\n")
@@ -195,12 +199,14 @@ func (c *CodeBuilder) buildOutputContext() {
 			log.Println(field.Annotations)
 			if skip {
 				continue
-				
-
 			}
 			fieldName := capitalizeFirst(field.Name)
 			if field.Type == "struct" {
 				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
+				continue
+			}
+			if field.Type == "[]struct" {
+				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+c.fileName+fieldName, field.JsonName))
 				continue
 			}
 			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
@@ -215,6 +221,10 @@ func (c *CodeBuilder) buildModelOutputContext() {
 			fieldName := capitalizeFirst(field.Name)
 			if field.Type == "struct" {
 				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
+				continue
+			}
+			if field.Type == "[]struct" {
+				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+c.fileName+fieldName, field.JsonName))
 				continue
 			}
 			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
@@ -486,7 +496,8 @@ func (c *CodeBuilder) combineSingleCode() error {
 	}
 	return nil
 }
-//temp
+
+// temp
 func (c *CodeBuilder) TcombineSingleCode() error {
 	if err := c.isArray(); err != nil {
 		return err
