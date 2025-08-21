@@ -34,6 +34,7 @@ type ModelConfig struct {
 type Config struct {
 	Server ServerConfig
 	Log    LogConfig
+	Utils  []string
 	Models []ModelConfig
 }
 
