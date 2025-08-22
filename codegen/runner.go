@@ -143,7 +143,7 @@ func (ptc *promptToGenCode) runGoGet() error {
 
 	// 配置 git 使用 token
 	cmd := exec.Command("git", "config", "--global",
-	
+
 		"url.https://"+token+"@github.com/.insteadOf", "https://github.com/")
 	if output, err := cmd.CombinedOutput(); err != nil {
 		log.Printf("配置 git token 输出: %s\n", output)
@@ -152,7 +152,7 @@ func (ptc *promptToGenCode) runGoGet() error {
 	}
 
 	// 执行 go get
-	getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.16")
+	getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.17")
 	getCmd.Dir = filepath.Dir(ptc.goModPath)
 	getCmd.Env = append(os.Environ(),
 		"GOPRIVATE=github.com/ycstella/*",

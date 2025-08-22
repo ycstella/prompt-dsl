@@ -1,7 +1,3 @@
-github.com/along416/promptDSL/codegen v0.1.3 h1:XFrI12dbrYJGK8z2kNBASmxg1sIJh/VR8bXZWlaHOzw=
-github.com/along416/promptDSL/codegen v0.1.3/go.mod h1:g6Mky1xEnf1z9NuZmjTuY88KQ9ayxU+Qoic4nUwI6gM=
-github.com/along416/promptDSL/config v0.1.3 h1:x0eA2eT55lETBvMoGzfOkVvVhwZdgvq4ne4ntZSCunY=
-github.com/along416/promptDSL/config v0.1.3/go.mod h1:AK2C6PeWOhQprbKLaDhajZa9k9MH7uniWI0s3KIpaxk=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=
 github.com/antlr4-go/antlr/v4 v4.13.1/go.mod h1:GKmUxMtwp6ZgGwZSva4eWPC5mS6vUAmOABFgjdkM7Nw=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
