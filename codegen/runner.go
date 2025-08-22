@@ -151,7 +151,7 @@ func (ptc *promptToGenCode) runGoGet() error {
 	}
 
 	// 执行 go get
-	getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.15")
+	getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.16")
 	getCmd.Dir = filepath.Dir(ptc.goModPath)
 	getCmd.Env = append(os.Environ(),
 		"GOPRIVATE=github.com/ycstella/*",
