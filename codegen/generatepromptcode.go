@@ -128,9 +128,11 @@ func (c *CodeBuilder) buildImport() error {
 	// renderImportSectionWithAlias()
 	pkgs := inferImportsFromCode(allCode)
 	//main
-
-	requiredPkgs := []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "github.com/ycstella/prompt-dsl/codegen", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
+	requiredPkgs := []string{"os", "log", "fmt", "strings", "github.com/ycstella/prompt-dsl/service", "github.com/ycstella/prompt-dsl/codegen", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	if len(c.promptNode.FixCode) == 0 || len(c.promptNode.AfterCode) == 0 {
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
+	}
+	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
 		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
 	for _, req := range requiredPkgs {
@@ -385,12 +387,17 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 	c.b.WriteString("        }\n")
 
 	if len(c.promptNode.OutFields) > 0 {
-		c.b.WriteString("        " + c.outname + ", err := prompt.FixProcess(result)\n")
-		c.b.WriteString("        if err != nil {\n")
-		c.b.WriteString("            log.Println(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
-		c.b.WriteString("            os.Exit(1)\n")
-		c.b.WriteString("        }\n")
-		c.b.WriteString("        final := prompt.AfterProcess(" + c.outname + ")\n")
+		if strings.TrimSpace(c.promptNode.FixCode[0]) != "" {
+			c.b.WriteString("        " + c.outname + ", err := prompt.FixProcess(result)\n")
+			c.b.WriteString("        if err != nil {\n")
+			c.b.WriteString("            log.Println(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
+			c.b.WriteString("            os.Exit(1)\n")
+			c.b.WriteString("        }\n")
+		}
+
+		if strings.TrimSpace(c.promptNode.AfterCode[0]) != "" {
+			c.b.WriteString("        final := prompt.AfterProcess(" + c.outname + ")\n")
+		}
 		c.b.WriteString("        encoded, err := json.Marshal(final)\n")
 		c.b.WriteString("        if err != nil {\n")
 		c.b.WriteString("            log.Println(os.Stderr, \"输出编码失败: %v\\n\", err)\n")
@@ -403,6 +410,55 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 	}
 	c.b.WriteString("        }\n")
 	c.b.WriteString("    }\n")
+	return nil
+}
+func (c *CodeBuilder) buildExecuteDir() error {
+	c.b.WriteString("\nfunc (prompt *" + c.fileName + ")" + c.fileName + "(input " + c.fileName + "InputContext,modelname string)  (" + c.outputTypeStr + ",error) {\n")
+	c.b.WriteString("    var err error\n")
+	c.b.WriteString("    err=prompt.ValidateInput(input)\n")
+	c.b.WriteString("    if err!=nil {\n")
+	c.b.WriteString("    \treturn nil,err\n")
+	c.b.WriteString("    }\n")
+
+	//before
+	if strings.TrimSpace(c.promptNode.BeforeCode[0]) != "" {
+		c.b.WriteString("    input, err = prompt.Before(input)\n")
+		c.b.WriteString("    if err!=nil {\n")
+		c.b.WriteString("    \tlog.Println(os.Stderr, \"预处理失败 %v\", err)\n")
+		c.b.WriteString("    \tos.Exit(1)\n")
+		c.b.WriteString("    }\n")
+	}
+	c.b.WriteString("    sys := prompt.GenSys(input)\n")
+	c.b.WriteString("    user := prompt.GenUser(input)\n")
+
+	c.b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
+	c.b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
+
+	c.b.WriteString("    if modelConfig.Stream  {\n")
+	c.b.WriteString("        // 流式模式，直接输出，不做 JSON 解析\n")
+	c.b.WriteString("        _, err := llm.GeneratePromptResponse(sys, user, true)\n")
+	c.b.WriteString("        if err != nil {\n")
+	c.b.WriteString("            log.Println(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")
+	c.b.WriteString("            os.Exit(1)\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        return nil, nil\n")
+	c.b.WriteString("    } else {\n")
+	c.b.WriteString("        // 非流式模式，拿完整结果再处理\n")
+	c.b.WriteString("        result, err := llm.GeneratePromptResponse(sys, user, false)\n")
+	c.b.WriteString("        if err != nil {\n")
+	c.b.WriteString("            log.Println(os.Stderr, \"调用大模型失败: %v\", err)\n")
+	c.b.WriteString("            os.Exit(1)\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        log.Println(\"模型返回结果：\",result)\n")
+	c.b.WriteString("        var list " + c.outputTypeStr + "\n")
+	c.b.WriteString("        err = json.Unmarshal([]byte(result),&list)\n")
+	c.b.WriteString("        if err != nil {\n")
+	c.b.WriteString("           log.Println(os.Stderr, \"输出编码失败: %v\", err)\n")
+	c.b.WriteString("        	os.Exit(1)\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        return list, err\n")
+	c.b.WriteString("   }\n")
+	c.b.WriteString("}\n")
 	return nil
 }
 func (c *CodeBuilder) buildSingleMain() error {
@@ -488,8 +544,14 @@ func (c *CodeBuilder) combineSingleCode() error {
 	if err := c.buildIsValid(); err != nil {
 		return err
 	}
-	if err := c.buildExecutePipeline(); err != nil {
-		return err
+	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
+		if err := c.buildExecuteDir(); err != nil {
+			return err
+		}
+	} else {
+		if err := c.buildExecutePipeline(); err != nil {
+			return err
+		}
 	}
 	if err := c.buildSingleMain(); err != nil {
 		return err
