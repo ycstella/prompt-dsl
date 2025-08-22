@@ -131,45 +131,32 @@ func (ptc *promptToGenCode) ensureGoModule() error {
 
 // 在 go.mod 所在目录执行 go get
 func (ptc *promptToGenCode) runGoGet() error {
-	// 从环境变量读取 GitHub Token
-	token := os.Getenv("GITHUB_TOKEN")
-	if token == "" {
-		log.Fatal("请先设置 GITHUB_TOKEN 环境变量")
-	}
+    // 设置私有仓库，避免 go.sum 校验
+    os.Setenv("GOPRIVATE", "github.com/ycstella/*")
+    os.Setenv("GONOSUMDB", "github.com/ycstella/*")
 
-	// 设置私有仓库，避免 sum.golang.org 校验
-	os.Setenv("GOPRIVATE", "github.com/ycstella/*")
-	os.Setenv("GONOSUMDB", "github.com/ycstella/*")
+    // 使用 SSH 拉取私有模块
+    // 注意：用户本机必须配置了 SSH Key 并添加到 GitHub
+    getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.18")
+    getCmd.Dir = filepath.Dir(ptc.goModPath)
+    getCmd.Env = append(os.Environ(),
+        "GOPRIVATE=github.com/ycstella/*",
+        "GONOSUMDB=github.com/ycstella/*",
+    )
 
-	// 配置 git 使用 token
-	cmd := exec.Command("git", "config", "--global",
+    log.Println("执行目录：", getCmd.Dir)
 
-		"url.https://"+token+"@github.com/.insteadOf", "https://github.com/")
-	if output, err := cmd.CombinedOutput(); err != nil {
-		log.Printf("配置 git token 输出: %s\n", output)
-		log.Printf("配置 git token 失败: %v", err) 
-		return err
-	}
+    output, err := getCmd.CombinedOutput()
+    log.Printf("go get 输出:\n%s", string(output))
+    if err != nil {
+        log.Printf("go get 失败: %v", err)
+        return err
+    }
 
-	// 执行 go get
-	getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.17")
-	getCmd.Dir = filepath.Dir(ptc.goModPath)
-	getCmd.Env = append(os.Environ(),
-		"GOPRIVATE=github.com/ycstella/*",
-		"GONOSUMDB=github.com/ycstella/*",
-	)
-	log.Println("执行目录：", getCmd.Dir)
-
-	output, err := getCmd.CombinedOutput()
-	log.Printf("go get 输出:\n%s", string(output))
-	if err != nil {
-		log.Printf("go get 失败: %v", err)
-		return err
-	}
-
-	log.Println("go get 成功 ✅")
-	return nil
+    log.Println("go get 成功 ✅")
+    return nil
 }
+
 
 // 在 go.mod 所在目录执行 go mod tidy
 func (ptc *promptToGenCode) runGoModTidy() error {
