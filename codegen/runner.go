@@ -143,10 +143,11 @@ func (ptc *promptToGenCode) runGoGet() error {
 
 	// 配置 git 使用 token
 	cmd := exec.Command("git", "config", "--global",
+	
 		"url.https://"+token+"@github.com/.insteadOf", "https://github.com/")
 	if output, err := cmd.CombinedOutput(); err != nil {
 		log.Printf("配置 git token 输出: %s\n", output)
-		log.Printf("配置 git token 失败: %v", err)
+		log.Printf("配置 git token 失败: %v", err) 
 		return err
 	}
 
