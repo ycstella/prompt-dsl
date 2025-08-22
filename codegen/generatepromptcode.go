@@ -129,9 +129,9 @@ func (c *CodeBuilder) buildImport() error {
 	pkgs := inferImportsFromCode(allCode)
 	//main
 
-	requiredPkgs := []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "github.com/along416/promptDSL/codegen", "github.com/along416/promptDSL/config", "encoding/json", "path/filepath"}
+	requiredPkgs := []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "github.com/ycstella/prompt-dsl/codegen", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	if len(c.promptNode.FixCode) == 0 || len(c.promptNode.AfterCode) == 0 {
-		requiredPkgs = []string{"os", "log", "fmt", "github.com/along416/promptDSL/service", "strings", "github.com/along416/promptDSL/config", "encoding/json", "path/filepath"}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
 	for _, req := range requiredPkgs {
 		has := false
