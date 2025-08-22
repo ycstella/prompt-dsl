@@ -13,7 +13,7 @@ import (
 	// "path/filepath"
 	"strconv"
 
-	"github.com/along416/promptDSL/codegen/parser"
+	"github.com/ycstella/prompt-dsl/codegen/parser"
 
 	// "runtime"
 

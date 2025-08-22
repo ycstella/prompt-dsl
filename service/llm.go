@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/along416/promptDSL/config"
+	"github.com/ycstella/prompt-dsl/config"
 	openai "github.com/sashabaranov/go-openai"
 )
 

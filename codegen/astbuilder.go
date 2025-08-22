@@ -2,8 +2,10 @@
 package codegen
 
 import (
-	"github.com/along416/promptDSL/codegen/parser"
 	"fmt"
+	"log"
+
+	"github.com/ycstella/prompt-dsl/codegen/parser"
 
 	// "log"
 	"strconv"
@@ -431,18 +433,34 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 	typ := "string"
 	if field.Type_().GetText() != "" {
 		typ = field.Type_().GetText()
+		log.Println(typ)
 	}
 	if typ == "[]" {
 		typ = "[]string"
 	}
 	var subfieldlist []FieldDef
-	fmt.Println("type:😒", typ)
-	if strings.HasPrefix(typ, "struct") {
-		if strings.HasPrefix(typ, "[]struct"){
-			typ = "[]struct"
-		}else{
-			typ = "struct"
+	if strings.HasPrefix(typ, "[]struct") {
+		log.Println("is []struct")
+		typ = "[]struct"
+		typeCtx := field.Type_().Type_()
+		log.Println("typeCtx:",typeCtx)
+		for i := 0; i < typeCtx.GetChildCount(); i++ {
+			child := typeCtx.GetChild(i)
+			// 判断子节点是不是 FieldDef
+			if subFieldCtx, ok := child.(parser.IFieldDefContext); ok {
+				// fmt.Println("subing:😒",subFieldCtx.ID)
+				subfield, _ := processField(subFieldCtx, defaultAnnoMap, result)
+				subfieldlist = append(subfieldlist, subfield)
+			}
 		}
+		subfields := Subfield{
+			Name:   name,
+			Fields: subfieldlist,
+		}
+		result.SubFields = append(result.SubFields, subfields)
+	}
+	if strings.HasPrefix(typ, "struct") {
+		typ = "struct"
 		typeCtx := field.Type_()
 		for i := 0; i < typeCtx.GetChildCount(); i++ {
 			child := typeCtx.GetChild(i)
@@ -507,7 +525,7 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 
 				if annName == "jsonname" || annName == "jn" {
 					jsonName = val
-				}  else {
+				} else {
 					annotations = append(annotations, val)
 				}
 

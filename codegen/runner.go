@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 
 	// "service"
-	"github.com/along416/promptDSL/codegen/parser"
-	"github.com/along416/promptDSL/config"
+	"github.com/ycstella/prompt-dsl/codegen/parser"
+	"github.com/ycstella/prompt-dsl/config"
 
 	// "strings"
 
@@ -44,9 +44,9 @@ func (ptc *promptToGenCode) parsePrompt() error {
 	ptc.stream = antlr.NewCommonTokenStream(lexer, 0)
 	p := parser.NewPromptDSLParser(ptc.stream)
 	ptc.tree = p.PromptFile()
-	fmt.Println("🌳 start...")
-	fmt.Println(ptc.tree.ToStringTree(nil, p))
-	fmt.Println("🌳 ...end")
+	log.Println("🌳 start...")
+	log.Println(ptc.tree.ToStringTree(nil, p))
+	log.Println("🌳 ...end")
 	return nil
 }
 func (ptc *promptToGenCode) astToNode() error {
@@ -107,6 +107,8 @@ func (ptc *promptToGenCode) genCode() error {
 // 检查go.mod文件是否存在，不存在则初始化
 func (ptc *promptToGenCode) ensureGoModule() error {
 
+	os.Unsetenv("HTTP_PROXY")
+	os.Unsetenv("HTTPS_PROXY")
 	os.Setenv("GOPROXY", "https://goproxy.cn,direct")
 
 	ptc.goModPath = filepath.Join(ptc.genDir, "go.mod")
@@ -115,28 +117,56 @@ func (ptc *promptToGenCode) ensureGoModule() error {
 		modInitCmd := exec.Command("go", "mod", "init", ptc.fileName)
 		modInitCmd.Dir = ptc.genDir
 		if output, err := modInitCmd.CombinedOutput(); err != nil {
-			fmt.Printf("go mod init 输出: %s\n", output)
+			log.Printf("go mod init 输出: %s\n", output)
 			log.Fatalf("go mod init 失败: %v", err)
 		}
-		fmt.Println("成功初始化 Go module")
+		log.Println("成功初始化 Go module")
 	} else if err != nil {
 		log.Fatalf("检查 go.mod 文件失败: %v", err)
 	} else {
-		fmt.Println("go.mod 已存在，跳过初始化")
+		log.Println("go.mod 已存在，跳过初始化")
 	}
 	return nil
 }
 
 // 在 go.mod 所在目录执行 go get
 func (ptc *promptToGenCode) runGoGet() error {
-	// 在 go.mod 所在目录执行 go get
-	getCmd := exec.Command("go", "get", "github.com/along416/promptDSL@v0.1.15")
-	getCmd.Dir = filepath.Dir(ptc.goModPath)
-	log.Println("目录：", getCmd.Dir)
-	if output, err := getCmd.CombinedOutput(); err != nil {
-		fmt.Printf("go get 输出: %s\n", output)
-		log.Fatalf("go get 失败: %v", err)
+	// 从环境变量读取 GitHub Token
+	token := os.Getenv("GITHUB_TOKEN")
+	if token == "" {
+		log.Fatal("请先设置 GITHUB_TOKEN 环境变量")
 	}
+
+	// 设置私有仓库，避免 sum.golang.org 校验
+	os.Setenv("GOPRIVATE", "github.com/ycstella/*")
+	os.Setenv("GONOSUMDB", "github.com/ycstella/*")
+
+	// 配置 git 使用 token
+	cmd := exec.Command("git", "config", "--global",
+		"url.https://"+token+"@github.com/.insteadOf", "https://github.com/")
+	if output, err := cmd.CombinedOutput(); err != nil {
+		log.Printf("配置 git token 输出: %s\n", output)
+		log.Printf("配置 git token 失败: %v", err)
+		return err
+	}
+
+	// 执行 go get
+	getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.15")
+	getCmd.Dir = filepath.Dir(ptc.goModPath)
+	getCmd.Env = append(os.Environ(),
+		"GOPRIVATE=github.com/ycstella/*",
+		"GONOSUMDB=github.com/ycstella/*",
+	)
+	log.Println("执行目录：", getCmd.Dir)
+
+	output, err := getCmd.CombinedOutput()
+	log.Printf("go get 输出:\n%s", string(output))
+	if err != nil {
+		log.Printf("go get 失败: %v", err)
+		return err
+	}
+
+	log.Println("go get 成功 ✅")
 	return nil
 }
 

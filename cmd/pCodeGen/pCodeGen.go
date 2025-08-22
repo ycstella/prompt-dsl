@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/along416/promptDSL/codegen"
-	"github.com/along416/promptDSL/config"
+	"github.com/ycstella/prompt-dsl/codegen"
+	"github.com/ycstella/prompt-dsl/config"
 )
 
 type PCodeGen struct {
