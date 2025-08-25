@@ -161,7 +161,7 @@ func (c *CodeBuilder) subStruct() {
 		c.b.WriteString("}\n\n")
 	}
 	c.b.WriteString("type " + c.fileName + " struct {\n")
-	c.b.WriteString("    Input " + c.fileName + "InputContext\n")
+	c.b.WriteString("    Input []" + c.fileName + "InputContext\n")
 	if len(c.promptNode.OutFields) > 0 {
 		c.b.WriteString("    Output " + c.fileName + "OutputContext\n")
 	}
@@ -169,6 +169,13 @@ func (c *CodeBuilder) subStruct() {
 	if len(c.promptNode.ModelFields) > 0 {
 		c.b.WriteString("    ModelOutput " + c.fileName + "ModelOutputContext\n")
 	}
+	c.b.WriteString("config      string\n")
+	c.b.WriteString("modelname      string\n")
+	c.b.WriteString("inputfile      string\n")
+	c.b.WriteString("modelRet      string\n")
+	c.b.WriteString("data      []byte\n")
+	c.b.WriteString("fixRet      "+c.model+"\n")
+	c.b.WriteString("afterRet      "+c.outputTypeStr+"\n")
 	c.b.WriteString("}\n\n")
 }
 func (c *CodeBuilder) buildInputContext() {
@@ -276,6 +283,67 @@ func (c *CodeBuilder) ifModel() error {
 	}
 	return nil
 }
+
+func (c *CodeBuilder) writeNew() error {
+	// 拼接函数签名
+	c.b.WriteString("func New"+c.fileName+"() *"+c.fileName+" {\n")
+	c.b.WriteString("\treturn &"+c.fileName+"{\n")
+
+	// 拼接各字段初始化，按你的例子
+	c.b.WriteString("\t\tconfig:    os.Args[2],\n")
+	c.b.WriteString("\t\tmodelname: os.Args[1],\n")
+	c.b.WriteString("\t\tinputfile: os.Args[3],\n")
+
+	c.b.WriteString("\t}\n") // 关闭结构体
+	c.b.WriteString("}\n\n")  // 关闭函数
+
+	return nil
+}
+func (c *CodeBuilder) writeInit() error {
+	c.b.WriteString("func (p *" + c.fileName + ") init() {\n")
+	c.b.WriteString("\t// 初始化配置和日志\n")
+	c.b.WriteString("\tif len(os.Args) < 3 {\n")
+	c.b.WriteString("\t\tlog.Fatal(\"请提供输入文件路径和配置路径作为参数\")\n")
+	c.b.WriteString("\t}\n")
+	c.b.WriteString("\tlog.Println(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
+	c.b.WriteString("\tconfig.InitConfig(p.config)\n")
+	c.b.WriteString("\tconfig.InitLogger()\n")
+	c.b.WriteString("}\n\n")
+	return nil
+}
+func (c *CodeBuilder) writeLoadInput() error {
+	c.b.WriteString("func (p *" + c.fileName + ") loadInput() {\n")
+	c.b.WriteString("\t// 读取输入文件\n")
+	c.b.WriteString("\tvar err error\n")
+	c.b.WriteString("\tp.data, err = os.ReadFile(p.inputfile)\n")
+	c.b.WriteString("\tif err != nil {\n")
+	c.b.WriteString("\t\tlog.Fatalf(\"无法读取文件: %v\", err)\n")
+	c.b.WriteString("\t}\n")
+	c.b.WriteString("}\n\n")
+	return nil
+}
+func (c *CodeBuilder) writeParseData() error {
+	c.b.WriteString("func (p *" + c.fileName + ") parsedata() {\n")
+
+	c.b.WriteString("\tif err := json.Unmarshal(p.data, &p.Input); err == nil {\n")
+	c.b.WriteString("\t\treturn\n")
+	c.b.WriteString("\t}\n\n")
+	
+	c.b.WriteString("\tvar single " + c.fileName+"InputContext" + "\n") // c.inputType = "SplitSolutionStepsInputContext"
+	c.b.WriteString("\tif err := json.Unmarshal(p.data, &single); err == nil {\n")
+	c.b.WriteString("\t\tp.Input = []" + c.fileName+"InputContext" + "{single}\n")
+	c.b.WriteString("\t\treturn\n")
+	c.b.WriteString("\t}\n\n")
+
+	// JSON 格式无效报错
+	c.b.WriteString("\tlog.Fatalf(\"输入 JSON 格式无效\")\n")
+
+	// 函数结束
+	c.b.WriteString("}\n\n")
+
+	return nil
+}
+
 
 func (c *CodeBuilder) writeBefore() error {
 
@@ -558,7 +626,6 @@ func (c *CodeBuilder) combineSingleCode() error {
 	}
 	return nil
 }
-
 // temp
 func (c *CodeBuilder) TcombineSingleCode() error {
 	if err := c.isArray(); err != nil {
