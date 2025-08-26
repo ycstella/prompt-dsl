@@ -152,15 +152,8 @@ func (c *CodeBuilder) buildImport() error {
 	c.b.WriteString(importBlock)
 	return nil
 }
-func (c *CodeBuilder) subStruct() {
-	for _, substruct := range c.promptNode.SubFields {
-		c.b.WriteString("type " + c.fileName + capitalizeFirst(substruct.Name) + " struct {\n")
-		for _, field := range substruct.Fields {
-			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", field.Name, field.Type, field.JsonName))
-		}
-		c.b.WriteString("}\n\n")
-	}
-	c.b.WriteString("type " + c.fileName + " struct {\n")
+func (c *CodeBuilder) buildPromptStruct() error {
+c.b.WriteString("type " + c.fileName + " struct {\n")
 	c.b.WriteString("    Input []" + c.fileName + "InputContext\n")
 	if len(c.promptNode.OutFields) > 0 {
 		c.b.WriteString("    Output " + c.fileName + "OutputContext\n")
@@ -169,14 +162,24 @@ func (c *CodeBuilder) subStruct() {
 	if len(c.promptNode.ModelFields) > 0 {
 		c.b.WriteString("    ModelOutput " + c.fileName + "ModelOutputContext\n")
 	}
-	c.b.WriteString("config      string\n")
-	c.b.WriteString("modelname      string\n")
-	c.b.WriteString("inputfile      string\n")
-	c.b.WriteString("modelRet      string\n")
-	c.b.WriteString("data      []byte\n")
-	c.b.WriteString("fixRet      "+c.model+"\n")
-	c.b.WriteString("afterRet      "+c.outputTypeStr+"\n")
+	c.b.WriteString("\tconfig      string\n")
+	c.b.WriteString("\tmodelname      string\n")
+	c.b.WriteString("\tinputfile      string\n")
+	c.b.WriteString("\tmodelRet      string\n")
+	c.b.WriteString("\tdata      []byte\n")
+	c.b.WriteString("\tfixRet      "+c.model+"\n")
+	c.b.WriteString("\tafterRet      "+c.outputTypeStr+"\n")
 	c.b.WriteString("}\n\n")
+	return nil
+}
+func (c *CodeBuilder) subStruct() {
+	for _, substruct := range c.promptNode.SubFields {
+		c.b.WriteString("type " + c.fileName + capitalizeFirst(substruct.Name) + " struct {\n")
+		for _, field := range substruct.Fields {
+			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", field.Name, field.Type, field.JsonName))
+		}
+		c.b.WriteString("}\n\n")
+	}
 }
 func (c *CodeBuilder) buildInputContext() {
 	c.b.WriteString("type " + c.fileName + "InputContext struct {\n")
@@ -242,6 +245,7 @@ func (c *CodeBuilder) buildModelOutputContext() {
 	}
 }
 func (c *CodeBuilder) buildstruct() error {
+	c.buildPromptStruct()
 	c.subStruct()
 	c.buildInputContext()
 	c.buildOutputContext()
@@ -251,7 +255,7 @@ func (c *CodeBuilder) buildstruct() error {
 func (c *CodeBuilder) genModelPrompt() error {
 	//gensystem
 	//写入sys处理逻辑
-	c.b.WriteString(fmt.Sprintf("func (prompt *" + c.fileName + ")GenSys(in " + c.fileName + "InputContext) string {\n"))
+	c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenSys(in " + c.fileName + "InputContext) string {\n"))
 	c.b.WriteString("    var b strings.Builder\n")
 
 	for _, line := range c.genPrompCode.Sys {
@@ -261,7 +265,7 @@ func (c *CodeBuilder) genModelPrompt() error {
 	c.b.WriteString("\n}\n\n")
 
 	//genuser
-	c.b.WriteString(fmt.Sprintf("func (prompt *" + c.fileName + ")GenUser(in " + c.fileName + "InputContext) string {\n"))
+	c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenUser(in " + c.fileName + "InputContext) string {\n"))
 	c.b.WriteString("    var b strings.Builder\n")
 
 	for _, line := range c.genPrompCode.User {
@@ -328,7 +332,7 @@ func (c *CodeBuilder) writeParseData() error {
 	c.b.WriteString("\tif err := json.Unmarshal(p.data, &p.Input); err == nil {\n")
 	c.b.WriteString("\t\treturn\n")
 	c.b.WriteString("\t}\n\n")
-	
+
 	c.b.WriteString("\tvar single " + c.fileName+"InputContext" + "\n") // c.inputType = "SplitSolutionStepsInputContext"
 	c.b.WriteString("\tif err := json.Unmarshal(p.data, &single); err == nil {\n")
 	c.b.WriteString("\t\tp.Input = []" + c.fileName+"InputContext" + "{single}\n")
@@ -340,9 +344,39 @@ func (c *CodeBuilder) writeParseData() error {
 
 	// 函数结束
 	c.b.WriteString("}\n\n")
-
 	return nil
 }
+func (c *CodeBuilder) buildWriteOut() error {
+	c.b.WriteString("\nfunc writeOut(newResult any) {\n")
+	c.b.WriteString("    exePath, err := os.Executable()\n")
+	c.b.WriteString("    if err != nil {\n")
+	c.b.WriteString("        log.Fatalf(\"获取可执行文件路径失败: %v\", err)\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    exeDir := filepath.Dir(exePath)\n")
+	c.b.WriteString("    outputPath := filepath.Join(exeDir, \"output.json\")\n\n")
+
+	c.b.WriteString("    var results []any\n")
+	c.b.WriteString("    if data, err := os.ReadFile(outputPath); err == nil && len(data) > 0 {\n")
+	c.b.WriteString("        if err := json.Unmarshal(data, &results); err != nil {\n")
+	c.b.WriteString("            log.Fatalf(\"解析已有 output.json 失败: %v\", err)\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("    }\n\n")
+
+	c.b.WriteString("    results = append(results, newResult)\n\n")
+
+	c.b.WriteString("    output, err := json.MarshalIndent(results, \"\", \"  \")\n")
+	c.b.WriteString("    if err != nil {\n")
+	c.b.WriteString("        log.Fatalf(\"结果序列化失败: %v\", err)\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    err = os.WriteFile(outputPath, output, 0644)\n")
+	c.b.WriteString("    if err != nil {\n")
+	c.b.WriteString("        log.Fatalf(\"写入输出文件失败: %v\", err)\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    log.Println(\"结果已追加写入 output.json 文件\")\n")
+	c.b.WriteString("}\n")
+	return nil
+}
+
 
 
 func (c *CodeBuilder) writeBefore() error {
@@ -396,20 +430,20 @@ func (c *CodeBuilder) buildIsValid() error {
 		switch f.Type {
 		case "string":
 			c.b.WriteString(fmt.Sprintf(
-				"\tif input.%s == \"\" {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
+				"\tif  p.currentData.%s == \"\" {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
 				f.Name, c.fileName, f.Name))
 		case "struct":
 			c.b.WriteString(fmt.Sprintf(
-				"\tif input.%s == ("+c.fileName+"%s{}) {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
-				f.Name, f.Name, f.Name))
+				"\tif  p.currentData.%s == ("+c.fileName+"%s{}) {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
+				f.Name, f.Name,c.fileName, f.Name))
 		case "int", "int32", "int64", "float32", "float64":
 			c.b.WriteString(fmt.Sprintf(
-				"\tif input.%s == 0 {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
-				f.Name, f.Name))
+				"\tif  p.currentData.%s == 0 {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
+				f.Name, c.fileName,f.Name))
 		case "[]string", "[]int", "[]float64", "map[string]string":
 			c.b.WriteString(fmt.Sprintf(
-				"\tif len(input.%s) == 0 {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
-				f.Name, f.Name))
+				"\tif len( p.currentData.%s) == 0 {\n\t\treturn fmt.Errorf(\"%sInputContext:%s 不能为空\")\n\t}\n",
+				f.Name,c.fileName, f.Name))
 		}
 	}
 	c.b.WriteString("    return nil\n}\n")
@@ -417,23 +451,23 @@ func (c *CodeBuilder) buildIsValid() error {
 }
 
 func (c *CodeBuilder) buildExecutePipeline() error {
-	c.b.WriteString("\nfunc (prompt *" + c.fileName + ")" + c.fileName + "(input " + c.fileName + "InputContext,modelname string)  (" + c.outputTypeStr + ",error) {\n")
+	c.b.WriteString("\nfunc (p *" + c.fileName + ")run() error {\n")
 	c.b.WriteString("    var err error\n")
-	c.b.WriteString("    err=prompt.ValidateInput(input)\n")
+	c.b.WriteString("    err=p.ValidateInput(p.currentData)\n")
 	c.b.WriteString("    if err!=nil {\n")
 	c.b.WriteString("    \treturn nil,err\n")
 	c.b.WriteString("    }\n")
 
 	//before
 	if strings.TrimSpace(c.promptNode.BeforeCode[0]) != "" {
-		c.b.WriteString("    input, err = prompt.Before(input)\n")
+		c.b.WriteString("    input, err = p.Before(p.currentData)\n")
 		c.b.WriteString("    if err!=nil {\n")
 		c.b.WriteString("    \tlog.Println(os.Stderr, \"预处理失败 %v\", err)\n")
 		c.b.WriteString("    \tos.Exit(1)\n")
 		c.b.WriteString("    }\n")
 	}
-	c.b.WriteString("    sys := prompt.GenSys(input)\n")
-	c.b.WriteString("    user := prompt.GenUser(input)\n")
+	c.b.WriteString("    sys := p.GenSys(p.currentData)\n")
+	c.b.WriteString("    user := p.GenUser(p.currentData)\n")
 
 	c.b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
 	c.b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
@@ -456,7 +490,7 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 
 	if len(c.promptNode.OutFields) > 0 {
 		if strings.TrimSpace(c.promptNode.FixCode[0]) != "" {
-			c.b.WriteString("        " + c.outname + ", err := prompt.FixProcess(result)\n")
+			c.b.WriteString("        " + c.outname + ", err := p.FixProcess(result)\n")
 			c.b.WriteString("        if err != nil {\n")
 			c.b.WriteString("            log.Println(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
 			c.b.WriteString("            os.Exit(1)\n")
@@ -464,7 +498,7 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 		}
 
 		if strings.TrimSpace(c.promptNode.AfterCode[0]) != "" {
-			c.b.WriteString("        final := prompt.AfterProcess(" + c.outname + ")\n")
+			c.b.WriteString("        final := p.AfterProcess(" + c.outname + ")\n")
 		}
 		c.b.WriteString("        encoded, err := json.Marshal(final)\n")
 		c.b.WriteString("        if err != nil {\n")
@@ -481,25 +515,26 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 	return nil
 }
 func (c *CodeBuilder) buildExecuteDir() error {
-	c.b.WriteString("\nfunc (prompt *" + c.fileName + ")" + c.fileName + "(input " + c.fileName + "InputContext,modelname string)  (" + c.outputTypeStr + ",error) {\n")
+	c.b.WriteString("\nfunc (p *" + c.fileName + ") run() error { " )
 	c.b.WriteString("    var err error\n")
-	c.b.WriteString("    err=prompt.ValidateInput(input)\n")
+	c.b.WriteString("    err=p.ValidateInput()\n")
 	c.b.WriteString("    if err!=nil {\n")
 	c.b.WriteString("    \treturn nil,err\n")
 	c.b.WriteString("    }\n")
 
 	//before
 	if strings.TrimSpace(c.promptNode.BeforeCode[0]) != "" {
-		c.b.WriteString("    input, err = prompt.Before(input)\n")
+		c.b.WriteString("    p.currentData, err = p.Before(p.currentData)\n")
+
 		c.b.WriteString("    if err!=nil {\n")
 		c.b.WriteString("    \tlog.Println(os.Stderr, \"预处理失败 %v\", err)\n")
 		c.b.WriteString("    \tos.Exit(1)\n")
 		c.b.WriteString("    }\n")
 	}
-	c.b.WriteString("    sys := prompt.GenSys(input)\n")
-	c.b.WriteString("    user := prompt.GenUser(input)\n")
+	c.b.WriteString("    sys := p.GenSys(p.currentData)\n")
+	c.b.WriteString("    user := p.GenUser(p.currentData)\n")
 
-	c.b.WriteString("    modelConfig := config.GetModelConfig(modelname)\n")
+	c.b.WriteString("    modelConfig := config.GetModelConfig(p.modelname)\n")
 	c.b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
 
 	c.b.WriteString("    if modelConfig.Stream  {\n")
@@ -512,21 +547,29 @@ func (c *CodeBuilder) buildExecuteDir() error {
 	c.b.WriteString("        return nil, nil\n")
 	c.b.WriteString("    } else {\n")
 	c.b.WriteString("        // 非流式模式，拿完整结果再处理\n")
-	c.b.WriteString("        result, err := llm.GeneratePromptResponse(sys, user, false)\n")
-	c.b.WriteString("        if err != nil {\n")
-	c.b.WriteString("            log.Println(os.Stderr, \"调用大模型失败: %v\", err)\n")
-	c.b.WriteString("            os.Exit(1)\n")
-	c.b.WriteString("        }\n")
-	c.b.WriteString("        log.Println(\"模型返回结果：\",result)\n")
-	c.b.WriteString("        var list " + c.outputTypeStr + "\n")
-	c.b.WriteString("        err = json.Unmarshal([]byte(result),&list)\n")
-	c.b.WriteString("        if err != nil {\n")
-	c.b.WriteString("           log.Println(os.Stderr, \"输出编码失败: %v\", err)\n")
-	c.b.WriteString("        	os.Exit(1)\n")
-	c.b.WriteString("        }\n")
-	c.b.WriteString("        return list, err\n")
-	c.b.WriteString("   }\n")
-	c.b.WriteString("}\n")
+    c.b.WriteString("        p.modelRet, err = llm.GeneratePromptResponse(sys, user, false)\n")
+    c.b.WriteString("        if err != nil {\n")
+    c.b.WriteString("            log.Println(\"调用大模型失败: \", err)\n")
+    c.b.WriteString("            os.Exit(1)\n")
+    c.b.WriteString("        }\n")
+    c.b.WriteString("        p.FixProcess()\n")
+    c.b.WriteString("        if err != nil {\n")
+    c.b.WriteString("            log.Println(\"数据修复失败:\", err)\n")
+    c.b.WriteString("            os.Exit(1)\n")
+    c.b.WriteString("        }\n")
+    c.b.WriteString("        err = p.AfterProcess()\n")
+    c.b.WriteString("        if err != nil {\n")
+    c.b.WriteString("            log.Println(\"数据后处理失败\", err)\n")
+    c.b.WriteString("        }\n")
+    c.b.WriteString("        // log.Println(\"p.afterRet\", p.afterRet)\n")
+    c.b.WriteString("        encoded, err := json.Marshal(p.afterRet)\n")
+    c.b.WriteString("        if err != nil {\n")
+    c.b.WriteString("            log.Println(\"输出编码失败:\", err)\n")
+    c.b.WriteString("            os.Exit(1)\n")
+    c.b.WriteString("        }\n")
+    c.b.WriteString("        log.Println(string(encoded))\n")
+    c.b.WriteString("        return err\n")
+    c.b.WriteString("    }\n")
 	return nil
 }
 func (c *CodeBuilder) buildSingleMain() error {
@@ -536,7 +579,6 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.b.WriteString("    if len(os.Args) < 3 {\n")
 	c.b.WriteString("        log.Fatal(\"请提供输入文件路径和配置路径作为参数\")\n")
 	c.b.WriteString("    }\n")
-
 	c.b.WriteString("    log.Println(os.Stderr, \"[main] 程序启动，等待输入...\")\n")
 	// c.b.WriteString("    log.Println(\"config目录\", os.Args[2])\n")
 	// c.b.WriteString("    log.Println(\"input路径\", os.Args[3])\n")
@@ -550,13 +592,13 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.b.WriteString("    }\n\n")
 	c.b.WriteString("    // 解析输入数据\n")
 	c.b.WriteString("    var prompt " + c.fileName + "\n")
-	c.b.WriteString("    err = json.Unmarshal(data, &prompt.Input)\n")
+	c.b.WriteString("    err = json.Unmarshal(data, &p.Input)\n")
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"解析输入JSON失败: %v\", err)\n")
 	c.b.WriteString("    }\n\n")
 	c.b.WriteString("    modelname:=os.Args[1]\n")
 	c.b.WriteString("    // 调用主处理函数\n")
-	c.b.WriteString("    result, err := prompt." + c.fileName + "(prompt.Input, modelname)\n")
+	c.b.WriteString("    result, err := p." + c.fileName + "(p.Input, modelname)\n")
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"处理失败: %v\", err)\n")
 	c.b.WriteString("    }\n\n")
@@ -659,3 +701,5 @@ func Generatworkflow(pkgName string) string {
 	b.WriteString("}\n")
 	return b.String()
 }
+
+
