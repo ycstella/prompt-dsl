@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"github.com/ycstella/prompt-dsl/config"
+	"github.com/ycstella/prompt-dsl/service"
 
 )
 
@@ -77,30 +78,54 @@ func NewTask[T Task]() *T {
 
 
 func RunTask(t Task) error {
-    t.Base().Init()
-    t.Base().LoadInput()
-    
-    err := t.ValidateInput()
-    if err != nil {
-        return err
-    }
-    
-    err = t.Before()
-    if err != nil {
-        log.Println("预处理失败", err)
-        return err
-    }
-    
-    sys := t.GenSys()
-    user := t.GenUser()
-    // LLM 调用略...
-    
-    err = t.FixProcess()
-    if err != nil {
-        return err
-    }
-    
-    return t.AfterProcess()
+    var err error
+	err = t.ValidateInput()
+	if err != nil {
+		return err
+	}
+	err = t.Before()
+	if err != nil {
+		log.Println(os.Stderr, "预处理失败 %v", err)
+		os.Exit(1)
+	}
+	sys := t.GenSys(t.currentData)
+	user := t.GenUser(t.currentData)
+	modelConfig := config.GetModelConfig(p.modelname)
+	llm := service.NewLLMClient(*modelConfig)
+
+	if modelConfig.Stream {
+		// 流式模式，直接输出，不做 JSON 解析
+		_, err := llm.GeneratePromptResponse(sys, user, true)
+		if err != nil {
+			log.Println("调用大模型失败:", err)
+			os.Exit(1)
+		}
+		return err
+	} else {
+		// 非流式模式，拿完整结果再处理
+		t.modelRet, err = llm.GeneratePromptResponse(sys, user, false)
+		if err != nil {
+			log.Println("调用大模型失败: ", err)
+			os.Exit(1)
+		}
+		t.FixProcess()
+		if err != nil {
+			log.Println("解析输入 JSON 失败011111:", err)
+			os.Exit(1)
+		}
+		err = t.AfterProcess()
+		if err != nil {
+			log.Println("数据后处理失败", err)
+		}
+		// log.Println("p.afterRet", p.afterRet)
+		encoded, err := json.Marshal(t.afterRet)
+		if err != nil {
+			log.Println("输出编码失败:", err)
+			os.Exit(1)
+		}
+		log.Println(string(encoded))
+		return err
+	}
 }
 
 
