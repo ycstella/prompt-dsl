@@ -135,9 +135,8 @@ func (ptc *promptToGenCode) runGoGet() error {
     os.Setenv("GOPRIVATE", "github.com/ycstella/*")
     os.Setenv("GONOSUMDB", "github.com/ycstella/*")
 
-    // 使用 SSH 拉取私有模块
-    // 注意：用户本机必须配置了 SSH Key 并添加到 GitHub
-    getCmd := exec.Command("go", "get", "github.com:ycstella/prompt-dsl.git@v0.1.21")
+    // 使用 token 拉取私有模块
+    getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.21")
     getCmd.Dir = filepath.Dir(ptc.goModPath)
     getCmd.Env = append(os.Environ(),
         "GOPRIVATE=github.com/ycstella/*",
