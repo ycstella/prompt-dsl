@@ -52,21 +52,42 @@ func writefield(f FieldDef, fields []FieldDef, i int, indent string) []string {
 	var lines []string
 
 	// struct 类型特殊处理
-	if f.Type == "struct" || (strings.HasPrefix(f.Type, "[]") && strings.Contains(f.Type, "struct")) {
-		line := fmt.Sprintf("%s\"%s\": {  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
-		lines = append(lines, line)
+    if f.Type == "struct" {
+        // 普通结构体
+        line := fmt.Sprintf("%s\"%s\": {  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
+        lines = append(lines, line)
 
-		for idx, sub := range f.SubFields {
-			lines = append(lines, writefield(sub, f.SubFields, idx, indent+"    ")...)
-		}
+        for idx, sub := range f.SubFields {
+            lines = append(lines, writefield(sub, f.SubFields, idx, indent+"    ")...)
+        }
 
-		closing := indent + "}"
-		if i < len(fields)-1 {
-			closing += ","
-		}
-		lines = append(lines, closing)
-		return lines
-	}
+        closing := indent + "}"
+        if i < len(fields)-1 {
+            closing += ","
+        }
+        lines = append(lines, closing)
+        return lines
+    }
+
+    // []struct 特殊处理
+    if strings.HasPrefix(f.Type, "[]") && strings.Contains(f.Type, "struct") {
+        line := fmt.Sprintf("%s\"%s\": [  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
+        lines = append(lines, line)
+
+        // 生成示例元素
+        lines = append(lines, indent+"    {")
+        for idx, sub := range f.SubFields {
+            lines = append(lines, writefield(sub, f.SubFields, idx, indent+"        ")...)
+        }
+        lines = append(lines, indent+"    }")
+
+        closing := indent + "]"
+        if i < len(fields)-1 {
+            closing += ","
+        }
+        lines = append(lines, closing)
+        return lines
+    }
 
 	// 普通类型
 	var example string

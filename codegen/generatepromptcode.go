@@ -401,7 +401,7 @@ func (c *CodeBuilder) writeFix() error {
 		if strings.TrimSpace(c.promptNode.FixCode[0]) != "" {
 			fixauto := "codegen.FixAuto[" + c.output + "](p.modelRet)\n"
 			re := regexp.MustCompile(`fix-auto`)
-			c.b.WriteString(fmt.Sprintf("func (p*" + c.fileName + ")FixProcess() error{\n"))
+			c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")FixProcess() error{\n"))
 			c.b.WriteString(re.ReplaceAllString(c.promptNode.FixCode[0], fixauto))
 			c.b.WriteString("\n}\n")
 		}
@@ -484,7 +484,7 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 	c.b.WriteString("        log.Println(\"sys:\",sys)\n")
 	c.b.WriteString("        log.Println(\"user:\",user)\n")
 	c.b.WriteString("        p.modelRet,err= llm.GeneratePromptResponse(sys, user, false)\n")
-	c.b.WriteString("        log.Println(\"模型回复：\",p.modelRet)\n")
+	c.b.WriteString("        log.Println(\"模型回复:\",p.modelRet)\n")
 	c.b.WriteString("        if err != nil {\n")
 	c.b.WriteString("            log.Println(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")
 	c.b.WriteString("            os.Exit(1)\n")
