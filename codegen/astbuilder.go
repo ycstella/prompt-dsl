@@ -3,7 +3,6 @@ package codegen
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/ycstella/prompt-dsl/codegen/parser"
 
@@ -433,17 +432,17 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 	typ := "string"
 	if field.Type_().GetText() != "" {
 		typ = field.Type_().GetText()
-		log.Println(typ)
+		// log.Println(typ)
 	}
 	if typ == "[]" {
 		typ = "[]string"
 	}
 	var subfieldlist []FieldDef
 	if strings.HasPrefix(typ, "[]struct") {
-		log.Println("is []struct")
+		// log.Println("is []struct")
 		typ = "[]struct"
 		typeCtx := field.Type_().Type_()
-		log.Println("typeCtx:",typeCtx)
+		// log.Println("typeCtx:",typeCtx)
 		for i := 0; i < typeCtx.GetChildCount(); i++ {
 			child := typeCtx.GetChild(i)
 			// 判断子节点是不是 FieldDef
