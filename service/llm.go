@@ -102,7 +102,7 @@ func (c *LLMClient) generateOpenAI(systemPrompt, userPrompt string, stream bool)
 			}
 			builder.WriteString(resp.Choices[0].Delta.Content)
 		}
-		return builder.String(), nil
+		return builder.String(), err
 	}
 
 	resp, err := c.openaiCli.CreateChatCompletion(context.Background(), req)
@@ -113,7 +113,8 @@ func (c *LLMClient) generateOpenAI(systemPrompt, userPrompt string, stream bool)
 		return "", fmt.Errorf("OpenAI 返回空响应")
 	}
 	jsonPart := extractJSONArray(strings.TrimSpace(resp.Choices[0].Message.Content))
-
+	log.Println("模型回复：",resp.Choices[0].Message.Content)
+	
 	if jsonPart == "" {
 		return "", fmt.Errorf("未能从模型响应中提取 JSON 数组")
 	}
