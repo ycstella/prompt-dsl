@@ -1,10 +1,16 @@
 parser grammar PromptDSLParser;
 
 options { tokenVocab=PromptDSLLexer; }
+// 新增 runexe 定义
 
+
+    
 // 解析规则
-promptFile  : promptDef+ EOF ;
+promptFile : runexeDef* promptDef+ EOF ;
 
+runexeDef
+    : RUNEXE COLON STRING
+    ;
 promptDef   : PROMPT ID LBRACE promptBlock+ RBRACE ;
 
 promptBlock 

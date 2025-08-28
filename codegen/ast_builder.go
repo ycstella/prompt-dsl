@@ -3,19 +3,32 @@ package codegen
 
 import (
 	"fmt"
+	"log"
 
-	"github.com/ycstella/prompt-dsl/codegen/parser"
-
-	// "log"
 	"strconv"
 	"strings"
+
+	"github.com/ycstella/prompt-dsl/codegen/parser"
+	"github.com/ycstella/prompt-dsl/config"
 
 	"github.com/antlr4-go/antlr/v4"
 )
 
 func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.CommonTokenStream, inputStream *antlr.InputStream) *PromptNode {
+	config.InitLogger()
 	result := NewPromptNode()
 	fmt.Println("Building AST...")
+	// 先处理 runexeDef
+	runexeDefs := parseTree.AllRunexeDef()
+	if len(runexeDefs) > 0 {
+		result.RunExe = make([]string, len(runexeDefs))
+		for i, runexeDef := range runexeDefs {
+			txt := runexeDef.STRING().GetText()
+			result.RunExe[i] = strings.Trim(txt, "\"")
+		}
+		log.Println("🚀 RunExe:", result.RunExe)
+	}
+
 	def := parseTree.PromptDef(0)
 	for _, block := range def.AllPromptBlock() {
 		fmt.Println("  Processing block:")

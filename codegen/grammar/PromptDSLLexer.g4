@@ -32,6 +32,8 @@ SWITCH   : 'switch';
 DEFAULT  : 'default';
 CASE     : 'case';
 GOIMPORT : 'goimport';
+RUNEXE   : 'runexe';
+
 
 BEFORE: 'before' WS* '{' -> pushMode(CODE_BLOCK);
 FIX: 'fix' WS* '{' -> pushMode(CODE_BLOCK);

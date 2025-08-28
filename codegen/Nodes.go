@@ -317,6 +317,7 @@ type PromptNode struct {
 	AfterCode        []string
 	Goimport         []goimport
 	outputspectNodes OutputSpecNode
+	RunExe           []string
 
 	// IsArray     bool
 	// 其它部分

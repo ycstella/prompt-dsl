@@ -92,8 +92,10 @@ func (p *PCodeGen) tempparserAndGen() error {
 	return nil
 }
 func (p *PCodeGen) copyGoFiles() error {
-	//将pdslFile 同目录下的.go文件复制一份放到生成的.exe文件同目录下
+	// 将 pdslFile 同目录下的 .go 文件和 exe 文件复制到生成的 exe 同目录下
 	srcDir := filepath.Dir(p.pdslFile)
+
+	// 先拷贝 .go 文件
 	for _, filename := range config.Cfg.Utils {
 		srcFile := filepath.Join(srcDir, filename)
 		dstFile := filepath.Join(p.outDir, filename)
@@ -101,14 +103,30 @@ func (p *PCodeGen) copyGoFiles() error {
 		if err != nil {
 			log.Fatalf("读取 %s 失败: %v", srcFile, err)
 		}
-		err = os.WriteFile(dstFile, data, 0644)
-		if err != nil {
+		if err := os.WriteFile(dstFile, data, 0644); err != nil {
 			log.Fatalf("写入 %s 失败: %v", dstFile, err)
 		}
 		log.Printf("已复制 %s 到: %s", srcFile, dstFile)
 	}
+
+	// 再拷贝 exe 文件
+	exeNames := []string{"abc.exe", "123.exe"} // 可以改成你的 exe 列表
+	for _, exe := range exeNames {
+		srcExe := filepath.Join(srcDir, exe)
+		dstExe := filepath.Join(p.outDir, exe)
+		data, err := os.ReadFile(srcExe)
+		if err != nil {
+			log.Fatalf("读取 %s 失败: %v", srcExe, err)
+		}
+		if err := os.WriteFile(dstExe, data, 0755); err != nil { // exe 权限
+			log.Fatalf("写入 %s 失败: %v", dstExe, err)
+		}
+		log.Printf("已复制 %s 到: %s", srcExe, dstExe)
+	}
+
 	return nil
 }
+
 
 // 编译生成 exe
 func (p *PCodeGen) buildExe() error {

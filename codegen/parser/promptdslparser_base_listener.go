@@ -26,6 +26,12 @@ func (s *BasePromptDSLParserListener) EnterPromptFile(ctx *PromptFileContext) {}
 // ExitPromptFile is called when production promptFile is exited.
 func (s *BasePromptDSLParserListener) ExitPromptFile(ctx *PromptFileContext) {}
 
+// EnterRunexeDef is called when production runexeDef is entered.
+func (s *BasePromptDSLParserListener) EnterRunexeDef(ctx *RunexeDefContext) {}
+
+// ExitRunexeDef is called when production runexeDef is exited.
+func (s *BasePromptDSLParserListener) ExitRunexeDef(ctx *RunexeDefContext) {}
+
 // EnterPromptDef is called when production promptDef is entered.
 func (s *BasePromptDSLParserListener) EnterPromptDef(ctx *PromptDefContext) {}
 

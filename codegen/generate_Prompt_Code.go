@@ -134,6 +134,9 @@ func (c *CodeBuilder) buildImport() error {
 	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
 		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
+	if len(c.promptNode.RunExe)>0{
+		requiredPkgs=append(requiredPkgs,"os/exec")
+	}
 	for _, req := range requiredPkgs {
 		has := false
 		for _, pkg := range pkgs {
@@ -591,7 +594,48 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.b.WriteString("}\n")
 	return nil
 }
-
+func (c *CodeBuilder) buildExeSingleMain() error {
+	c.b.WriteString("func main() {\n")
+	c.b.WriteString("    p := New" + c.fileName + "()\n")
+	c.b.WriteString("    p.init()\n")
+	c.b.WriteString("    p.loadInput()\n")
+	c.b.WriteString("    // 执行 abc.exe 拆解 input\n")
+	c.b.WriteString("    if err := p.runexe(\"" + c.promptNode.RunExe[0] + "\"); err != nil {\n")
+	c.b.WriteString("        fmt.Println(\"❌ " + c.promptNode.RunExe[0] + " 执行失败\", err)\n")
+	c.b.WriteString("        return\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    p.loadInput()\n")
+	c.b.WriteString("    p.parsedata()\n")
+	c.b.WriteString("    for _, item := range p.Input {\n")
+	c.b.WriteString("        p.currentData = item\n")
+	c.b.WriteString("        err:=p.run()\n")
+	c.b.WriteString("        if err!=nil{\n")
+	c.b.WriteString("        \tlog.Println(\"p.run失败：\",err)\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        p.writeOut(p.afterRet)\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    p.runexe(\""+c.promptNode.RunExe[1]+"\")\n")
+	c.b.WriteString("}\n")
+	return nil
+}
+func (c *CodeBuilder) writeExeRuner() error{
+	c.b.WriteString("func (p *" + c.fileName + ") runexe(exeName string) error {\n")
+	c.b.WriteString("    exePath, err := os.Executable()\n")
+	c.b.WriteString("    if err != nil {\n")
+	c.b.WriteString("        log.Fatalf(\"获取可执行文件路径失败: %v\", err)\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    exeDir := filepath.Dir(exePath)\n")
+	c.b.WriteString("    exeName= filepath.Join(exeDir, exeName)\n\n")
+	c.b.WriteString("    cmd := exec.Command(exeName, p.inputfile)\n")
+	c.b.WriteString("    output, err := cmd.CombinedOutput()\n")
+	c.b.WriteString("    if err != nil {\n")
+	c.b.WriteString("        return fmt.Errorf(\"执行 %s 失败: %v, 输出: %s\", exeName, err, string(output))\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    log.Printf(\"%s 执行完成，输出: %s\", exeName, string(output))\n")
+	c.b.WriteString("    return nil\n")
+	c.b.WriteString("}\n")
+	return nil
+}
 func (c *CodeBuilder) combineSingleCode() error {
 	if err := c.isArray(); err != nil {
 		return err
@@ -650,8 +694,19 @@ func (c *CodeBuilder) combineSingleCode() error {
 			return err
 		}
 	}
-	if err := c.buildSingleMain(); err != nil {
-		return err
+	
+	//如果有runexe则main先执行exe转input
+	if len(c.promptNode.RunExe)!=0 {
+		if err := c.writeExeRuner(); err != nil {
+			return err
+		}
+		if err := c.buildExeSingleMain(); err != nil {
+			return err
+		}
+	} else {
+		if err := c.buildSingleMain(); err != nil {
+			return err
+		}
 	}
 	return nil
 }

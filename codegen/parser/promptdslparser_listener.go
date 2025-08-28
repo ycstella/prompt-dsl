@@ -10,6 +10,9 @@ type PromptDSLParserListener interface {
 	// EnterPromptFile is called when entering the promptFile production.
 	EnterPromptFile(c *PromptFileContext)
 
+	// EnterRunexeDef is called when entering the runexeDef production.
+	EnterRunexeDef(c *RunexeDefContext)
+
 	// EnterPromptDef is called when entering the promptDef production.
 	EnterPromptDef(c *PromptDefContext)
 
@@ -156,6 +159,9 @@ type PromptDSLParserListener interface {
 
 	// ExitPromptFile is called when exiting the promptFile production.
 	ExitPromptFile(c *PromptFileContext)
+
+	// ExitRunexeDef is called when exiting the runexeDef production.
+	ExitRunexeDef(c *RunexeDefContext)
 
 	// ExitPromptDef is called when exiting the promptDef production.
 	ExitPromptDef(c *PromptDefContext)

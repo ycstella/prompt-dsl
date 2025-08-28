@@ -194,6 +194,7 @@ func (ptc *promptToGenCode) PromptToGenCode() error {
 	}
 	return nil
 }
+
 func (ptc *promptToGenCode) tempGenCode() error {
 	var temp *final
 	CodeBuilder := NewCodeBuilder(ptc.promptNode, ptc.fileName, temp)
