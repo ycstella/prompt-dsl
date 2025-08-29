@@ -318,6 +318,7 @@ type PromptNode struct {
 	Goimport         []goimport
 	outputspectNodes OutputSpecNode
 	RunExe           []string
+	iteraterPath     string
 
 	// IsArray     bool
 	// 其它部分
@@ -336,6 +337,7 @@ func NewPromptNode() *PromptNode {
 		AfterCode:        []string{},
 		FixCode:          []string{},
 		Goimport:         []goimport{},
+		iteraterPath:     "",
 		outputspectNodes: OutputSpecNode{},
 	}
 	return p

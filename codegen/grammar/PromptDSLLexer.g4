@@ -33,9 +33,9 @@ DEFAULT  : 'default';
 CASE     : 'case';
 GOIMPORT : 'goimport';
 RUNEXE   : 'runexe';
-IT       :'it';
+IT :'it';
 IT_CTX   :'it_ctx';
-
+LOOPRANGE:'loopRange';
 
 BEFORE: 'before' WS* '{' -> pushMode(CODE_BLOCK);
 FIX: 'fix' WS* '{' -> pushMode(CODE_BLOCK);

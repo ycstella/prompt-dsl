@@ -15,6 +15,7 @@ promptDef   : PROMPT ID LBRACE promptBlock+ RBRACE ;
 
 promptBlock 
     : inputSection
+    | iterater
     | outputSection
     | beforeSection
     | systemSection
@@ -37,9 +38,8 @@ inputSection
     : INPUT LBRACE fieldDef+ RBRACE
     | INPUT fieldDef    
     ;
-    
 iterater
-    : IT_CTX LPAREN  RPAREN
+    : IT_CTX LPAREN STRING RPAREN
     ;
 
 outputSection
@@ -179,7 +179,7 @@ textLine
     ;
 
 paramPath
-    : (IT |INPUT | OUTPUT | AFTER | BEFORE) (DOT ID | LBRACK expr RBRACK)*
+    : (IT |INPUT | OUTPUT | AFTER | BEFORE | IT) (DOT ID | LBRACK expr RBRACK)*
     ;
 
 

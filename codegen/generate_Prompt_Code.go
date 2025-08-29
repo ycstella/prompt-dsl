@@ -67,20 +67,27 @@ type CodeBuilder struct {
 	b             strings.Builder
 	outputTypeStr string
 	model         string
-	goimport      []goimport
-	genPrompCode  *final
-	outname       string
-	output        string
+
+	goimport     []goimport
+	genPrompCode *final
+	outname      string
+	output       string
+	loopClass    string
+	loopName     string
 }
 
 func NewCodeBuilder(p *PromptNode, fileName string, g *final) *CodeBuilder {
 	var b strings.Builder
+	loopName := p.iteraterPath
+	parts := strings.Split(loopName, ".")
+	last := parts[len(parts)-1] // 取最后一部分
 	return &CodeBuilder{
 		promptNode:   p,
 		fileName:     fileName,
 		b:            b,
 		goimport:     p.Goimport,
 		genPrompCode: g,
+		loopName:     last,
 	}
 }
 
@@ -132,8 +139,8 @@ func (c *CodeBuilder) buildImport() error {
 	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
 		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
-	if len(c.promptNode.RunExe)>0{
-		requiredPkgs=append(requiredPkgs,"os/exec")
+	if len(c.promptNode.RunExe) > 0 {
+		requiredPkgs = append(requiredPkgs, "os/exec")
 	}
 	for _, req := range requiredPkgs {
 		has := false
@@ -170,6 +177,10 @@ func (c *CodeBuilder) buildPromptStruct() error {
 	c.b.WriteString("\tdata      []byte\n")
 	c.b.WriteString("\tfixRet      " + c.model + "\n")
 	c.b.WriteString("\tafterRet      " + c.outputTypeStr + "\n")
+	if c.promptNode.iteraterPath != "" {
+		c.b.WriteString("\tit      " + c.loopClass + "\n")
+		c.b.WriteString("\tit_idx      int\n")
+	}
 	c.b.WriteString("}\n\n")
 	return nil
 }
@@ -177,27 +188,35 @@ func (c *CodeBuilder) subStruct() {
 	for _, substruct := range c.promptNode.SubFields {
 		c.b.WriteString("type " + c.fileName + capitalizeFirst(substruct.Name) + " struct {\n")
 		for _, field := range substruct.Fields {
-			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", field.Name, field.Type, field.JsonName))
+			c.buildField(field)
 		}
 		c.b.WriteString("}\n\n")
 	}
 }
+
 func (c *CodeBuilder) buildInputContext() {
 	c.b.WriteString("type " + c.fileName + "InputContext struct {\n")
 	for _, field := range c.promptNode.InFields {
-		fieldName := capitalizeFirst(field.Name)
-		if field.Type == "struct" {
-			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
-			continue
-		}
-		if field.Type == "[]struct" {
-			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+c.fileName+fieldName, field.JsonName))
-			continue
-		}
-		c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
+		c.buildField(field)
 	}
 	c.b.WriteString("}\n\n")
 }
+func (c *CodeBuilder) buildField(field FieldDef) {
+	fieldName := capitalizeFirst(field.Name)
+	if field.Name == c.loopName {
+		c.loopClass = c.fileName + fieldName
+	}
+	if field.Type == "struct" {
+		c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
+		return
+	}
+	if field.Type == "[]struct" {
+		c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+c.fileName+fieldName, field.JsonName))
+		return
+	}
+	c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
+}
+
 func (c *CodeBuilder) buildOutputContext() {
 	if len(c.promptNode.OutFields) > 0 {
 		c.b.WriteString("type " + c.fileName + "OutputContext struct {\n")
@@ -246,17 +265,21 @@ func (c *CodeBuilder) buildModelOutputContext() {
 	}
 }
 func (c *CodeBuilder) buildstruct() error {
-	c.buildPromptStruct()
 	c.subStruct()
 	c.buildInputContext()
 	c.buildOutputContext()
 	c.buildModelOutputContext()
+	c.buildPromptStruct()
 	return nil
 }
 func (c *CodeBuilder) genModelPrompt() error {
 	//gensystem
 	//写入sys处理逻辑
-	c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenSys(in " + c.fileName + "InputContext) string {\n"))
+	if c.loopClass != "" {
+		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenSys(in " + c.fileName + "InputContext,it " + c.loopClass + ") string {\n"))
+	} else {
+		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenSys(in " + c.fileName + "InputContext) string {\n"))
+	}
 	c.b.WriteString("    var b strings.Builder\n")
 
 	for _, line := range c.genPrompCode.Sys {
@@ -266,7 +289,8 @@ func (c *CodeBuilder) genModelPrompt() error {
 	c.b.WriteString("\n}\n\n")
 
 	//genuser
-	c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenUser(in " + c.fileName + "InputContext) string {\n"))
+
+	c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenUser(in " + c.fileName + "InputContext,it " + c.loopClass + ") string {\n"))
 	c.b.WriteString("    var b strings.Builder\n")
 
 	for _, line := range c.genPrompCode.User {
@@ -466,9 +490,13 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 		c.b.WriteString("    \tos.Exit(1)\n")
 		c.b.WriteString("    }\n")
 	}
-	c.b.WriteString("    sys := p.GenSys(p.currentData)\n")
-	c.b.WriteString("    user := p.GenUser(p.currentData)\n")
-
+	if c.loopClass != "" {
+		c.b.WriteString("    sys := p.GenSys(p.currentData,p.it)\n")
+		c.b.WriteString("    user := p.GenUser(p.currentData,p.it)\n")
+	} else {
+		c.b.WriteString("    sys := p.GenSys(p.currentData)\n")
+		c.b.WriteString("    user := p.GenUser(p.currentData)\n")
+	}
 	c.b.WriteString("    modelConfig := config.GetModelConfig(p.modelname)\n")
 	c.b.WriteString("    llm := service.NewLLMClient(*modelConfig)\n")
 
@@ -592,6 +620,40 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.b.WriteString("}\n")
 	return nil
 }
+func (c *CodeBuilder) buildLoopMain() error {
+	c.b.WriteString("func main() {\n")
+	c.b.WriteString("\tp := NewGetpath()\n")
+	c.b.WriteString("\tp.init()\n")
+	c.b.WriteString("\tp.loadInput()\n")
+	c.b.WriteString("\tp.parsedata()\n")
+	c.b.WriteString("\tpath := \"" + c.promptNode.iteraterPath + "\"\n")
+	c.b.WriteString("\tfor _, item := range p.Input {\n")
+	c.b.WriteString("\t\tp.currentData = item\n")
+	c.b.WriteString("\t\t// 将路径拆分成每一层\n")
+	c.b.WriteString("\t\tparts := strings.Split(path, \".\")\n")
+	c.b.WriteString("\t\tp.it_idx = 0\n")
+	c.b.WriteString("\t\t// 遍历路径，最后一层循环处理\n")
+	c.b.WriteString("\t\terr := traversePath(reflect.ValueOf(item), parts, func(e reflect.Value) {\n")
+	c.b.WriteString("\t\t\t// 类型断言到最终元素类型\n")
+	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().(GetpathSteps)\n")
+	c.b.WriteString("\t\t\tif !ok {\n")
+	c.b.WriteString("\t\t\t\tlog.Println(\"类型断言失败:\", e.Type())\n")
+	c.b.WriteString("\t\t\t\treturn\n")
+	c.b.WriteString("\t\t\t}\n")
+	c.b.WriteString("\t\t\tp.it = subItem\n")
+	c.b.WriteString("\t\t\tif err := p.runWithRetry(3); err != nil {\n")
+	c.b.WriteString("\t\t\t\tlog.Println(\"p.run失败：\", err)\n")
+	c.b.WriteString("\t\t\t}\n")
+	c.b.WriteString("\t\t\tp.it_idx++\n")
+	c.b.WriteString("\t\t})\n")
+	c.b.WriteString("\t\tif err != nil {\n")
+	c.b.WriteString("\t\t\tlog.Println(\"路径遍历失败:\", err)\n")
+	c.b.WriteString("\t\t}\n")
+	c.b.WriteString("\t\tp.writeOut(p.afterRet)\n")
+	c.b.WriteString("\t}\n")
+	c.b.WriteString("}\n")
+	return nil
+}
 func (c *CodeBuilder) buildExeSingleMain() error {
 	c.b.WriteString("func main() {\n")
 	c.b.WriteString("    p := New" + c.fileName + "()\n")
@@ -612,11 +674,11 @@ func (c *CodeBuilder) buildExeSingleMain() error {
 	c.b.WriteString("        }\n")
 	c.b.WriteString("        p.writeOut(p.afterRet)\n")
 	c.b.WriteString("    }\n")
-	c.b.WriteString("    p.runexe(\""+c.promptNode.RunExe[1]+"\")\n")
+	c.b.WriteString("    p.runexe(\"" + c.promptNode.RunExe[1] + "\")\n")
 	c.b.WriteString("}\n")
 	return nil
 }
-func (c *CodeBuilder) writeExeRuner() error{
+func (c *CodeBuilder) writeExeRuner() error {
 	c.b.WriteString("func (p *" + c.fileName + ") runexe(exeName string) error {\n")
 	c.b.WriteString("    exePath, err := os.Executable()\n")
 	c.b.WriteString("    if err != nil {\n")
@@ -631,6 +693,59 @@ func (c *CodeBuilder) writeExeRuner() error{
 	c.b.WriteString("    }\n")
 	c.b.WriteString("    log.Printf(\"%s 执行完成，输出: %s\", exeName, string(output))\n")
 	c.b.WriteString("    return nil\n")
+	c.b.WriteString("}\n")
+	return nil
+}
+func (c *CodeBuilder) looppath() error {
+	c.b.WriteString("// traversePath 递归访问结构体字段，path 用 \".\" 分割\n")
+	c.b.WriteString("func traversePath(v reflect.Value, parts []string, handle func(reflect.Value)) error {\n")
+	c.b.WriteString("    if len(parts) == 0 {\n")
+	c.b.WriteString("        // 最后一层必须是 slice\n")
+	c.b.WriteString("        v = reflect.Indirect(v)\n")
+	c.b.WriteString("        if v.Kind() != reflect.Slice && v.Kind() != reflect.Array {\n")
+	c.b.WriteString("            return fmt.Errorf(\"最后一层不是切片类型: %s\", v.Kind())\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        for i := 0; i < v.Len(); i++ {\n")
+	c.b.WriteString("            handle(v.Index(i))\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        return nil\n")
+	c.b.WriteString("    }\n\n")
+
+	c.b.WriteString("    v = reflect.Indirect(v)\n\n")
+
+	c.b.WriteString("    switch v.Kind() {\n")
+	c.b.WriteString("    case reflect.Struct:\n")
+	c.b.WriteString("        f := v.FieldByName(strings.Title(parts[0]))\n")
+	c.b.WriteString("        if !f.IsValid() {\n")
+	c.b.WriteString("            return fmt.Errorf(\"字段 %s 不存在\", parts[0])\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        return traversePath(f, parts[1:], handle)\n")
+	c.b.WriteString("    case reflect.Slice, reflect.Array:\n")
+	c.b.WriteString("        for i := 0; i < v.Len(); i++ {\n")
+	c.b.WriteString("            elem := v.Index(i)\n")
+	c.b.WriteString("            if err := traversePath(elem, parts, handle); err != nil {\n")
+	c.b.WriteString("                return err\n")
+	c.b.WriteString("            }\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        return nil\n")
+	c.b.WriteString("    default:\n")
+	c.b.WriteString("        return fmt.Errorf(\"无法遍历字段 %s, 类型: %s\", parts[0], v.Kind())\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("}\n")
+	return nil
+}
+func (c *CodeBuilder) buildReTry() error {
+	c.b.WriteString("func (p *Getpath) runWithRetry(maxRetries int) error {\n")
+	c.b.WriteString("    var err error\n")
+	c.b.WriteString("    for attempt := 1; attempt <= maxRetries; attempt++ {\n")
+	c.b.WriteString("        err = p.run()\n")
+	c.b.WriteString("        if err == nil {\n")
+	c.b.WriteString("            return nil\n")
+	c.b.WriteString("        }\n")
+	c.b.WriteString("        log.Printf(\"调用模型失败，第 %d 次重试: %v\", attempt, err)\n")
+	c.b.WriteString("        time.Sleep(time.Second * 2)\n")
+	c.b.WriteString("    }\n")
+	c.b.WriteString("    return fmt.Errorf(\"调用模型失败，已重试 %d 次仍然出错: %v\", maxRetries, err)\n")
 	c.b.WriteString("}\n")
 	return nil
 }
@@ -683,6 +798,9 @@ func (c *CodeBuilder) combineSingleCode() error {
 	if err := c.buildIsValid(); err != nil {
 		return err
 	}
+	if err := c.buildReTry(); err != nil {
+		return err
+	}
 	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
 		if err := c.buildExecuteDir(); err != nil {
 			return err
@@ -692,9 +810,18 @@ func (c *CodeBuilder) combineSingleCode() error {
 			return err
 		}
 	}
-	
+	//如果有iterater则增加循环内容，调用循环main
+	if c.promptNode.iteraterPath != "" {
+		if err := c.looppath(); err != nil {
+			return err
+		}
+		if err := c.buildLoopMain(); err != nil {
+			return err
+		}
+		return nil
+	}
 	//如果有runexe则main先执行exe转input
-	if len(c.promptNode.RunExe)!=0 {
+	if len(c.promptNode.RunExe) != 0 {
 		if err := c.writeExeRuner(); err != nil {
 			return err
 		}

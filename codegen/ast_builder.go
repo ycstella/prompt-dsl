@@ -28,7 +28,6 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		}
 		log.Println("🚀 RunExe:", result.RunExe)
 	}
-
 	def := parseTree.PromptDef(0)
 	for _, block := range def.AllPromptBlock() {
 		fmt.Println("  Processing block:")
@@ -116,6 +115,11 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 			result.AfterCode = extractRawText(b, stream)
 		case *parser.FixSectionContext:
 			result.FixCode = extractRawText(b, stream)
+		case *parser.IteraterContext:
+			if b.STRING() != nil {
+				iteraterPath := b.STRING().GetText()
+				result.iteraterPath,_= strconv.Unquote(iteraterPath)
+			}
 		case *parser.GoimportSectionContext:
 			var imports []goimport
 			for _, entry := range b.AllGoimportEntry() {
