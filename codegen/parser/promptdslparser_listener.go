@@ -28,6 +28,9 @@ type PromptDSLParserListener interface {
 	// EnterInputSection is called when entering the inputSection production.
 	EnterInputSection(c *InputSectionContext)
 
+	// EnterIterater is called when entering the iterater production.
+	EnterIterater(c *IteraterContext)
+
 	// EnterOutputSection is called when entering the outputSection production.
 	EnterOutputSection(c *OutputSectionContext)
 
@@ -177,6 +180,9 @@ type PromptDSLParserListener interface {
 
 	// ExitInputSection is called when exiting the inputSection production.
 	ExitInputSection(c *InputSectionContext)
+
+	// ExitIterater is called when exiting the iterater production.
+	ExitIterater(c *IteraterContext)
 
 	// ExitOutputSection is called when exiting the outputSection production.
 	ExitOutputSection(c *OutputSectionContext)

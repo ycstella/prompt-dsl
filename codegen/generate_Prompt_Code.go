@@ -61,8 +61,6 @@ var symbolToImport = map[string]string{
 	"container/heap.": "container/heap",
 }
 
-//
-
 type CodeBuilder struct {
 	promptNode    *PromptNode
 	fileName      string

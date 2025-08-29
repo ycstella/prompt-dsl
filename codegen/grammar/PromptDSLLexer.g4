@@ -33,6 +33,8 @@ DEFAULT  : 'default';
 CASE     : 'case';
 GOIMPORT : 'goimport';
 RUNEXE   : 'runexe';
+IT       :'it';
+IT_CTX   :'it_ctx';
 
 
 BEFORE: 'before' WS* '{' -> pushMode(CODE_BLOCK);
@@ -89,8 +91,8 @@ BOOL   : 'true' | 'false' ;
 PIPE   : '|';
 SEMI   : ';';
 PLUS   : '+';
-// 以 "-" 开头的一行文本，表示 DSL 中的一种简化字符串表示法
-DASH_STRING: '-' (~[\r\n \t{}();:=]+ (~[\r\n]*)?);
+// 以 "-" 开头的一行文本
+DASH_STRING: '-' (~[\r\n]+ (~[\r\n]*)?);
 // 空白和注释
 WS            : [ \t\r\n]+      -> channel(HIDDEN) ;
 LINE_COMMENT  : '//' ~[\r\n]*   -> channel(HIDDEN) ;

@@ -37,6 +37,10 @@ inputSection
     : INPUT LBRACE fieldDef+ RBRACE
     | INPUT fieldDef    
     ;
+    
+iterater
+    : IT_CTX LPAREN  RPAREN
+    ;
 
 outputSection
     : defaultAnnotation* OUTPUT ( outputStruct | outputMarkdown )
@@ -156,7 +160,6 @@ dslCallExpr
 expr
     : expr op=(PLUS | MINUS | STAR | SLASH | MOD) expr   // 二元运算
     | paramPath
-    | DASH_STRING
     | STRING
     | NUMBER
     | BOOL
@@ -176,7 +179,7 @@ textLine
     ;
 
 paramPath
-    : (ID | INPUT | OUTPUT | AFTER | BEFORE) (DOT ID | LBRACK expr RBRACK)*
+    : (IT |INPUT | OUTPUT | AFTER | BEFORE) (DOT ID | LBRACK expr RBRACK)*
     ;
 
 
