@@ -109,25 +109,22 @@ func (p *PCodeGen) copyGoFiles() error {
 		log.Printf("已复制 %s 到: %s", srcFile, dstFile)
 	}
 
-	// 再拷贝 exe 文件
-	exeNames := []string{"abc.exe", "123.exe"} // 可以改成你的 exe 列表
-	for _, exe := range exeNames {
-		srcExe := filepath.Join(srcDir, exe)
-		dstExe := filepath.Join(p.outDir, exe)
-		data, err := os.ReadFile(srcExe)
-		if err != nil {
-			log.Fatalf("读取 %s 失败: %v", srcExe, err)
-		}
-		if err := os.WriteFile(dstExe, data, 0755); err != nil { // exe 权限
-			log.Fatalf("写入 %s 失败: %v", dstExe, err)
-		}
-		log.Printf("已复制 %s 到: %s", srcExe, dstExe)
-	}
+	// // 再拷贝 exe 文件
+	// for _, exe := range exeNames {
+	// 	srcExe := filepath.Join(srcDir, exe)
+	// 	dstExe := filepath.Join(p.outDir, exe)
+	// 	data, err := os.ReadFile(srcExe)
+	// 	if err != nil {
+	// 		log.Fatalf("读取 %s 失败: %v", srcExe, err)
+	// 	}
+	// 	if err := os.WriteFile(dstExe, data, 0755); err != nil { // exe 权限
+	// 		log.Fatalf("写入 %s 失败: %v", dstExe, err)
+	// 	}
+	// 	log.Printf("已复制 %s 到: %s", srcExe, dstExe)
+	// }
 
 	return nil
 }
-
-
 // 编译生成 exe
 func (p *PCodeGen) buildExe() error {
 
