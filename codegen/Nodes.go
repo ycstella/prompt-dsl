@@ -8,6 +8,7 @@ import (
 
 type FieldDef struct {
 	Name        string
+	Ismodel     bool
 	Type        string
 	JsonName    string
 	Hint        string
@@ -70,7 +71,6 @@ func (node *OutputSpecNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 		b.WriteString(fmt.Sprintf("    b.WriteString(\"%s\\n\")\n", strings.ReplaceAll(line, "\"", "\\\"")))
 	}
 	return []string{b.String()}, nil
-
 	// return []string{}, nil
 }
 

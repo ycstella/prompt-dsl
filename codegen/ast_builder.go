@@ -79,7 +79,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		case *parser.InputSectionContext:
 			// 解析输入字段，放到 result.InDef
 			for _, field := range b.AllFieldDef() {
-				field, _ := processField(field, nil, result)
+				field := processField(field, nil, result)
 				result.InFields = append(result.InFields, field)
 			}
 			fmt.Println("😅inNode:", result.InFields)
@@ -93,12 +93,8 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 				defaultAnnoMap := buildDefaultAnnotationMap(b.AllDefaultAnnotation())
 				// var fields []FieldDef
 				for _, field := range structCtx.AllFieldDef() {
-					field, ismodel := processField(field, defaultAnnoMap, result)
+					field := processField(field, defaultAnnoMap, result)
 					result.OutFields = append(result.OutFields, field)
-					if ismodel {
-						fmt.Println("fmodeloutput")
-						result.ModelFields = append(result.ModelFields, field)
-					}
 				}
 			} else if mdCtx := b.OutputMarkdown(); mdCtx != nil {
 				// fmt.Println("md👀")
@@ -118,7 +114,7 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		case *parser.IteraterContext:
 			if b.STRING() != nil {
 				iteraterPath := b.STRING().GetText()
-				result.iteraterPath,_= strconv.Unquote(iteraterPath)
+				result.iteraterPath, _ = strconv.Unquote(iteraterPath)
 			}
 		case *parser.GoimportSectionContext:
 			var imports []goimport
@@ -444,7 +440,7 @@ func buildDefaultAnnotationMap(defaultAnnotations []parser.IDefaultAnnotationCon
 	return defaultAnnoMap
 }
 
-func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]string, result *PromptNode) (FieldDef, bool) {
+func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]string, result *PromptNode) FieldDef {
 	name := field.ID().GetText()
 	typ := "string"
 	if field.Type_().GetText() != "" {
@@ -465,7 +461,7 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 			// 判断子节点是不是 FieldDef
 			if subFieldCtx, ok := child.(parser.IFieldDefContext); ok {
 				// fmt.Println("subing:😒",subFieldCtx.ID)
-				subfield, _ := processField(subFieldCtx, defaultAnnoMap, result)
+				subfield := processField(subFieldCtx, defaultAnnoMap, result)
 				subfieldlist = append(subfieldlist, subfield)
 			}
 		}
@@ -483,7 +479,7 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 			// 判断子节点是不是 FieldDef
 			if subFieldCtx, ok := child.(parser.IFieldDefContext); ok {
 				// fmt.Println("subing:😒",subFieldCtx.ID)
-				subfield, _ := processField(subFieldCtx, defaultAnnoMap, result)
+				subfield := processField(subFieldCtx, defaultAnnoMap, result)
 				subfieldlist = append(subfieldlist, subfield)
 			}
 		}
@@ -557,8 +553,14 @@ func processField(field parser.IFieldDefContext, defaultAnnoMap map[string][]str
 		Name:        name,
 		Type:        typ,
 		JsonName:    jsonName,
+		Ismodel:     ismodel,
 		Annotations: annotations,
 		SubFields:   subfieldlist,
 	}
-	return pfield, ismodel
+	if pfield.Ismodel {
+		fmt.Println("fmodeloutput")
+		result.ModelFields = append(result.ModelFields, pfield)
+	}
+
+	return pfield
 }
