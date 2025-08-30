@@ -132,15 +132,18 @@ func (c *CodeBuilder) buildImport() error {
 	// renderImportSectionWithAlias()
 	pkgs := inferImportsFromCode(allCode)
 	//main
-	requiredPkgs := []string{"os", "log", "fmt", "strings", "github.com/ycstella/prompt-dsl/service", "github.com/ycstella/prompt-dsl/codegen", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
+	requiredPkgs := []string{"os", "log", "fmt", "strings", "github.com/ycstella/prompt-dsl/service", "github.com/ycstella/prompt-dsl/codegen", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath","time"}
 	if len(c.promptNode.FixCode) == 0 || len(c.promptNode.AfterCode) == 0 {
 		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
 	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
-		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath",}
 	}
 	if len(c.promptNode.RunExe) > 0 {
 		requiredPkgs = append(requiredPkgs, "os/exec")
+	}
+	if c.loopName!="" {
+		requiredPkgs = append(requiredPkgs, "reflect")
 	}
 	for _, req := range requiredPkgs {
 		has := false
@@ -232,16 +235,7 @@ func (c *CodeBuilder) buildOutputContext() {
 			if skip {
 				continue
 			}
-			fieldName := capitalizeFirst(field.Name)
-			if field.Type == "struct" {
-				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
-				continue
-			}
-			if field.Type == "[]struct" {
-				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+c.fileName+fieldName, field.JsonName))
-				continue
-			}
-			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
+			c.buildField(field)
 		}
 		c.b.WriteString("}\n\n")
 	}
@@ -250,16 +244,7 @@ func (c *CodeBuilder) buildModelOutputContext() {
 	if len(c.promptNode.ModelFields) > 0 {
 		c.b.WriteString("type " + c.fileName + "ModelOutputContext struct {\n")
 		for _, field := range c.promptNode.ModelFields {
-			fieldName := capitalizeFirst(field.Name)
-			if field.Type == "struct" {
-				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, c.fileName+fieldName, field.JsonName))
-				continue
-			}
-			if field.Type == "[]struct" {
-				c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+c.fileName+fieldName, field.JsonName))
-				continue
-			}
-			c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
+			c.buildField(field)
 		}
 		c.b.WriteString("}\n\n")
 	}
@@ -289,8 +274,11 @@ func (c *CodeBuilder) genModelPrompt() error {
 	c.b.WriteString("\n}\n\n")
 
 	//genuser
-
-	c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenUser(in " + c.fileName + "InputContext,it " + c.loopClass + ") string {\n"))
+	if c.loopClass != "" {
+		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenUser(in " + c.fileName + "InputContext,it " + c.loopClass + ") string {\n"))
+	} else {
+		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")GenUser(in " + c.fileName + "InputContext) string {\n"))
+	}
 	c.b.WriteString("    var b strings.Builder\n")
 
 	for _, line := range c.genPrompCode.User {
@@ -635,7 +623,7 @@ func (c *CodeBuilder) buildLoopMain() error {
 	c.b.WriteString("\t\t// 遍历路径，最后一层循环处理\n")
 	c.b.WriteString("\t\terr := traversePath(reflect.ValueOf(item), parts, func(e reflect.Value) {\n")
 	c.b.WriteString("\t\t\t// 类型断言到最终元素类型\n")
-	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().(GetpathSteps)\n")
+	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().("+c.loopClass+")\n")
 	c.b.WriteString("\t\t\tif !ok {\n")
 	c.b.WriteString("\t\t\t\tlog.Println(\"类型断言失败:\", e.Type())\n")
 	c.b.WriteString("\t\t\t\treturn\n")
@@ -735,7 +723,7 @@ func (c *CodeBuilder) looppath() error {
 	return nil
 }
 func (c *CodeBuilder) buildReTry() error {
-	c.b.WriteString("func (p *Getpath) runWithRetry(maxRetries int) error {\n")
+	c.b.WriteString("func (p *" + c.fileName + ") runWithRetry(maxRetries int) error {\n")
 	c.b.WriteString("    var err error\n")
 	c.b.WriteString("    for attempt := 1; attempt <= maxRetries; attempt++ {\n")
 	c.b.WriteString("        err = p.run()\n")
