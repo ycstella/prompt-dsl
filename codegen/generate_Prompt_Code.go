@@ -139,7 +139,7 @@ func (c *CodeBuilder) buildImport() error {
 		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
 	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
-		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath","time","github.com/ycstella/prompt-dsl/codegen"}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath", "time", "github.com/ycstella/prompt-dsl/codegen"}
 	}
 	if len(c.promptNode.RunExe) > 0 {
 		requiredPkgs = append(requiredPkgs, "os/exec")
@@ -398,7 +398,7 @@ func (c *CodeBuilder) writeAfter() error {
 		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")AfterProcess() error {\n"))
 		c.b.WriteString(c.promptNode.AfterCode[0])
 		c.b.WriteString("\n}\n\n")
-	}else {
+	} else {
 		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")AfterProcess() error{\n"))
 		c.b.WriteString("\t//没有后处理函数时自动调用\n")
 		c.b.WriteString("\treturn nil\n")
@@ -620,7 +620,7 @@ func (c *CodeBuilder) buildLoopMain() error {
 	c.b.WriteString("\t\tparts := strings.Split(path, \".\")\n")
 	c.b.WriteString("\t\tp.it_idx = 0\n")
 	c.b.WriteString("\t\t// 遍历路径，最后一层循环处理\n")
-	c.b.WriteString("\t\terr := traversePath(reflect.ValueOf(item), parts, func(e reflect.Value) {\n")
+	c.b.WriteString("\t\terr := p.traversePath(reflect.ValueOf(item), parts, func(e reflect.Value) {\n")
 	c.b.WriteString("\t\t\t// 类型断言到最终元素类型\n")
 	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().(" + c.loopClass + ")\n")
 	c.b.WriteString("\t\t\tif !ok {\n")
@@ -685,8 +685,7 @@ func (c *CodeBuilder) writeExeRuner() error {
 	return nil
 }
 func (c *CodeBuilder) looppath() error {
-	c.b.WriteString("// traversePath 递归访问结构体字段，path 用 \".\" 分割\n")
-	c.b.WriteString("func traversePath(v reflect.Value, parts []string, handle func(reflect.Value)) error {\n")
+	c.b.WriteString("func(p *" + c.fileName + ") traversePath(v reflect.Value, parts []string, handle func(reflect.Value)) error {\n")
 	c.b.WriteString("    if len(parts) == 0 {\n")
 	c.b.WriteString("        // 最后一层必须是 slice\n")
 	c.b.WriteString("        v = reflect.Indirect(v)\n")
@@ -707,11 +706,11 @@ func (c *CodeBuilder) looppath() error {
 	c.b.WriteString("        if !f.IsValid() {\n")
 	c.b.WriteString("            return fmt.Errorf(\"字段 %s 不存在\", parts[0])\n")
 	c.b.WriteString("        }\n")
-	c.b.WriteString("        return traversePath(f, parts[1:], handle)\n")
+	c.b.WriteString("        return p.traversePath(f, parts[1:], handle)\n")
 	c.b.WriteString("    case reflect.Slice, reflect.Array:\n")
 	c.b.WriteString("        for i := 0; i < v.Len(); i++ {\n")
 	c.b.WriteString("            elem := v.Index(i)\n")
-	c.b.WriteString("            if err := traversePath(elem, parts, handle); err != nil {\n")
+	c.b.WriteString("            if err := p.traversePath(elem, parts, handle); err != nil {\n")
 	c.b.WriteString("                return err\n")
 	c.b.WriteString("            }\n")
 	c.b.WriteString("        }\n")
