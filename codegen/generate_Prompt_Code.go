@@ -3,6 +3,7 @@ package codegen
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -132,17 +133,17 @@ func (c *CodeBuilder) buildImport() error {
 	// renderImportSectionWithAlias()
 	pkgs := inferImportsFromCode(allCode)
 	//main
-	requiredPkgs := []string{"os", "log", "fmt", "strings", "github.com/ycstella/prompt-dsl/service", "github.com/ycstella/prompt-dsl/codegen", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath","time"}
+	requiredPkgs := []string{"os", "log", "fmt", "strings", "github.com/ycstella/prompt-dsl/service", "github.com/ycstella/prompt-dsl/codegen", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath", "time"}
 	if len(c.promptNode.FixCode) == 0 || len(c.promptNode.AfterCode) == 0 {
 		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
 	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
-		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath",}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
 	if len(c.promptNode.RunExe) > 0 {
 		requiredPkgs = append(requiredPkgs, "os/exec")
 	}
-	if c.loopName!="" {
+	if c.loopName != "" {
 		requiredPkgs = append(requiredPkgs, "reflect")
 	}
 	for _, req := range requiredPkgs {
@@ -597,6 +598,7 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.b.WriteString("    p.init()\n")
 	c.b.WriteString("    p.loadInput()\n")
 	c.b.WriteString("    p.parsedata()\n")
+	c.loopRange()
 	c.b.WriteString("    for _, item := range p.Input {\n")
 	c.b.WriteString("        p.currentData = item\n")
 	c.b.WriteString("        err:=p.run()\n")
@@ -615,6 +617,7 @@ func (c *CodeBuilder) buildLoopMain() error {
 	c.b.WriteString("\tp.loadInput()\n")
 	c.b.WriteString("\tp.parsedata()\n")
 	c.b.WriteString("\tpath := \"" + c.promptNode.iteraterPath + "\"\n")
+	c.loopRange()
 	c.b.WriteString("\tfor _, item := range p.Input {\n")
 	c.b.WriteString("\t\tp.currentData = item\n")
 	c.b.WriteString("\t\t// 将路径拆分成每一层\n")
@@ -623,7 +626,7 @@ func (c *CodeBuilder) buildLoopMain() error {
 	c.b.WriteString("\t\t// 遍历路径，最后一层循环处理\n")
 	c.b.WriteString("\t\terr := traversePath(reflect.ValueOf(item), parts, func(e reflect.Value) {\n")
 	c.b.WriteString("\t\t\t// 类型断言到最终元素类型\n")
-	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().("+c.loopClass+")\n")
+	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().(" + c.loopClass + ")\n")
 	c.b.WriteString("\t\t\tif !ok {\n")
 	c.b.WriteString("\t\t\t\tlog.Println(\"类型断言失败:\", e.Type())\n")
 	c.b.WriteString("\t\t\t\treturn\n")
@@ -654,6 +657,7 @@ func (c *CodeBuilder) buildExeSingleMain() error {
 	c.b.WriteString("    }\n")
 	c.b.WriteString("    p.loadInput()\n")
 	c.b.WriteString("    p.parsedata()\n")
+	c.loopRange()
 	c.b.WriteString("    for _, item := range p.Input {\n")
 	c.b.WriteString("        p.currentData = item\n")
 	c.b.WriteString("        err:=p.run()\n")
@@ -823,8 +827,6 @@ func (c *CodeBuilder) combineSingleCode() error {
 	}
 	return nil
 }
-
-// temp
 func (c *CodeBuilder) TcombineSingleCode() error {
 	if err := c.isArray(); err != nil {
 		return err
@@ -837,7 +839,17 @@ func (c *CodeBuilder) TcombineSingleCode() error {
 	}
 	return nil
 }
-
+func (c *CodeBuilder) loopRange() error {
+	if len(c.promptNode.loopRange) == 1 {
+		c.b.WriteString("    p.Input= p.Input[0 : " + strconv.Itoa(c.promptNode.loopRange[0]) + "]\n")
+		return nil
+	}
+	if len(c.promptNode.loopRange) == 2 {
+		c.b.WriteString("    p.Input= p.Input[" + strconv.Itoa(c.promptNode.loopRange[0]) + "-1 : " + strconv.Itoa(c.promptNode.loopRange[1]) + "]\n")
+		return nil
+	}
+	return nil
+}
 func Generatworkflow(pkgName string) string {
 	var b strings.Builder
 

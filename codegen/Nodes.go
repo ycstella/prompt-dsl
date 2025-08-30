@@ -319,7 +319,7 @@ type PromptNode struct {
 	outputspectNodes OutputSpecNode
 	RunExe           []string
 	iteraterPath     string
-
+	loopRange		 []int
 	// IsArray     bool
 	// 其它部分
 }
@@ -338,6 +338,7 @@ func NewPromptNode() *PromptNode {
 		FixCode:          []string{},
 		Goimport:         []goimport{},
 		iteraterPath:     "",
+		loopRange:		  []int{},
 		outputspectNodes: OutputSpecNode{},
 	}
 	return p

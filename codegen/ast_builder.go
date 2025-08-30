@@ -116,6 +116,21 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 				iteraterPath := b.STRING().GetText()
 				result.iteraterPath, _ = strconv.Unquote(iteraterPath)
 			}
+		case *parser.LoopRangeSectionContext:
+			if len(b.AllNUMBER()) > 0 {
+				nums := b.AllNUMBER()
+				var loopRange []int
+				for _, n := range nums {
+					text := n.GetText()
+					val, err := strconv.Atoi(text)
+					if err != nil {
+						log.Printf("解析数字失败: %s, err: %v", text, err)
+						continue
+					}
+					loopRange = append(loopRange, val)
+				}
+				result.loopRange = loopRange
+			}
 		case *parser.GoimportSectionContext:
 			var imports []goimport
 			for _, entry := range b.AllGoimportEntry() {
