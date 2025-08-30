@@ -16,6 +16,7 @@ promptDef   : PROMPT ID LBRACE promptBlock+ RBRACE ;
 promptBlock 
     : inputSection
     | iterater
+    | loopRangeSection
     | outputSection
     | beforeSection
     | systemSection
@@ -40,6 +41,10 @@ inputSection
     ;
 iterater
     : IT_CTX LPAREN STRING RPAREN
+    ;
+
+loopRangeSection
+    : LOOPRANGE LBRACK ( NUMBER COMMA NUMBER | NUMBER ) RBRACK
     ;
 
 outputSection

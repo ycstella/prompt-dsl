@@ -106,8 +106,6 @@ func ConvertASTtoPrompt(parseTree *parser.PromptFileContext, stream *antlr.Commo
 		case *parser.BeforeSectionContext:
 			result.BeforeCode = extractRawText(b, stream)
 		case *parser.AfterSectionContext:
-			fmt.Println("😊AfterSection", extractRawText(b, stream))
-
 			result.AfterCode = extractRawText(b, stream)
 		case *parser.FixSectionContext:
 			result.FixCode = extractRawText(b, stream)

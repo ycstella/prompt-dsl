@@ -3,6 +3,7 @@ package codegen
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os/exec"
 	"path/filepath"
 	"runtime"
@@ -52,42 +53,42 @@ func writefield(f FieldDef, fields []FieldDef, i int, indent string) []string {
 	var lines []string
 
 	// struct 类型特殊处理
-    if f.Type == "struct" {
-        // 普通结构体
-        line := fmt.Sprintf("%s\"%s\": {  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
-        lines = append(lines, line)
+	if f.Type == "struct" {
+		// 普通结构体
+		line := fmt.Sprintf("%s\"%s\": {  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
+		lines = append(lines, line)
 
-        for idx, sub := range f.SubFields {
-            lines = append(lines, writefield(sub, f.SubFields, idx, indent+"    ")...)
-        }
+		for idx, sub := range f.SubFields {
+			lines = append(lines, writefield(sub, f.SubFields, idx, indent+"    ")...)
+		}
 
-        closing := indent + "}"
-        if i < len(fields)-1 {
-            closing += ","
-        }
-        lines = append(lines, closing)
-        return lines
-    }
+		closing := indent + "}"
+		if i < len(fields)-1 {
+			closing += ","
+		}
+		lines = append(lines, closing)
+		return lines
+	}
 
-    // []struct 特殊处理
-    if strings.HasPrefix(f.Type, "[]") && strings.Contains(f.Type, "struct") {
-        line := fmt.Sprintf("%s\"%s\": [  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
-        lines = append(lines, line)
+	// []struct 特殊处理
+	if strings.HasPrefix(f.Type, "[]") && strings.Contains(f.Type, "struct") {
+		line := fmt.Sprintf("%s\"%s\": [  // %s", indent, f.JsonName, strings.Join(f.Annotations, ","))
+		lines = append(lines, line)
 
-        // 生成示例元素
-        lines = append(lines, indent+"    {")
-        for idx, sub := range f.SubFields {
-            lines = append(lines, writefield(sub, f.SubFields, idx, indent+"        ")...)
-        }
-        lines = append(lines, indent+"    }")
+		// 生成示例元素
+		lines = append(lines, indent+"    {")
+		for idx, sub := range f.SubFields {
+			lines = append(lines, writefield(sub, f.SubFields, idx, indent+"        ")...)
+		}
+		lines = append(lines, indent+"    }")
 
-        closing := indent + "]"
-        if i < len(fields)-1 {
-            closing += ","
-        }
-        lines = append(lines, closing)
-        return lines
-    }
+		closing := indent + "]"
+		if i < len(fields)-1 {
+			closing += ","
+		}
+		lines = append(lines, closing)
+		return lines
+	}
 
 	// 普通类型
 	var example string
@@ -152,7 +153,6 @@ func extractRawText(ctx antlr.ParserRuleContext, tokens *antlr.CommonTokenStream
 	if startIdx < 0 || stopIdx >= len(allTokens) || startIdx > stopIdx {
 		return nil
 	}
-
 	var builder strings.Builder
 	for _, tok := range allTokens[startIdx : stopIdx+1] {
 		builder.WriteString(tok.GetText())
@@ -369,7 +369,7 @@ func isStandardPackage(pkg string) bool {
 	}
 	return stdPkgs[pkg]
 }
-func FixAuto[T any](response string) (T, error) {
+func FixLatex[T any](response string) (T, error) {
 	// 用strings.Builder手动替换单反斜杠
 	fmt.Println("response:", response)
 	var results T
@@ -422,4 +422,11 @@ func FixAuto[T any](response string) (T, error) {
 		return results, nil
 	}
 	return results, nil
+}
+//默认直接unmarshall
+func FixAuto[T any](response string) (T, error) {
+	var results T
+	err := json.Unmarshal([]byte(response), &results)
+	log.Println("FixAuto:解析模型回复失败：",err)
+	return results,err
 }

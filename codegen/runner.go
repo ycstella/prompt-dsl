@@ -53,10 +53,10 @@ func (ptc *promptToGenCode) astToNode() error {
 	ctx := ptc.tree.(*parser.PromptFileContext)
 	ptc.promptNode = ConvertASTtoPrompt(ctx, ptc.stream, ptc.inputStream)
 	// fmt.Printf("%v\n", rootNode)
-	fmt.Printf("📦 OutFields: %+v\n", ptc.promptNode.OutFields)
-	fmt.Printf("📦 aftercode: %+v\n", ptc.promptNode.AfterCode)
-	fmt.Printf("📦 fixcode: %+v\n", ptc.promptNode.FixCode)
-	fmt.Printf("📦 BeforeNodes: %+v\n", ptc.promptNode.BeforeCode)
+	log.Printf("📦 OutFields: %+v\n", ptc.promptNode.OutFields)
+	log.Printf("📦 aftercode: %+v\n", ptc.promptNode.AfterCode)
+	log.Printf("📦 fixcode: %+v\n", ptc.promptNode.FixCode)
+	log.Printf("📦 BeforeNodes: %+v\n", ptc.promptNode.BeforeCode)
 	return nil
 }
 

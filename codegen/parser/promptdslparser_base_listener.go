@@ -68,6 +68,12 @@ func (s *BasePromptDSLParserListener) EnterIterater(ctx *IteraterContext) {}
 // ExitIterater is called when production iterater is exited.
 func (s *BasePromptDSLParserListener) ExitIterater(ctx *IteraterContext) {}
 
+// EnterLoopRangeSection is called when production loopRangeSection is entered.
+func (s *BasePromptDSLParserListener) EnterLoopRangeSection(ctx *LoopRangeSectionContext) {}
+
+// ExitLoopRangeSection is called when production loopRangeSection is exited.
+func (s *BasePromptDSLParserListener) ExitLoopRangeSection(ctx *LoopRangeSectionContext) {}
+
 // EnterOutputSection is called when production outputSection is entered.
 func (s *BasePromptDSLParserListener) EnterOutputSection(ctx *OutputSectionContext) {}
 

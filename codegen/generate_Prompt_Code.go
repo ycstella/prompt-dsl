@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -138,7 +139,7 @@ func (c *CodeBuilder) buildImport() error {
 		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
 	}
 	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
-		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath"}
+		requiredPkgs = []string{"os", "log", "fmt", "github.com/ycstella/prompt-dsl/service", "strings", "github.com/ycstella/prompt-dsl/config", "encoding/json", "path/filepath","time","github.com/ycstella/prompt-dsl/codegen"}
 	}
 	if len(c.promptNode.RunExe) > 0 {
 		requiredPkgs = append(requiredPkgs, "os/exec")
@@ -307,7 +308,6 @@ func (c *CodeBuilder) writeNew() error {
 	// 拼接函数签名
 	c.b.WriteString("func New" + c.fileName + "() *" + c.fileName + " {\n")
 	c.b.WriteString("\treturn &" + c.fileName + "{\n")
-
 	// 拼接各字段初始化
 	c.b.WriteString("\t\tconfig:    os.Args[2],\n")
 	c.b.WriteString("\t\tmodelname: os.Args[1],\n")
@@ -398,19 +398,28 @@ func (c *CodeBuilder) writeAfter() error {
 		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")AfterProcess() error {\n"))
 		c.b.WriteString(c.promptNode.AfterCode[0])
 		c.b.WriteString("\n}\n\n")
+	}else {
+		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")AfterProcess() error{\n"))
+		c.b.WriteString("\t//没有后处理函数时自动调用\n")
+		c.b.WriteString("\treturn nil\n")
+		c.b.WriteString("\n}\n")
 	}
 	return nil
 }
 func (c *CodeBuilder) writeFix() error {
-
-	if len(c.promptNode.FixCode) > 0 {
-		if strings.TrimSpace(c.promptNode.FixCode[0]) != "" {
-			fixauto := "codegen.FixAuto[" + c.output + "](p.modelRet)\n"
-			re := regexp.MustCompile(`fix-auto`)
-			c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")FixProcess() error{\n"))
-			c.b.WriteString(re.ReplaceAllString(c.promptNode.FixCode[0], fixauto))
-			c.b.WriteString("\n}\n")
-		}
+	log.Println("fixcode是否为空：", c.promptNode.FixCode[0], "seugu")
+	if strings.TrimSpace(c.promptNode.FixCode[0]) != "" {
+		fixauto := "codegen.FixLatex[" + c.output + "](p.modelRet)\n"
+		re := regexp.MustCompile(`fix-latex`)
+		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")FixProcess() error{\n"))
+		c.b.WriteString(re.ReplaceAllString(c.promptNode.FixCode[0], fixauto))
+		c.b.WriteString("\n}\n")
+	} else {
+		c.b.WriteString(fmt.Sprintf("func (p *" + c.fileName + ")FixProcess() error{\n"))
+		c.b.WriteString("\tvar err error\n")
+		c.b.WriteString("\tp.fixRet,err=codegen.FixAuto[" + c.output + "](p.modelRet)\n")
+		c.b.WriteString("\treturn err\n")
+		c.b.WriteString("\n}\n")
 	}
 	return nil
 }
@@ -501,17 +510,12 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 	c.b.WriteString("        }\n")
 
 	if len(c.promptNode.OutFields) > 0 {
-		if strings.TrimSpace(c.promptNode.FixCode[0]) != "" {
-			c.b.WriteString("        err = p.FixProcess()\n")
-			c.b.WriteString("        if err != nil {\n")
-			c.b.WriteString("            log.Println(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
-			c.b.WriteString("            os.Exit(1)\n")
-			c.b.WriteString("        }\n")
-		}
-
-		if strings.TrimSpace(c.promptNode.AfterCode[0]) != "" {
-			c.b.WriteString("        err = p.AfterProcess()\n")
-		}
+		c.b.WriteString("        err = p.FixProcess()\n")
+		c.b.WriteString("        if err != nil {\n")
+		c.b.WriteString("            log.Println(os.Stderr, \"解析输入 JSON 失败011111: %v\\n\", err)\n")
+		c.b.WriteString("            os.Exit(1)\n")
+		c.b.WriteString("        }\n")
+		c.b.WriteString("        err = p.AfterProcess()\n")
 		c.b.WriteString("        encoded, err := json.Marshal(p.afterRet)\n")
 		c.b.WriteString("        if err != nil {\n")
 		c.b.WriteString("            log.Println(os.Stderr, \"输出编码失败: %v\\n\", err)\n")
@@ -527,17 +531,16 @@ func (c *CodeBuilder) buildExecutePipeline() error {
 	return nil
 }
 func (c *CodeBuilder) buildExecuteDir() error {
-	c.b.WriteString("\nfunc (p *" + c.fileName + ") run() error { ")
+	c.b.WriteString("\nfunc (p *" + c.fileName + ") run() error { \n")
 	c.b.WriteString("    var err error\n")
-	c.b.WriteString("    err=p.ValidateInput()\n")
+	c.b.WriteString("    err=p.ValidateInput(p.currentData)\n")
 	c.b.WriteString("    if err!=nil {\n")
-	c.b.WriteString("    \treturn nil,err\n")
+	c.b.WriteString("    \treturn err\n")
 	c.b.WriteString("    }\n")
 
 	//before
 	if strings.TrimSpace(c.promptNode.BeforeCode[0]) != "" {
 		c.b.WriteString("    p.currentData, err = p.Before(p.currentData)\n")
-
 		c.b.WriteString("    if err!=nil {\n")
 		c.b.WriteString("    \tlog.Println(os.Stderr, \"预处理失败 %v\", err)\n")
 		c.b.WriteString("    \tos.Exit(1)\n")
@@ -556,7 +559,7 @@ func (c *CodeBuilder) buildExecuteDir() error {
 	c.b.WriteString("            log.Println(os.Stderr, \"调用大模型失败: %v\\n\", err)\n")
 	c.b.WriteString("            os.Exit(1)\n")
 	c.b.WriteString("        }\n")
-	c.b.WriteString("        return nil, nil\n")
+	c.b.WriteString("        return nil\n")
 	c.b.WriteString("    } else {\n")
 	c.b.WriteString("        // 非流式模式，拿完整结果再处理\n")
 	c.b.WriteString("        p.modelRet, err = llm.GeneratePromptResponse(sys, user, false)\n")
@@ -582,6 +585,7 @@ func (c *CodeBuilder) buildExecuteDir() error {
 	c.b.WriteString("        log.Println(string(encoded))\n")
 	c.b.WriteString("        return err\n")
 	c.b.WriteString("    }\n")
+	c.b.WriteString("}\n")
 	return nil
 }
 func (c *CodeBuilder) buildSingleMain() error {
