@@ -185,6 +185,7 @@ func (c *CodeBuilder) buildPromptStruct() error {
 		c.b.WriteString("\tit      " + c.loopClass + "\n")
 		c.b.WriteString("\tit_idx      int\n")
 	}
+	c.b.WriteString("\tresults []any\n")
 	c.b.WriteString("}\n\n")
 	return nil
 }
@@ -361,24 +362,15 @@ func (c *CodeBuilder) writeParseData() error {
 	return nil
 }
 func (c *CodeBuilder) buildWriteOut() error {
-	c.b.WriteString("\nfunc(p *" + c.fileName + ") writeOut(newResult any) {\n")
+	c.b.WriteString("func (p *" + c.fileName + ") writeOut(newResult any) {\n")
 	c.b.WriteString("    exePath, err := os.Executable()\n")
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"获取可执行文件路径失败: %v\", err)\n")
 	c.b.WriteString("    }\n")
 	c.b.WriteString("    exeDir := filepath.Dir(exePath)\n")
-	c.b.WriteString("    outputPath := filepath.Join(exeDir, \"output.json\")\n\n")
-
-	c.b.WriteString("    var results []any\n")
-	c.b.WriteString("    if data, err := os.ReadFile(outputPath); err == nil && len(data) > 0 {\n")
-	c.b.WriteString("        if err := json.Unmarshal(data, &results); err != nil {\n")
-	c.b.WriteString("            log.Fatalf(\"解析已有 output.json 失败: %v\", err)\n")
-	c.b.WriteString("        }\n")
-	c.b.WriteString("    }\n\n")
-
-	c.b.WriteString("    results = append(results, newResult)\n\n")
-
-	c.b.WriteString("    output, err := json.MarshalIndent(results, \"\", \"  \")\n")
+	c.b.WriteString("    outputPath := filepath.Join(exeDir, \"output.json\")\n")
+	c.b.WriteString("    p.results = append(p.results, newResult)\n")
+	c.b.WriteString("    output, err := json.MarshalIndent(p.results, \"\", \"  \")\n")
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"结果序列化失败: %v\", err)\n")
 	c.b.WriteString("    }\n")
@@ -386,7 +378,7 @@ func (c *CodeBuilder) buildWriteOut() error {
 	c.b.WriteString("    if err != nil {\n")
 	c.b.WriteString("        log.Fatalf(\"写入输出文件失败: %v\", err)\n")
 	c.b.WriteString("    }\n")
-	c.b.WriteString("    log.Println(\"结果已追加写入 output.json 文件\")\n")
+	c.b.WriteString("    log.Println(\"结果已写入 output.json 文件\")\n")
 	c.b.WriteString("}\n")
 	return nil
 }
