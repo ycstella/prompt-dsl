@@ -53,7 +53,7 @@ func (w *WCodeGen) wgen() error {
 	firstPx := "p1"
 	w.b.WriteString(fmt.Sprintf("    %s.loadInput()\n", firstPx))
 	w.b.WriteString(fmt.Sprintf("    %s.parsedata()\n", firstPx))
-
+	w.b.WriteString(fmt.Sprintf("    var err error\n"))
 	w.b.WriteString(fmt.Sprintf("    for _, item := range %s.Input {\n", firstPx))
 	w.b.WriteString(fmt.Sprintf("        %s.currentData = item\n", firstPx))
 
@@ -64,7 +64,10 @@ func (w *WCodeGen) wgen() error {
 		// 如果不是最后一个，拷贝结果给下一个
 		if i < len(w.workflow.Task)-1 {
 			next := fmt.Sprintf("p%d", i+2)
-			w.b.WriteString(fmt.Sprintf("    \tcodegen.CopyStructRecursive(&%s.afterRet, &%s.currentData)\n", curr, next))
+			w.b.WriteString(fmt.Sprintf("    \terr=codegen.CopyStructRecursive(&%s.afterRet, &%s.currentData)\n", curr, next))
+			w.b.WriteString(fmt.Sprintf("    \tif err != nil {\n"))
+			w.b.WriteString(fmt.Sprintf("    \t\tlog.Fatal(err)\n"))
+			w.b.WriteString(fmt.Sprintf("    \t}\n"))
 		}
 	}
 	lastPx := fmt.Sprintf("p%d", len(w.workflow.Task))

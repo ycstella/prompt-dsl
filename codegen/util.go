@@ -434,21 +434,21 @@ func FixAuto[T any](response string) (T, error) {
 }
 
 //不同名同结构的结构体转换
-func CopyStructRecursive(src, dest interface{}) {
+func CopyStructRecursive(src, dest interface{}) error {
 	srcVal := reflect.ValueOf(src)
 	destVal := reflect.ValueOf(dest)
 
 	if srcVal.Kind() != reflect.Ptr || srcVal.IsNil() {
-		log.Fatal("src 必须是非 nil 指针")
+		return fmt.Errorf("src 必须是非 nil 指针")
 	}
 	if destVal.Kind() != reflect.Ptr || destVal.IsNil() {
-		log.Fatal("dest 必须是非 nil 指针")
+		return fmt.Errorf("dest 必须是非 nil 指针")
 	}
 
-	copyValue(srcVal.Elem(), destVal.Elem())
+	return copyValue(srcVal.Elem(), destVal.Elem())
 }
 
-func copyValue(srcVal, destVal reflect.Value) {
+func copyValue(srcVal, destVal reflect.Value) error {
 	switch srcVal.Kind() {
 	case reflect.Struct:
 		for i := 0; i < srcVal.NumField(); i++ {
@@ -458,33 +458,37 @@ func copyValue(srcVal, destVal reflect.Value) {
 			if !destField.IsValid() || !destField.CanSet() {
 				continue
 			}
-			copyValue(srcField, destField)
+			if err := copyValue(srcField, destField); err != nil {
+				return fmt.Errorf("字段 %s 类型不匹配: %w", fieldName, err)
+			}
 		}
 	case reflect.Slice:
 		if srcVal.IsNil() {
 			destVal.Set(reflect.Zero(destVal.Type()))
-			return
+			return nil
 		}
 		newSlice := reflect.MakeSlice(destVal.Type(), srcVal.Len(), srcVal.Len())
 		for i := 0; i < srcVal.Len(); i++ {
-			copyValue(srcVal.Index(i), newSlice.Index(i))
+			if err := copyValue(srcVal.Index(i), newSlice.Index(i)); err != nil {
+				return err
+			}
 		}
 		destVal.Set(newSlice)
 	case reflect.Ptr:
 		if srcVal.IsNil() {
 			destVal.Set(reflect.Zero(destVal.Type()))
-			return
+			return nil
 		}
 		if destVal.IsNil() {
 			destVal.Set(reflect.New(destVal.Type().Elem()))
 		}
-		copyValue(srcVal.Elem(), destVal.Elem())
+		return copyValue(srcVal.Elem(), destVal.Elem())
 	default:
 		if srcVal.Type().AssignableTo(destVal.Type()) {
 			destVal.Set(srcVal)
 		} else {
-			// 基础类型不同但可以转换，可以手动扩展
-			// log.Printf("⚠️ 类型不匹配: %s -> %s\n", srcVal.Type(), destVal.Type())
+			return fmt.Errorf("不可赋值类型: %s -> %s", srcVal.Type(), destVal.Type())
 		}
 	}
+	return nil
 }
