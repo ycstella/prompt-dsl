@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  host: "localhost"
+
+log:
+  level: "debug"
+  file: "logs/server.log"
+
+utils:
+  - "utils.go"
+models:
+  - provider: "openai"
+    api_key: "sk-02e496929ecc485796d29bd94e7ce371"
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    model: "qwen-max"
+    temperature: 0.7
+    maxConcurrency: 5
+    stream: false
+
+  - provider: "openai"
+    api_key: "AIzaSyD_MSvm-Blup4R9Ce3ypKcAImKMkkCngBU"
+    base_url: "https://generativelanguage.googleapis.com/v1beta/openai"
+    model: "gemini-2.0-flash"
+    temperature: 0.7
+    maxConcurrency: 5
+    Proxy: "http://127.0.0.1:7890"
+    stream: false
+
+  - provider: "openai"
+    api_key: "sk-02e496929ecc485796d29bd94e7ce371"
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    model: "deepseek-r1"
+    temperature: 0.7
+    maxConcurrency: 5
+    stream: true
+

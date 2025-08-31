@@ -432,7 +432,8 @@ func FixAuto[T any](response string) (T, error) {
 	log.Println("FixAuto:解析模型回复失败：", err)
 	return results, err
 }
-func copyStructFields[T any](src interface{}, dest *T) {
+//同内容不同名结构体的映射
+func CopyStructFields[T any](src interface{}, dest *T) {
 	itemValue := reflect.ValueOf(src)
 	if itemValue.Kind() == reflect.Struct {
 		// 创建一个空的 T 类型的实例
