@@ -112,7 +112,7 @@ func (ptc *promptToGenCode) WgenCode() error {
 	CodeBuilder.WcombineSingleCode()
 	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
 
-	ptc.genDir = filepath.Join("generated_code",ptc.workflowName)
+	ptc.genDir = filepath.Join("../generated_code",ptc.workflowName)
 	err := os.MkdirAll(ptc.genDir, os.ModePerm)
 	if err != nil {
 		fmt.Println("创建目录失败: %v", err)

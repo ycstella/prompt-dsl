@@ -59,7 +59,7 @@ func (p *PCodeGen) initGenDirs() error {
 	return nil
 }
 func (p *PCodeGen) winitGenDirs() error {
-	genDir := "generated_code"
+	genDir := "../generated_code"
 	err := os.MkdirAll(genDir, os.ModePerm)
 	if err != nil {
 		log.Fatalf("创建生成目录失败: %v", err)
