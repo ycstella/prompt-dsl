@@ -6,6 +6,7 @@ import (
 	"log"
 	"os/exec"
 	"path/filepath"
+	"reflect"
 	"runtime"
 	"unicode"
 
@@ -423,10 +424,24 @@ func FixLatex[T any](response string) (T, error) {
 	}
 	return results, nil
 }
-//默认直接unmarshall
+
+// 默认直接unmarshall
 func FixAuto[T any](response string) (T, error) {
 	var results T
 	err := json.Unmarshal([]byte(response), &results)
-	log.Println("FixAuto:解析模型回复失败：",err)
-	return results,err
+	log.Println("FixAuto:解析模型回复失败：", err)
+	return results, err
+}
+func copyStructFields[T any](src interface{}, dest *T) {
+	itemValue := reflect.ValueOf(src)
+	if itemValue.Kind() == reflect.Struct {
+		// 创建一个空的 T 类型的实例
+		newValue := reflect.New(reflect.TypeOf((*T)(nil)).Elem()).Elem()
+		// 遍历 item 的所有字段并将它们复制到新结构体
+		for i := 0; i < itemValue.NumField(); i++ {
+			newValue.Field(i).Set(itemValue.Field(i))
+		}
+		// 将新创建的结构体添加到 dest
+		*dest = newValue.Interface().(T)
+	}
 }
