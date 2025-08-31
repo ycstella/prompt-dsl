@@ -432,18 +432,59 @@ func FixAuto[T any](response string) (T, error) {
 	log.Println("FixAuto:解析模型回复失败：", err)
 	return results, err
 }
-//同内容不同名结构体的映射
-func CopyStructFields[T any](src interface{}, dest *T) {
-	itemValue := reflect.ValueOf(src)
-	if itemValue.Kind() == reflect.Struct {
-		// 创建一个空的 T 类型的实例
-		newValue := reflect.New(reflect.TypeOf((*T)(nil)).Elem()).Elem()
-		// 遍历 item 的所有字段并将它们复制到新结构体
-		for i := 0; i < itemValue.NumField(); i++ {
-			newValue.Field(i).Set(itemValue.Field(i))
-		}
-		// 将新创建的结构体添加到 dest
-		*dest = newValue.Interface().(T)
+
+//不同名同结构的结构体转换
+func CopyStructRecursive(src, dest interface{}) {
+	srcVal := reflect.ValueOf(src)
+	destVal := reflect.ValueOf(dest)
+
+	if srcVal.Kind() != reflect.Ptr || srcVal.IsNil() {
+		log.Fatal("src 必须是非 nil 指针")
 	}
-	//不匹配返回：task1输出与task2输入不匹配
+	if destVal.Kind() != reflect.Ptr || destVal.IsNil() {
+		log.Fatal("dest 必须是非 nil 指针")
+	}
+
+	copyValue(srcVal.Elem(), destVal.Elem())
+}
+
+func copyValue(srcVal, destVal reflect.Value) {
+	switch srcVal.Kind() {
+	case reflect.Struct:
+		for i := 0; i < srcVal.NumField(); i++ {
+			srcField := srcVal.Field(i)
+			fieldName := srcVal.Type().Field(i).Name
+			destField := destVal.FieldByName(fieldName)
+			if !destField.IsValid() || !destField.CanSet() {
+				continue
+			}
+			copyValue(srcField, destField)
+		}
+	case reflect.Slice:
+		if srcVal.IsNil() {
+			destVal.Set(reflect.Zero(destVal.Type()))
+			return
+		}
+		newSlice := reflect.MakeSlice(destVal.Type(), srcVal.Len(), srcVal.Len())
+		for i := 0; i < srcVal.Len(); i++ {
+			copyValue(srcVal.Index(i), newSlice.Index(i))
+		}
+		destVal.Set(newSlice)
+	case reflect.Ptr:
+		if srcVal.IsNil() {
+			destVal.Set(reflect.Zero(destVal.Type()))
+			return
+		}
+		if destVal.IsNil() {
+			destVal.Set(reflect.New(destVal.Type().Elem()))
+		}
+		copyValue(srcVal.Elem(), destVal.Elem())
+	default:
+		if srcVal.Type().AssignableTo(destVal.Type()) {
+			destVal.Set(srcVal)
+		} else {
+			// 基础类型不同但可以转换，可以手动扩展
+			// log.Printf("⚠️ 类型不匹配: %s -> %s\n", srcVal.Type(), destVal.Type())
+		}
+	}
 }

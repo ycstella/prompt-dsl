@@ -33,9 +33,11 @@ type promptToGenCode struct {
 }
 
 func NewPromptToGenCode(input, filename string) *promptToGenCode {
+	cwd, _:= os.Getwd()
 	return &promptToGenCode{
 		input:    input,
 		fileName: filename,
+		workflowName:filepath.Base(cwd),
 	}
 }
 func (ptc *promptToGenCode) parsePrompt() error {
@@ -107,7 +109,7 @@ func (ptc *promptToGenCode) genCode() error {
 }
 func (ptc *promptToGenCode) WgenCode() error {
 	CodeBuilder := NewCodeBuilder(ptc.promptNode, ptc.fileName, ptc.codeGenUserAndSys)
-	CodeBuilder.combineSingleCode()
+	CodeBuilder.WcombineSingleCode()
 	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
 
 	ptc.genDir = filepath.Join("generated_code",ptc.workflowName)

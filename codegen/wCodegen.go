@@ -7,13 +7,16 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
+	"log"
+	"os/exec"
 	"github.com/ycstella/prompt-dsl/config"
 )
 
 type WCodeGen struct {
 	cwd      string
 	workflow config.Workflow
+	fileName string
+	genDir string
 	b        strings.Builder
 }
 
@@ -23,6 +26,7 @@ func NewWCodeGen() *WCodeGen {
 	config.InitWorkflow(c, filename)
 	return &WCodeGen{
 		cwd:      c,
+		fileName:filename,
 		workflow: config.WF,
 	}
 }
@@ -60,38 +64,68 @@ func (w *WCodeGen) wgen() error {
 		// 如果不是最后一个，拷贝结果给下一个
 		if i < len(w.workflow.Task)-1 {
 			next := fmt.Sprintf("p%d", i+2)
-			nextType := w.workflow.Task[i+1]
-			w.b.WriteString(fmt.Sprintf("    \tcodegen.CopyStructFields[%sInputContext](%s.afterRet, &%s.currentData)\n", nextType, curr, next))
+			w.b.WriteString(fmt.Sprintf("    \tcodegen.CopyStructRecursive(&%s.afterRet, &%s.currentData)\n", curr, next))
 		}
 	}
 	lastPx := fmt.Sprintf("p%d", len(w.workflow.Task))
 	w.b.WriteString(fmt.Sprintf("        %s.writeOut(%s.afterRet)\n", lastPx, lastPx))
 	w.b.WriteString("    }\n")
 	w.b.WriteString("}\n")
+	w.writewcode()
+
+	return nil
+}
+func (w *WCodeGen) writewcode() error {
+
+	w.genDir = filepath.Join("generated_code",w.fileName)
+	err := os.MkdirAll(w.genDir, os.ModePerm)
+	if err != nil {
+		fmt.Println("创建目录失败: %v", err)
+	}
+	outputFile := filepath.Join(w.genDir,w.fileName+".go")
+	err = os.WriteFile(outputFile, []byte(w.b.String()), 0644)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
+		os.Exit(1)
+	}
+	return nil
+}
+func (w *WCodeGen) buildExe() error {
+		exeName := w.fileName + ".exe"
+		cmd := exec.Command("go", "build", "-o", exeName, ".")
+		cmd.Dir = w.genDir
+		output, err := cmd.CombinedOutput()
+		if err != nil {
+			log.Println(string(output))
+			log.Fatalf("执行 go build 失败: %v", err)
+		}
+		log.Println("Go 程序编译完成，生成了", exeName)
+		return nil
+	}
+func (w *WCodeGen) runExe() error {
+	exePath := filepath.Join(w.genDir, w.fileName+".exe")
+	// 执行 exe
+	cmd := exec.Command(exePath,w.workflow.Model,w.workflow.Input)
+	cmd.Dir = w.genDir // 可选：指定工作目录
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Printf("❌ 执行 %s 失败: %v", exePath, err)
+		log.Printf("输出: %s", string(output))
+		return err
+	}
+
+	log.Printf("✅ %s 执行成功，输出:\n%s", exePath, string(output))
 	return nil
 }
 
-// func (w *WCodeGen) buildExe() error {
-
-//		exeName := w.nameWithoutExt + ".exe"
-//		cmd := exec.Command("go", "build", "-o", exeName, ".")
-//		cmd.Dir = w.outDir
-//		output, err := cmd.CombinedOutput()
-//		if err != nil {
-//			log.Println(string(output))
-//			log.Fatalf("执行 go build 失败: %v", err)
-//		}
-//		log.Println("Go 程序编译完成，生成了", exeName)
-//		return nil
-//	}
-// func (w *WCodeGen) executeExe() error {
-// 	return nil
-// }
 func (w *WCodeGen) Workflowgen() error {
 	//2.循环task中所有pdsl文件去生成针对workflow的go文件（没有main）
 	w.looptask()
 	//3.生成workflow.go文件
 	w.wgen()
+	// 4.buildexe，
+	w.buildExe()
+	// 5.执行exe
 	//循环调用每一个task对应的exe,但是task是input的内部循环，所以task内部的调用要改
 	// for _,t:=range w.workflow.Task{
 	// }

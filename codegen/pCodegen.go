@@ -17,6 +17,7 @@ type PCodeGen struct {
 	outDir         string
 	nameWithoutExt string
 	srcDir string
+	workflow_name string
 }
 
 func NewPCodeGen(pdsl string) *PCodeGen {
@@ -24,6 +25,7 @@ func NewPCodeGen(pdsl string) *PCodeGen {
 	return &PCodeGen{
 		cwd:      c,
 		PdslFile: pdsl,
+		workflow_name: filepath.Base(c),
 	}
 }
 
@@ -64,7 +66,12 @@ func (p *PCodeGen) winitGenDirs() error {
 	}
 	filename := filepath.Base(p.PdslFile)
 	p.nameWithoutExt = strings.TrimSuffix(filename, ".pdsl")
-	p.outDir = filepath.Join(genDir, p.nameWithoutExt)
+	p.outDir = filepath.Join(genDir,p.workflow_name)
+	//子目录
+	err = os.MkdirAll(p.outDir, os.ModePerm)
+	if err != nil {
+		log.Fatalf("创建子目录失败: %v", err)
+	}
 
 	return nil
 }

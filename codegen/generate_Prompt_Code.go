@@ -69,7 +69,7 @@ type CodeBuilder struct {
 	b             strings.Builder
 	outputTypeStr string
 	model         string
-
+	path string
 	goimport     []goimport
 	genPrompCode *final
 	outname      string
@@ -90,6 +90,7 @@ func NewCodeBuilder(p *PromptNode, fileName string, g *final) *CodeBuilder {
 		goimport:     p.Goimport,
 		genPrompCode: g,
 		loopName:     last,
+		path: p.iteraterPath,
 	}
 }
 
@@ -180,6 +181,7 @@ func (c *CodeBuilder) buildPromptStruct() error {
 	c.b.WriteString("\tmodelRet      string\n")
 	c.b.WriteString("\tcurrentData      " + c.fileName + "InputContext\n")
 	c.b.WriteString("\tdata      []byte\n")
+	c.b.WriteString("\tpath      string\n")
 	c.b.WriteString("\tfixRet      " + c.model + "\n")
 	c.b.WriteString("\tafterRet      " + c.outputTypeStr + "\n")
 	if c.promptNode.iteraterPath != "" {
@@ -312,6 +314,7 @@ func (c *CodeBuilder) writeNew() error {
 	c.b.WriteString("\t\tconfig:    os.Args[2],\n")
 	c.b.WriteString("\t\tmodelname: os.Args[1],\n")
 	c.b.WriteString("\t\tinputfile: os.Args[3],\n")
+	c.b.WriteString("\t\tpath: \""+c.path+"\",\n")
 
 	c.b.WriteString("\t}\n") // 关闭结构体
 	c.b.WriteString("}\n\n") // 关闭函数
@@ -643,8 +646,12 @@ func (c *CodeBuilder) buildLoopMain() error {
 }
 func (c *CodeBuilder) buildSingleLExecute() error {
 	c.b.WriteString("func (p *"+c.fileName+") singleExecute() {\n")
+	
+	c.b.WriteString("\t// 将路径拆分成每一层\n")
+	c.b.WriteString("\tparts := strings.Split(p.path, \".\")\n")
+	c.b.WriteString("\tp.it_idx = 0\n")
 	c.b.WriteString("\t\t// 遍历路径，最后一层循环处理\n")
-	c.b.WriteString("\t\terr := p.traversePath(reflect.ValueOf(item), parts, func(e reflect.Value) {\n")
+	c.b.WriteString("\t\terr := p.traversePath(reflect.ValueOf(p.currentData), parts, func(e reflect.Value) {\n")
 	c.b.WriteString("\t\t\t// 类型断言到最终元素类型\n")
 	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().(" + c.loopClass + ")\n")
 	c.b.WriteString("\t\t\tif !ok {\n")
