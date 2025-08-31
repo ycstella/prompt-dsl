@@ -597,7 +597,7 @@ func (c *CodeBuilder) buildSingleMain() error {
 	c.loopRange()
 	c.b.WriteString("    for _, item := range p.Input {\n")
 	c.b.WriteString("        p.currentData = item\n")
-	c.b.WriteString("        err:=p.run()\n")
+	c.b.WriteString("        err:=p.runWithRetry(3)\n")
 	c.b.WriteString("        if err!=nil{\n")
 	c.b.WriteString("        \tlog.Println(\"p.run失败：\",err)\n")
 	c.b.WriteString("        }\n")
@@ -637,6 +637,37 @@ func (c *CodeBuilder) buildLoopMain() error {
 	c.b.WriteString("\t\t\tlog.Println(\"路径遍历失败:\", err)\n")
 	c.b.WriteString("\t\t}\n")
 	c.b.WriteString("\t\tp.writeOut(p.afterRet)\n")
+	c.b.WriteString("\t}\n")
+	c.b.WriteString("}\n")
+	return nil
+}
+func (c *CodeBuilder) buildSingleLExecute() error {
+	c.b.WriteString("func (p *"+c.fileName+") singleExecute() {\n")
+	c.b.WriteString("\t\t// 遍历路径，最后一层循环处理\n")
+	c.b.WriteString("\t\terr := p.traversePath(reflect.ValueOf(item), parts, func(e reflect.Value) {\n")
+	c.b.WriteString("\t\t\t// 类型断言到最终元素类型\n")
+	c.b.WriteString("\t\t\tsubItem, ok := e.Interface().(" + c.loopClass + ")\n")
+	c.b.WriteString("\t\t\tif !ok {\n")
+	c.b.WriteString("\t\t\t\tlog.Println(\"类型断言失败:\", e.Type())\n")
+	c.b.WriteString("\t\t\t\treturn\n")
+	c.b.WriteString("\t\t\t}\n")
+	c.b.WriteString("\t\t\tp.it = subItem\n")
+	c.b.WriteString("\t\t\tif err := p.runWithRetry(3); err != nil {\n")
+	c.b.WriteString("\t\t\t\tlog.Println(\"p.run失败：\", err)\n")
+	c.b.WriteString("\t\t\t}\n")
+	c.b.WriteString("\t\t\tp.it_idx++\n")
+	c.b.WriteString("\t\t})\n")
+	c.b.WriteString("\t\tif err != nil {\n")
+	c.b.WriteString("\t\t\tlog.Println(\"路径遍历失败:\", err)\n")
+	c.b.WriteString("\t\t}\n")
+	c.b.WriteString("}\n")
+	return nil
+}
+func (c *CodeBuilder) buildSingleExecute() error {
+	c.b.WriteString("func (p *"+c.fileName+") singleExecute() {\n")
+	c.b.WriteString("\terr := p.runWithRetry(3)\n")
+	c.b.WriteString("\tif err != nil {\n")
+	c.b.WriteString("\t\tlog.Println(\"p.run失败：\", err)\n")
 	c.b.WriteString("\t}\n")
 	c.b.WriteString("}\n")
 	return nil
@@ -817,6 +848,83 @@ func (c *CodeBuilder) combineSingleCode() error {
 		}
 	} else {
 		if err := c.buildSingleMain(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+func (c *CodeBuilder) WcombineSingleCode() error {
+	if err := c.isArray(); err != nil {
+		return err
+	}
+
+	if err := c.writeGeneratedHeader(); err != nil {
+		return err
+	}
+	if err := c.buildImport(); err != nil {
+		return err
+	}
+	if err := c.buildstruct(); err != nil {
+		return err
+	}
+	if err := c.writeNew(); err != nil {
+		return err
+	}
+	if err := c.writeInit(); err != nil {
+		return err
+	}
+	if err := c.writeLoadInput(); err != nil {
+		return err
+	}
+
+	if err := c.writeParseData(); err != nil {
+		return err
+	}
+	if err := c.buildWriteOut(); err != nil {
+		return err
+	}
+
+	if err := c.genModelPrompt(); err != nil {
+		return err
+	}
+	if err := c.ifModel(); err != nil {
+		return err
+	}
+	if err := c.writeBefore(); err != nil {
+		return err
+	}
+	if err := c.writeAfter(); err != nil {
+		return err
+	}
+	if err := c.writeFix(); err != nil {
+		return err
+	}
+	if err := c.buildIsValid(); err != nil {
+		return err
+	}
+	if err := c.buildReTry(); err != nil {
+		return err
+	}
+	if strings.TrimSpace(c.promptNode.FixCode[0]) == "" && strings.TrimSpace(c.promptNode.AfterCode[0]) == "" {
+		if err := c.buildExecuteDir(); err != nil {
+			return err
+		}
+	} else {
+		if err := c.buildExecutePipeline(); err != nil {
+			return err
+		}
+	}
+	//如果有iterater则增加循环内容，调用循环execute
+	if c.promptNode.iteraterPath != "" {
+		if err := c.looppath(); err != nil {
+			return err
+		}
+		if err := c.buildSingleLExecute(); err != nil {
+			return err
+		}
+		return nil
+	}else {
+		if err := c.buildSingleExecute(); err != nil {
 			return err
 		}
 	}

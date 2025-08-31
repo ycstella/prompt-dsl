@@ -29,6 +29,7 @@ type promptToGenCode struct {
 	codeGenUserAndSys *final
 	genDir            string
 	goModPath         string
+	workflowName string
 }
 
 func NewPromptToGenCode(input, filename string) *promptToGenCode {
@@ -93,6 +94,28 @@ func (ptc *promptToGenCode) genCode() error {
 	}
 
 	outputFile := ptc.genDir + "/main.go"
+	err = installGoImports(ptc.promptNode.Goimport, ptc.fileName)
+	if err != nil {
+		log.Fatalf("安装依赖失败: %v", err)
+	}
+	err = os.WriteFile(outputFile, []byte(CodeBuilder.b.String()), 0644)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
+		os.Exit(1)
+	}
+	return err
+}
+func (ptc *promptToGenCode) WgenCode() error {
+	CodeBuilder := NewCodeBuilder(ptc.promptNode, ptc.fileName, ptc.codeGenUserAndSys)
+	CodeBuilder.combineSingleCode()
+	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
+
+	ptc.genDir = filepath.Join("generated_code",ptc.workflowName)
+	err := os.MkdirAll(ptc.genDir, os.ModePerm)
+	if err != nil {
+		fmt.Println("创建目录失败: %v", err)
+	}
+	outputFile := filepath.Join(ptc.genDir,ptc.fileName+".go")
 	err = installGoImports(ptc.promptNode.Goimport, ptc.fileName)
 	if err != nil {
 		log.Fatalf("安装依赖失败: %v", err)
@@ -195,7 +218,31 @@ func (ptc *promptToGenCode) PromptToGenCode() error {
 	}
 	return nil
 }
-
+//只需要生成代码
+func (ptc *promptToGenCode) WPromptToGenCode() error {
+	if err := ptc.parsePrompt(); err != nil {
+		return err
+	}
+	if err := ptc.astToNode(); err != nil {
+		return err
+	}
+	if err := ptc.buildPGCxtAndToCode(); err != nil {
+		return err
+	}
+	if err := ptc.WgenCode(); err != nil {
+		return err
+	}
+	if err := ptc.ensureGoModule(); err != nil {
+		return err
+	}
+	if err := ptc.runGoGet(); err != nil {
+		return err
+	}
+	if err := ptc.runGoModTidy(); err != nil {
+		return err
+	}
+	return nil
+}
 func (ptc *promptToGenCode) tempGenCode() error {
 	var temp *final
 	CodeBuilder := NewCodeBuilder(ptc.promptNode, ptc.fileName, temp)

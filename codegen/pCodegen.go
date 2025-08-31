@@ -13,7 +13,7 @@ import (
 
 type PCodeGen struct {
 	cwd            string
-	pdslFile       string
+	PdslFile       string
 	outDir         string
 	nameWithoutExt string
 	srcDir string
@@ -23,7 +23,7 @@ func NewPCodeGen(pdsl string) *PCodeGen {
 	c, _ := os.Getwd()
 	return &PCodeGen{
 		cwd:      c,
-		pdslFile: pdsl,
+		PdslFile: pdsl,
 	}
 }
 
@@ -35,8 +35,8 @@ func (p *PCodeGen) validateArgs() error {
 		log.Fatalf("请提供 pdsl 文件路径作为参数")
 	}
 	// 从命令行获取单个 pdsl 文件路径
-	if !strings.HasSuffix(p.pdslFile, ".pdsl") {
-		log.Fatalf("文件不是 .pdsl 文件: %s", p.pdslFile)
+	if !strings.HasSuffix(p.PdslFile, ".pdsl") {
+		log.Fatalf("文件不是 .pdsl 文件: %s", p.PdslFile)
 	}
 	return nil
 }
@@ -46,7 +46,7 @@ func (p *PCodeGen) initGenDirs() error {
 	if err != nil {
 		log.Fatalf("创建生成目录失败: %v", err)
 	}
-	filename := filepath.Base(p.pdslFile)
+	filename := filepath.Base(p.PdslFile)
 	p.nameWithoutExt = strings.TrimSuffix(filename, ".pdsl")
 	p.outDir = filepath.Join(genDir, p.nameWithoutExt)
 	//子目录
@@ -56,9 +56,21 @@ func (p *PCodeGen) initGenDirs() error {
 	}
 	return nil
 }
+func (p *PCodeGen) winitGenDirs() error {
+	genDir := "generated_code"
+	err := os.MkdirAll(genDir, os.ModePerm)
+	if err != nil {
+		log.Fatalf("创建生成目录失败: %v", err)
+	}
+	filename := filepath.Base(p.PdslFile)
+	p.nameWithoutExt = strings.TrimSuffix(filename, ".pdsl")
+	p.outDir = filepath.Join(genDir, p.nameWithoutExt)
+
+	return nil
+}
 func (p *PCodeGen) parserAndGen() error {
 	// 读取 pdsl 文件
-	content, err := os.ReadFile(p.pdslFile)
+	content, err := os.ReadFile(p.PdslFile)
 	if err != nil {
 		log.Fatalf("读取 pdsl 文件失败: %v", err)
 	}
@@ -71,13 +83,28 @@ func (p *PCodeGen) parserAndGen() error {
 	}
 	return nil
 }
-func (p *PCodeGen) tempparserAndGen() error {
-	p.srcDir = filepath.Dir(p.pdslFile)
-	content, err := os.ReadFile(p.pdslFile)
+func (p *PCodeGen) wParserAndGen() error {
+	// 读取 pdsl 文件
+	content, err := os.ReadFile(p.PdslFile)
 	if err != nil {
 		log.Fatalf("读取 pdsl 文件失败: %v", err)
 	}
-	filename := filepath.Base(p.pdslFile)
+
+	// 生成 Prompt
+	ptc := NewPromptToGenCode(string(content), p.nameWithoutExt)
+	err = ptc.WPromptToGenCode()
+	if err != nil {
+		log.Fatalf("PromptToGenCode error: %v", err)
+	}
+	return nil
+}
+func (p *PCodeGen) TempparserAndGen() error {
+	p.srcDir = filepath.Dir(p.PdslFile)
+	content, err := os.ReadFile(p.PdslFile)
+	if err != nil {
+		log.Fatalf("读取 pdsl 文件失败: %v", err)
+	}
+	filename := filepath.Base(p.PdslFile)
 	p.nameWithoutExt = strings.TrimSuffix(filename, ".pdsl")
 	// 生成 Prompt
 	ptc := NewPromptToGenCode(string(content), p.nameWithoutExt)
@@ -89,8 +116,8 @@ func (p *PCodeGen) tempparserAndGen() error {
 	return nil
 }
 func (p *PCodeGen) copyGoFiles() error {
-	// 将 pdslFile 同目录下的 .go 文件和 exe 文件复制到生成的 exe 同目录下
-	srcDir := filepath.Dir(p.pdslFile)
+	// 将 PdslFile 同目录下的 .go 文件和 exe 文件复制到生成的 exe 同目录下
+	srcDir := filepath.Dir(p.PdslFile)
 
 	// 先拷贝 .go 文件
 	for _, filename := range config.Cfg.Utils {
@@ -121,7 +148,7 @@ func (p *PCodeGen) buildExe() error {
 	log.Println("Go 程序编译完成，生成了", exeName)
 	return nil
 }
-func (p *PCodeGen) pcodegen() error {
+func (p *PCodeGen) Pcodegen() error {
 	if err := p.validateArgs(); err != nil {
 		return err
 	}
@@ -137,5 +164,23 @@ func (p *PCodeGen) pcodegen() error {
 	if err := p.buildExe(); err != nil {
 		return err
 	}
+	return nil
+}
+func (p *PCodeGen) Wpcodegen() error {
+	if err := p.validateArgs(); err != nil {
+		return err
+	}
+	if err := p.winitGenDirs(); err != nil {
+		return err
+	}
+	if err := p.wParserAndGen(); err != nil {
+		return err
+	}
+	if err := p.copyGoFiles(); err != nil {
+		return err
+	}
+	// if err := p.buildExe(); err != nil {
+	// 	return err
+	// }
 	return nil
 }

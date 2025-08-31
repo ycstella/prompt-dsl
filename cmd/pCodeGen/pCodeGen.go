@@ -15,15 +15,15 @@ func main() {
 	p := codegen.NewPCodeGen(os.Args[1])
 	log.Println("参数数量：", len(os.Args))
 	if len(os.Args) < 4 {
-		err := p.pcodegen()
+		err := p.Pcodegen()
 		if err != nil {
 			log.Fatal(err)
 		}
 	} else {
-		log.Println("偷偷编译中,路径：", filepath.Dir(p.pdslFile))
-		config.InitConfig(filepath.Dir(p.pdslFile))
+		log.Println("偷偷编译中,路径：", filepath.Dir(p.PdslFile))
+		config.InitConfig(filepath.Dir(p.PdslFile))
 		config.InitLogger()
-		err := p.tempparserAndGen()
+		err := p.TempparserAndGen()
 		if err != nil {
 			log.Fatal(err)
 		}

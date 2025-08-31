@@ -18,7 +18,7 @@ func InitWorkflow(configpath, filename string) {
 	viper.SetConfigName(filename)  //名
 	viper.SetConfigType("yaml")     //类型
 	viper.AddConfigPath(configpath) //
-
+	log.Println("workflow文件: %v",filename)
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatalf("读取workflow文件失败: %v", err)
