@@ -16,7 +16,7 @@ type Workflow struct {
 var WF Workflow
 func InitWorkflow(configpath, filename string) {
 	viper.SetConfigName(filename)  //名
-	viper.SetConfigType("yaml")     //类型
+	viper.SetConfigType("wyaml")     //类型
 	viper.AddConfigPath(configpath) //
 	log.Println("workflow文件: %v",filename)
 	err := viper.ReadInConfig()
