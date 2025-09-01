@@ -2,10 +2,13 @@ package config
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
+	"path/filepath"
 
-	"github.com/spf13/viper"
+	"gopkg.in/yaml.v3"
 )
+
 type Workflow struct {
 	Model  string
 	Config string
@@ -14,18 +17,17 @@ type Workflow struct {
 }
 
 var WF Workflow
+
 func InitWorkflow(configpath, filename string) {
-	viper.SetConfigName(filename)  //名
-	viper.SetConfigType("yaml")     //类型
-	viper.AddConfigPath(configpath) //
-	log.Println("workflow文件: %v",filename)
-	err := viper.ReadInConfig()
+	path:=filepath.Join(configpath, filename+".wyaml")
+	data, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatalf("读取workflow文件失败: %v", err)
+		log.Fatalf("读取文件失败: %v", err)
 	}
-	err = viper.Unmarshal(&WF)
-	if err != nil {
-		log.Fatalf("解析workflow文件失败: %v", err)
+
+	if err := yaml.Unmarshal(data, &WF); err != nil {
+		log.Fatalf("解析 wyaml 文件失败: %v", err)
 	}
-	fmt.Println("✅ workflow加载成功")
+
+	fmt.Println("✅ workflow加载成功:",)
 }
