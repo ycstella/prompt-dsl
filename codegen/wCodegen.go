@@ -20,7 +20,7 @@ type WCodeGen struct {
 	b        strings.Builder
 }
 
-func NewWCodeGen() *WCodeGen {
+func NewWCodeGen( ) *WCodeGen {
 	c, _ := os.Getwd()
 	filename := os.Args[1]
 	config.InitWorkflow(c, filename)
@@ -43,9 +43,12 @@ func (w *WCodeGen) wgen() error {
 	w.b.WriteString("package main\n")
 	w.b.WriteString("import (\n")
 	w.b.WriteString("\t\"github.com/ycstella/prompt-dsl/codegen\"\n")
+	w.b.WriteString("\t\"github.com/ycstella/prompt-dsl/config\"\n")
+	w.b.WriteString("\t\"os\"\n")
 	w.b.WriteString("\t\"log\"\n")
 	w.b.WriteString(")\n")
 	w.b.WriteString("func main() {\n")
+	w.b.WriteString("\tconfig.InitWorkflow(os.Args[1],os.Args[2])\n")
 	for i, task := range w.workflow.Task {
 		px := fmt.Sprintf("p%d", i+1)
 		w.b.WriteString(fmt.Sprintf("    %s := New%s()\n", px, task))
@@ -61,7 +64,6 @@ func (w *WCodeGen) wgen() error {
 	for i := 0; i < len(w.workflow.Task); i++ {
 		curr := fmt.Sprintf("p%d", i+1)
 		w.b.WriteString(fmt.Sprintf("    \t%s.singleExecute()\n", curr))
-
 		// 如果不是最后一个，拷贝结果给下一个
 		if i < len(w.workflow.Task)-1 {
 			next := fmt.Sprintf("p%d", i+2)

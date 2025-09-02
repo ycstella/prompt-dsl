@@ -321,6 +321,21 @@ func (c *CodeBuilder) writeNew() error {
 
 	return nil
 }
+func (c *CodeBuilder) writeWNew() error {
+	// 拼接函数签名
+	c.b.WriteString("func New" + c.fileName + "() *" + c.fileName + " {\n")
+	c.b.WriteString("\treturn &" + c.fileName + "{\n")
+	// 拼接各字段初始化
+	c.b.WriteString("\t\tconfig:    config.WF.Config,\n")
+	c.b.WriteString("\t\tmodelname: config.WF.Model,\n")
+	c.b.WriteString("\t\tinputfile: config.WF.Input,\n")
+	c.b.WriteString("\t\tpath: \""+c.path+"\",\n")
+
+	c.b.WriteString("\t}\n") // 关闭结构体
+	c.b.WriteString("}\n\n") // 关闭函数
+
+	return nil
+}
 func (c *CodeBuilder) writeInit() error {
 	c.b.WriteString("func (p *" + c.fileName + ") init() {\n")
 	c.b.WriteString("\t// 初始化配置和日志\n")
@@ -874,7 +889,7 @@ func (c *CodeBuilder) WcombineSingleCode() error {
 	if err := c.buildstruct(); err != nil {
 		return err
 	}
-	if err := c.writeNew(); err != nil {
+	if err := c.writeWNew(); err != nil {
 		return err
 	}
 	if err := c.writeInit(); err != nil {
