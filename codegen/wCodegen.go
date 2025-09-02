@@ -133,7 +133,7 @@ func (w *WCodeGen) Workflowgen() error {
 	// 4.buildexe，
 	w.buildExe()
 	// 5.执行exe
-	w.runExe()
+	// w.runExe()
 	//循环调用每一个task对应的exe,但是task是input的内部循环，所以task内部的调用要改
 	// for _,t:=range w.workflow.Task{
 	// }
