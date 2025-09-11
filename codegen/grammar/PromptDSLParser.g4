@@ -184,7 +184,8 @@ textLine
     ;
 
 paramPath
-    : (IT |INPUT | OUTPUT | AFTER | BEFORE | IT) (DOT ID | LBRACK expr RBRACK)*
+    : ID (DOT ID | LBRACK expr RBRACK)*       // 任意变量名开头
+    | (IT | INPUT | OUTPUT | AFTER | BEFORE) (DOT ID | LBRACK expr RBRACK)*  // 保留原来的关键字开头形式
     ;
 
 

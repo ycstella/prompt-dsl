@@ -112,6 +112,7 @@ func (c *LLMClient) generateOpenAI(systemPrompt, userPrompt string, stream bool)
 	if len(resp.Choices) == 0 {
 		return "", fmt.Errorf("OpenAI 返回空响应")
 	}
+	log.Println("模型原始回复：",resp.Choices[0].Message.Content)
 	jsonPart := extractJSONArray(strings.TrimSpace(resp.Choices[0].Message.Content))
 	if jsonPart == "" {
 		return resp.Choices[0].Message.Content, fmt.Errorf("未能从模型响应中提取 JSON 数组")

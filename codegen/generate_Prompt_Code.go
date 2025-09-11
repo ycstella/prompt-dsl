@@ -69,13 +69,13 @@ type CodeBuilder struct {
 	b             strings.Builder
 	outputTypeStr string
 	model         string
-	path string
-	goimport     []goimport
-	genPrompCode *final
-	outname      string
-	output       string
-	loopClass    string
-	loopName     string
+	path          string
+	goimport      []goimport
+	genPrompCode  *final
+	outname       string
+	output        string
+	loopClass     string
+	loopName      string
 }
 
 func NewCodeBuilder(p *PromptNode, fileName string, g *final) *CodeBuilder {
@@ -90,7 +90,7 @@ func NewCodeBuilder(p *PromptNode, fileName string, g *final) *CodeBuilder {
 		goimport:     p.Goimport,
 		genPrompCode: g,
 		loopName:     last,
-		path: p.iteraterPath,
+		path:         p.iteraterPath,
 	}
 }
 
@@ -314,7 +314,7 @@ func (c *CodeBuilder) writeNew() error {
 	c.b.WriteString("\t\tconfig:    os.Args[2],\n")
 	c.b.WriteString("\t\tmodelname: os.Args[1],\n")
 	c.b.WriteString("\t\tinputfile: os.Args[3],\n")
-	c.b.WriteString("\t\tpath: \""+c.path+"\",\n")
+	c.b.WriteString("\t\tpath: \"" + c.path + "\",\n")
 
 	c.b.WriteString("\t}\n") // 关闭结构体
 	c.b.WriteString("}\n\n") // 关闭函数
@@ -329,7 +329,7 @@ func (c *CodeBuilder) writeWNew() error {
 	c.b.WriteString("\t\tconfig:    config.WF.Config,\n")
 	c.b.WriteString("\t\tmodelname: config.WF.Model,\n")
 	c.b.WriteString("\t\tinputfile: config.WF.Input,\n")
-	c.b.WriteString("\t\tpath: \""+c.path+"\",\n")
+	c.b.WriteString("\t\tpath: \"" + c.path + "\",\n")
 
 	c.b.WriteString("\t}\n") // 关闭结构体
 	c.b.WriteString("}\n\n") // 关闭函数
@@ -660,8 +660,8 @@ func (c *CodeBuilder) buildLoopMain() error {
 	return nil
 }
 func (c *CodeBuilder) buildSingleLExecute() error {
-	c.b.WriteString("func (p *"+c.fileName+") singleExecute() {\n")
-	
+	c.b.WriteString("func (p *" + c.fileName + ") singleExecute() {\n")
+
 	c.b.WriteString("\t// 将路径拆分成每一层\n")
 	c.b.WriteString("\tparts := strings.Split(p.path, \".\")\n")
 	c.b.WriteString("\tp.it_idx = 0\n")
@@ -686,7 +686,7 @@ func (c *CodeBuilder) buildSingleLExecute() error {
 	return nil
 }
 func (c *CodeBuilder) buildSingleExecute() error {
-	c.b.WriteString("func (p *"+c.fileName+") singleExecute() {\n")
+	c.b.WriteString("func (p *" + c.fileName + ") singleExecute() {\n")
 	c.b.WriteString("\terr := p.runWithRetry(3)\n")
 	c.b.WriteString("\tif err != nil {\n")
 	c.b.WriteString("\t\tlog.Println(\"p.run失败：\", err)\n")
@@ -945,7 +945,7 @@ func (c *CodeBuilder) WcombineSingleCode() error {
 			return err
 		}
 		return nil
-	}else {
+	} else {
 		if err := c.buildSingleExecute(); err != nil {
 			return err
 		}

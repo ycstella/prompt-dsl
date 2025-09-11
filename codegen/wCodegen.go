@@ -4,11 +4,12 @@ import (
 	// "encoding/json"
 
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
-	"log"
-	"os/exec"
+
 	"github.com/ycstella/prompt-dsl/config"
 )
 
@@ -16,17 +17,17 @@ type WCodeGen struct {
 	cwd      string
 	workflow config.Workflow
 	fileName string
-	genDir string
+	genDir   string
 	b        strings.Builder
 }
 
-func NewWCodeGen( ) *WCodeGen {
+func NewWCodeGen() *WCodeGen {
 	c, _ := os.Getwd()
 	filename := os.Args[1]
 	config.InitWorkflow(c, filename)
 	return &WCodeGen{
 		cwd:      c,
-		fileName:filename,
+		fileName: filename,
 		workflow: config.WF,
 	}
 }
@@ -57,7 +58,7 @@ func (w *WCodeGen) wgen() error {
 	firstPx := "p1"
 	w.b.WriteString(fmt.Sprintf("    %s.loadInput()\n", firstPx))
 	w.b.WriteString(fmt.Sprintf("    %s.parsedata()\n", firstPx))
-	w.b.WriteString(fmt.Sprintf("    var err error\n"))
+	w.b.WriteString("    var err error\n")
 	w.b.WriteString(fmt.Sprintf("    for _, item := range %s.Input {\n", firstPx))
 	w.b.WriteString(fmt.Sprintf("        %s.currentData = item\n", firstPx))
 
@@ -68,9 +69,9 @@ func (w *WCodeGen) wgen() error {
 		if i < len(w.workflow.Task)-1 {
 			next := fmt.Sprintf("p%d", i+2)
 			w.b.WriteString(fmt.Sprintf("    \terr=codegen.CopyStructRecursive(&%s.afterRet, &%s.currentData)\n", curr, next))
-			w.b.WriteString(fmt.Sprintf("    \tif err != nil {\n"))
-			w.b.WriteString(fmt.Sprintf("    \t\tlog.Fatal(err)\n"))
-			w.b.WriteString(fmt.Sprintf("    \t}\n"))
+			w.b.WriteString("    \tif err != nil {\n")
+			w.b.WriteString("    \t\tlog.Fatal(err)\n")
+			w.b.WriteString("    \t}\n")
 		}
 	}
 	lastPx := fmt.Sprintf("p%d", len(w.workflow.Task))
@@ -83,12 +84,12 @@ func (w *WCodeGen) wgen() error {
 }
 func (w *WCodeGen) writewcode() error {
 
-	w.genDir = filepath.Join("../generated_code",w.fileName)
+	w.genDir = filepath.Join("../generated_code", w.fileName)
 	err := os.MkdirAll(w.genDir, os.ModePerm)
 	if err != nil {
 		fmt.Println("创建目录失败: %v", err)
 	}
-	outputFile := filepath.Join(w.genDir,w.fileName+".go")
+	outputFile := filepath.Join(w.genDir, w.fileName+".go")
 	err = os.WriteFile(outputFile, []byte(w.b.String()), 0644)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
@@ -97,31 +98,15 @@ func (w *WCodeGen) writewcode() error {
 	return nil
 }
 func (w *WCodeGen) buildExe() error {
-		exeName := w.fileName + ".exe"
-		cmd := exec.Command("go", "build", "-o", exeName, ".")
-		cmd.Dir = w.genDir
-		output, err := cmd.CombinedOutput()
-		if err != nil {
-			log.Println(string(output))
-			log.Fatalf("执行 go build 失败: %v", err)
-		}
-		log.Println("Go 程序编译完成，生成了", exeName)
-		return nil
-	}
-func (w *WCodeGen) runExe() error {
-	exePath := filepath.Join(w.cwd,w.genDir, w.fileName+".exe")
-	// 执行 exe
-	cmd := exec.Command(exePath,w.workflow.Model,w.workflow.Config,w.workflow.Input)
+	exeName := w.fileName + ".exe"
+	cmd := exec.Command("go", "build", "-o", exeName, ".")
 	cmd.Dir = w.genDir
-	log.Println("exePath:",exePath)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf("❌ 执行 %s 失败: %v", exePath, err)
-		log.Printf("输出: %s", string(output))
-		return err
+		log.Println(string(output))
+		log.Fatalf("执行 go build 失败: %v", err)
 	}
-
-	log.Printf("✅ %s 执行成功，输出:\n%s", exePath, string(output))
+	log.Println("Go 程序编译完成，生成了", exeName)
 	return nil
 }
 

@@ -179,7 +179,11 @@ func (p *ParamNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	case "continue":
 		return []string{"continue"}, nil
 	default:
-		return []string{fmt.Sprintf(`b.WriteString(%s)`, p.Path)}, nil
+		return []string{fmt.Sprintf("b.WriteString(%s + \"\\n\")", p.Path)}, nil
+	// 	return []string{
+    //     fmt.Sprintf("data, _ := json.Marshal(%s)", p.Path),
+    //     "b.WriteString(string(data) + \"\\n\")",
+    // }, nil
 	}
 }
 
@@ -281,7 +285,7 @@ func (node *ForNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	case "rangeNoIndex":
 		fmt.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
 		// for val := range iterable
-		lines = append(lines, fmt.Sprintf("for %s := range %s {", node.Val, node.Range))
+		lines = append(lines, fmt.Sprintf("for _,%s := range %s {", node.Val, node.Range))
 
 		for _, n := range node.Body {
 			vals, err := n.Tocode(ctx)

@@ -98,7 +98,9 @@ func writefield(f FieldDef, fields []FieldDef, i int, indent string) []string {
 		example = "\"\""
 	case "int":
 		example = "0"
-	case "float":
+	case "float32":
+		example = "0.0"
+	case "float64":
 		example = "0.0"
 	case "bool":
 		example = "false"
@@ -110,8 +112,10 @@ func writefield(f FieldDef, fields []FieldDef, i int, indent string) []string {
 				example = "[\"\"]"
 			case "int":
 				example = "[0]"
-			case "float":
+			case "float32":
 				example = "[0.0]"
+			case "float64":
+				example = "[0.0]"	
 			case "bool":
 				example = "[false]"
 			default:
