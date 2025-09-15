@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	// "codegen/util"
 )
@@ -179,11 +180,11 @@ func (p *ParamNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	case "continue":
 		return []string{"continue"}, nil
 	default:
-		return []string{fmt.Sprintf("b.WriteString(%s + \"\\n\")", p.Path)}, nil
-	// 	return []string{
-    //     fmt.Sprintf("data, _ := json.Marshal(%s)", p.Path),
-    //     "b.WriteString(string(data) + \"\\n\")",
-    // }, nil
+		// return []string{fmt.Sprintf("b.WriteString(%s + \"\\n\")", p.Path)}, nil
+		return []string{
+			fmt.Sprintf("b.WriteString(string(utils.mustJSON(%s)) + \"\\n\")", p.Path),
+		}, nil
+
 	}
 }
 
@@ -246,7 +247,7 @@ type ForNode struct {
 }
 
 func (node *ForNode) Tocode(ctx *PromptGenContext) ([]string, error) {
-	// fmt.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
+	// log.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
 	var lines []string
 
 	switch node.ForType {
@@ -262,12 +263,11 @@ func (node *ForNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 				lines = append(lines, fmt.Sprintf("    %s", v))
 			}
 		}
-
 		lines = append(lines, "}")
 
 	case "rangeWithIndex":
 		// for key, val := range iterable
-		fmt.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
+		log.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
 		lines = append(lines, fmt.Sprintf("for %s, %s := range %s {", node.Key, node.Val, node.Range))
 
 		for _, n := range node.Body {
@@ -283,7 +283,7 @@ func (node *ForNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 		lines = append(lines, "}")
 
 	case "rangeNoIndex":
-		fmt.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
+		log.Println("解释执行 ForNode:", node.Key, node.Val, node.Range)
 		// for val := range iterable
 		lines = append(lines, fmt.Sprintf("for _,%s := range %s {", node.Val, node.Range))
 
@@ -296,9 +296,9 @@ func (node *ForNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 				lines = append(lines, fmt.Sprintf("    %s", v))
 			}
 		}
-
+		// log.Println("执行完了")
 		lines = append(lines, "}")
-
+		log.Println("lines:", lines)
 	default:
 		return nil, fmt.Errorf("unknown for loop type: %s", node.ForType)
 	}
@@ -323,7 +323,7 @@ type PromptNode struct {
 	outputspectNodes OutputSpecNode
 	RunExe           []string
 	iteraterPath     string
-	loopRange		 []int
+	loopRange        []int
 	// IsArray     bool
 	// 其它部分
 }
@@ -342,7 +342,7 @@ func NewPromptNode() *PromptNode {
 		FixCode:          []string{},
 		Goimport:         []goimport{},
 		iteraterPath:     "",
-		loopRange:		  []int{},
+		loopRange:        []int{},
 		outputspectNodes: OutputSpecNode{},
 	}
 	return p

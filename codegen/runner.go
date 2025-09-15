@@ -74,13 +74,15 @@ func (ptc *promptToGenCode) buildPGCxtAndToCode() error {
 	}
 
 	fmt.Println("😅ModelFields:", str.ModelFields)
-	var userSysCode *final
+	// var userSysCode *final
+	// log.Println("tocode处理问题")
 	userSysCode, err := ptc.promptNode.Tocode(str)
-	ptc.codeGenUserAndSys = userSysCode
-	if err != nil {
+	if err!= nil {
+		log.Println("节点解析失败：",err)
 		return err
 	}
-	return nil
+	ptc.codeGenUserAndSys = userSysCode
+	return err
 }
 
 // 生成代码
@@ -162,7 +164,7 @@ func (ptc *promptToGenCode) runGoGet() error {
     os.Setenv("GONOSUMDB", "github.com/ycstella/*")
 
     // 使用 token 拉取私有模块
-    getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.36")
+    getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.37")
     getCmd.Dir = filepath.Dir(ptc.goModPath)
     getCmd.Env = append(os.Environ(),
         "GOPRIVATE=github.com/ycstella/*",

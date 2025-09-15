@@ -148,6 +148,7 @@ func (c *CodeBuilder) buildImport() error {
 	if c.loopName != "" {
 		requiredPkgs = append(requiredPkgs, "reflect")
 	}
+	requiredPkgs = append(requiredPkgs, "github.com/ycstella/prompt-dsl/utils")
 	for _, req := range requiredPkgs {
 		has := false
 		for _, pkg := range pkgs {
