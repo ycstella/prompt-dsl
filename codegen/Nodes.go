@@ -182,7 +182,7 @@ func (p *ParamNode) Tocode(ctx *PromptGenContext) ([]string, error) {
 	default:
 		// return []string{fmt.Sprintf("b.WriteString(%s + \"\\n\")", p.Path)}, nil
 		return []string{
-			fmt.Sprintf("b.WriteString(string(utils.mustJSON(%s)) + \"\\n\")", p.Path),
+			fmt.Sprintf("b.WriteString(string(utils.MustJSON(%s)) + \"\\n\")", p.Path),
 		}, nil
 
 	}
