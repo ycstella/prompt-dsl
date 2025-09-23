@@ -627,13 +627,14 @@ func (c *CodeBuilder) buildSingleMain() error {
 }
 func (c *CodeBuilder) buildLoopMain() error {
 	c.b.WriteString("func main() {\n")
-	c.b.WriteString("\tp := NewGetpath()\n")
+	c.b.WriteString("\tp := New"+c.fileName+"()\n")
 	c.b.WriteString("\tp.init()\n")
 	c.b.WriteString("\tp.loadInput()\n")
 	c.b.WriteString("\tp.parsedata()\n")
 	c.b.WriteString("\tpath := \"" + c.promptNode.iteraterPath + "\"\n")
 	c.loopRange()
 	c.b.WriteString("\tfor _, item := range p.Input {\n")
+	c.b.WriteString("\t\tp.afterRet="+c.fileName+"OutputContext{}\n")
 	c.b.WriteString("\t\tp.currentData = item\n")
 	c.b.WriteString("\t\t// 将路径拆分成每一层\n")
 	c.b.WriteString("\t\tparts := strings.Split(path, \".\")\n")
