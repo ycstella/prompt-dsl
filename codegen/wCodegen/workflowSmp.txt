@@ -1,0 +1,39 @@
+workflow {
+  in1 {
+    // 输入字段定义，可直接作为任务流的全局输入
+    Id: string
+    Question: string
+    Price: int
+  }
+  []in2 {
+    //同in1可自定义，插件选择json，也可路径指向json
+    Id: string
+    Question: string
+  }
+
+  out { 
+    Id: string                              <- in1.Id
+    Question: string                        <- in1.Question
+    Stepcontext:string                      <- ExtractSteps(in1)
+    Field3: struct{
+      Id3:int                          
+      Num3:int                     
+    }                                       <- P7(P1(in1))
+    Value: string                           <- GetPath([$sum(in1.Price)*(P2(P1(in1)))])
+    Num:int                                 <- [$sum(P5(ExtractSteps(in1))) + (P1(in1))]  // 支持运算和链式引用
+    Field: struct{
+      Id2:int                    <- P8(P1(in1)) 
+      Ium2:int                  <- P9(P1(in1))   
+    }                           <- P10(P1(in1))
+    Field2: string                          <- P4(in1)
+  }
+
+  models {
+    default: 0
+    getId: 1              
+    ExtractSteps: 2                  
+    P1: 3               
+    P2: 4                      
+    P3: 5               
+  }
+}
