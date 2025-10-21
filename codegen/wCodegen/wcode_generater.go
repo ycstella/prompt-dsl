@@ -69,6 +69,7 @@ package main
 import (
 	"log"
 	"github.com/ycstella/prompt-dsl/codegen"
+	"github.com/spf13/cast"
 )`
 }
 func (g *Generater) genStructs() string {
@@ -82,12 +83,12 @@ func (g *Generater) genFuncs() string {
 	const tmplStr = `
 {{- range .}}
 	{{- if eq .Type 2 }}  
-func {{ .CallName }}(
+func W{{ .CallName }}(
 	{{- range $j, $d := .Dependencies }}
 		{{- if $j}}, {{ end }}{{ findVarNameById $d.Id $ }} any
-	{{- end }}) {{.ReturnType}} {
+	{{- end }}) float64 {
 	return {{ range $j, $d := .Dependencies }}
-	{{- if $j}} * {{ end }}{{ findVarNameById $d.Id $ }}
+	{{- if $j}} + {{ end }}cast.ToFloat64({{ findVarNameById $d.Id $ }})
 	{{- end }}
 }
 	{{- else if eq .Type 1 }}  
@@ -104,8 +105,8 @@ func W{{ .CallName }}(
 		log.Fatal(err)
 	}
 	task.singleExecute()
-		return task.afterRet
-	}
+	return task.afterRet.{{.ReturnType}} 
+}
 	{{- else if eq .Type 3 }}  
 func {{ .CallName }}(
 	{{- range $j, $d := .Dependencies }}
@@ -119,8 +120,9 @@ func {{ .CallName }}(
 	funcStr := renderTemplateWithLookup(g.topResult, tmplStr)
 	return funcStr
 }
-func (g *Generater) genFieldAssignments(node *TaskNode, parentPath string) string {
+func (g *Generater) genFieldAssignments(node *TaskNode, parentPath string, parentVar string) string {
 	var sb strings.Builder
+
 	fieldPath := "out"
 	if parentPath != "" {
 		fieldPath = parentPath + "." + node.Id
@@ -128,17 +130,30 @@ func (g *Generater) genFieldAssignments(node *TaskNode, parentPath string) strin
 		fieldPath = node.Id
 	}
 
+	rightVar:=parentVar
+
+	// 优先匹配当前节点自己的依赖变量
 	for _, value := range g.topResult {
-		if value.Expr != "" && value.Type == Field && node.Id == value.Id {
-			sb.WriteString(fmt.Sprintf("\t%s = %s\n", fieldPath, value.Dependencies[0].VarName))
-		} else if value.Expr != "" && value.Type == SubField && node.Id == value.Id {
-			sb.WriteString(fmt.Sprintf("\t%s = %s.%s\n", fieldPath, value.Dependencies[0].VarName, node.Id))
+		if value.Expr != "" && node.Id == value.Id {
+			// 如果是顶级字段
+			if value.Type == Field {
+				rightVar = value.Dependencies[0].VarName
+				sb.WriteString(fmt.Sprintf("\t%s = %s\n", fieldPath, rightVar))
+			} else if value.Type == SubField {
+				// 子字段右边来自父变量
+				if parentVar != "" {
+					rightVar = fmt.Sprintf("%s.%s", parentVar, node.Id) // 父变量 + 当前字段
+				} else {
+					rightVar = fmt.Sprintf("%s.%s", value.Dependencies[0].VarName, node.Id) // 没父变量，用依赖起点
+				}
+				sb.WriteString(fmt.Sprintf("\t%s = %s\n", fieldPath, rightVar))
+			}
+			break
 		}
 	}
-
-	// 递归赋值子节点
+	// 递归子节点（传递当前 rightVar）
 	for _, child := range node.Children {
-		sb.WriteString(g.genFieldAssignments(child, fieldPath))
+		sb.WriteString(g.genFieldAssignments(child, fieldPath, rightVar))
 	}
 
 	return sb.String()
@@ -165,7 +180,7 @@ func (g *Generater) genExec() string {
 
 	//暴力遍历model，赋值out的每一个字段（有expr的通过id匹配map，取其varname）,递归遍历其子字段，子字段的赋值在其父字段之后
 
-	feilds := g.genFieldAssignments(g.astNode, "")
+	feilds := g.genFieldAssignments(g.astNode, "","")
 	log.Println("进入字段赋值")
 	const fieldtpStr2 = `
 	//字段赋值
