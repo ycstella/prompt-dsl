@@ -4,3 +4,4 @@ config/default.yaml
 
 codegen/wCodegen/generated/*
 codegen/Wparser/*
+codegen/.antlr/*
