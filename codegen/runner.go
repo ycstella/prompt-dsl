@@ -17,7 +17,6 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
-
 // 生成单prompt代码，返回user，sys
 type promptToGenCode struct {
 	input             string
@@ -29,15 +28,15 @@ type promptToGenCode struct {
 	codeGenUserAndSys *final
 	genDir            string
 	goModPath         string
-	workflowName string
+	workflowName      string
 }
 
 func NewPromptToGenCode(input, filename string) *promptToGenCode {
-	cwd, _:= os.Getwd()
+	cwd, _ := os.Getwd()
 	return &promptToGenCode{
-		input:    input,
-		fileName: filename,
-		workflowName:filepath.Base(cwd),
+		input:        input,
+		fileName:     filename,
+		workflowName: filepath.Base(cwd),
 	}
 }
 func (ptc *promptToGenCode) parsePrompt() error {
@@ -77,8 +76,8 @@ func (ptc *promptToGenCode) buildPGCxtAndToCode() error {
 	// var userSysCode *final
 	// log.Println("tocode处理问题")
 	userSysCode, err := ptc.promptNode.Tocode(str)
-	if err!= nil {
-		log.Println("节点解析失败：",err)
+	if err != nil {
+		log.Println("节点解析失败：", err)
 		return err
 	}
 	ptc.codeGenUserAndSys = userSysCode
@@ -114,12 +113,34 @@ func (ptc *promptToGenCode) WgenCode() error {
 	CodeBuilder.WcombineSingleCode()
 	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
 
-	ptc.genDir = filepath.Join("../generated_code",ptc.workflowName)
+	ptc.genDir = filepath.Join("../generated_code", ptc.workflowName)
 	err := os.MkdirAll(ptc.genDir, os.ModePerm)
 	if err != nil {
 		fmt.Println("创建目录失败: %v", err)
 	}
-	outputFile := filepath.Join(ptc.genDir,ptc.fileName+".go")
+	outputFile := filepath.Join(ptc.genDir, ptc.fileName+".go")
+	err = installGoImports(ptc.promptNode.Goimport, ptc.fileName)
+	if err != nil {
+		log.Fatalf("安装依赖失败: %v", err)
+	}
+	err = os.WriteFile(outputFile, []byte(CodeBuilder.b.String()), 0644)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
+		os.Exit(1)
+	}
+	return err
+}
+func (ptc *promptToGenCode) WgenCode2() error {
+	CodeBuilder := NewCodeBuilder(ptc.promptNode, ptc.fileName, ptc.codeGenUserAndSys)
+	CodeBuilder.WcombineSingleCode()
+	// code := GeneratepromptCode(ptc.promptNode, "generated", ptc.codeGenUserAndSys, ptc.fileName, ptc.promptNode.Goimport)
+
+	ptc.genDir = filepath.Join("../generated_code", ptc.workflowName)
+	err := os.MkdirAll(ptc.genDir, os.ModePerm)
+	if err != nil {
+		fmt.Println("创建目录失败: %v", err)
+	}
+	outputFile := filepath.Join(ptc.genDir, ptc.fileName+".go")
 	err = installGoImports(ptc.promptNode.Goimport, ptc.fileName)
 	if err != nil {
 		log.Fatalf("安装依赖失败: %v", err)
@@ -159,31 +180,30 @@ func (ptc *promptToGenCode) ensureGoModule() error {
 
 // 在 go.mod 所在目录执行 go get
 func (ptc *promptToGenCode) runGoGet() error {
-    // 设置私有仓库，避免 go.sum 校验
-    os.Setenv("GOPRIVATE", "github.com/ycstella/*")
-    os.Setenv("GONOSUMDB", "github.com/ycstella/*")
+	// 设置私有仓库，避免 go.sum 校验
+	os.Setenv("GOPRIVATE", "github.com/ycstella/*")
+	os.Setenv("GONOSUMDB", "github.com/ycstella/*")
 
-    // 使用 token 拉取私有模块
-    getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.39")
-    getCmd.Dir = filepath.Dir(ptc.goModPath)
-    getCmd.Env = append(os.Environ(),
-        "GOPRIVATE=github.com/ycstella/*",
-        "GONOSUMDB=github.com/ycstella/*",
-    )
+	// 使用 token 拉取私有模块
+	getCmd := exec.Command("go", "get", "github.com/ycstella/prompt-dsl@v0.1.39")
+	getCmd.Dir = filepath.Dir(ptc.goModPath)
+	getCmd.Env = append(os.Environ(),
+		"GOPRIVATE=github.com/ycstella/*",
+		"GONOSUMDB=github.com/ycstella/*",
+	)
 
-    log.Println("执行目录：", getCmd.Dir)
+	log.Println("执行目录：", getCmd.Dir)
 
-    output, err := getCmd.CombinedOutput()
-    log.Printf("go get 输出:\n%s", string(output))
-    if err != nil {
-        log.Printf("go get 失败: %v", err)
-        return err
-    }
+	output, err := getCmd.CombinedOutput()
+	log.Printf("go get 输出:\n%s", string(output))
+	if err != nil {
+		log.Printf("go get 失败: %v", err)
+		return err
+	}
 
-    log.Println("go get 成功 ✅")
-    return nil
+	log.Println("go get 成功 ✅")
+	return nil
 }
-
 
 // 在 go.mod 所在目录执行 go mod tidy
 func (ptc *promptToGenCode) runGoModTidy() error {
@@ -222,7 +242,8 @@ func (ptc *promptToGenCode) PromptToGenCode() error {
 	}
 	return nil
 }
-//只需要生成代码
+
+// 只需要生成代码
 func (ptc *promptToGenCode) WPromptToGenCode() error {
 	if err := ptc.parsePrompt(); err != nil {
 		return err
@@ -233,7 +254,7 @@ func (ptc *promptToGenCode) WPromptToGenCode() error {
 	if err := ptc.buildPGCxtAndToCode(); err != nil {
 		return err
 	}
-	if err := ptc.WgenCode(); err != nil {
+	if err := ptc.WgenCode2(); err != nil {
 		return err
 	}
 	if err := ptc.ensureGoModule(); err != nil {

@@ -210,6 +210,13 @@ func (c *CodeBuilder) buildInputContext() {
 	}
 	c.b.WriteString("}\n\n")
 }
+func (c *CodeBuilder) wbuildInputContext() {
+	c.b.WriteString("type " + c.fileName + "InputContext struct {\n")
+	for _, field := range c.promptNode.InFields {
+		c.wbuildField(field)
+	}
+	c.b.WriteString("}\n\n")
+}
 func (c *CodeBuilder) buildField(field FieldDef) {
 	fieldName := capitalizeFirst(field.Name)
 	if field.Name == c.loopName {
@@ -225,7 +232,21 @@ func (c *CodeBuilder) buildField(field FieldDef) {
 	}
 	c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
 }
-
+func (c *CodeBuilder) wbuildField(field FieldDef) {
+	fieldName := capitalizeFirst(field.Name)
+	if field.Name == c.loopName {
+		c.loopClass = fieldName
+	}
+	if field.Type == "struct" {
+		c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, fieldName, field.JsonName))
+		return
+	}
+	if field.Type == "[]struct" {
+		c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, "[]"+fieldName, field.JsonName))
+		return
+	}
+	c.b.WriteString(fmt.Sprintf("    %s %s `json:\"%s\"`\n", fieldName, field.Type, field.JsonName))
+}
 func (c *CodeBuilder) buildOutputContext() {
 	if len(c.promptNode.OutFields) > 0 {
 		c.b.WriteString("type " + c.fileName + "OutputContext struct {\n")
@@ -246,6 +267,26 @@ func (c *CodeBuilder) buildOutputContext() {
 		c.b.WriteString("}\n\n")
 	}
 }
+func (c *CodeBuilder) wbuildOutputContext() {
+	if len(c.promptNode.OutFields) > 0 {
+		c.b.WriteString("type " + c.fileName + "OutputContext struct {\n")
+		for _, field := range c.promptNode.OutFields {
+			skip := false
+			for _, ann := range field.Annotations {
+				if ann == "outignore" {
+					skip = true
+					break
+				}
+			}
+			// log.Println(field.Annotations)
+			if skip {
+				continue
+			}
+			c.wbuildField(field)
+		}
+		c.b.WriteString("}\n\n")
+	}
+}
 func (c *CodeBuilder) buildModelOutputContext() {
 	if len(c.promptNode.ModelFields) > 0 {
 		c.b.WriteString("type " + c.fileName + "ModelOutputContext struct {\n")
@@ -255,11 +296,28 @@ func (c *CodeBuilder) buildModelOutputContext() {
 		c.b.WriteString("}\n\n")
 	}
 }
+func (c *CodeBuilder) wbuildModelOutputContext() {
+	if len(c.promptNode.ModelFields) > 0 {
+		c.b.WriteString("type " + c.fileName + "ModelOutputContext struct {\n")
+		for _, field := range c.promptNode.ModelFields {
+			c.wbuildField(field)
+		}
+		c.b.WriteString("}\n\n")
+	}
+}
 func (c *CodeBuilder) buildstruct() error {
 	c.subStruct()
 	c.buildInputContext()
 	c.buildOutputContext()
 	c.buildModelOutputContext()
+	c.buildPromptStruct()
+	return nil
+}
+func (c *CodeBuilder) wbuildstruct() error {
+	// c.subStruct()
+	c.wbuildInputContext()
+	c.wbuildOutputContext()
+	c.wbuildModelOutputContext()
 	c.buildPromptStruct()
 	return nil
 }
@@ -294,6 +352,7 @@ func (c *CodeBuilder) genModelPrompt() error {
 	c.b.WriteString("\n}\n\n")
 	return nil
 }
+
 
 // model or output
 func (c *CodeBuilder) ifModel() error {
@@ -888,9 +947,9 @@ func (c *CodeBuilder) WcombineSingleCode() error {
 	if err := c.buildImport(); err != nil {
 		return err
 	}
-	if err := c.buildstruct(); err != nil {
+	if err := c.wbuildstruct(); err != nil {
 		return err
-	}
+	}//struct不需要方法名+feild
 	if err := c.writeWNew(); err != nil {
 		return err
 	}
