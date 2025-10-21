@@ -1,3 +1,6 @@
 config/default.yaml
 
 *.log
+
+codegen/wCodegen/generated/*
+codegen/Wparser/*
