@@ -31,6 +31,12 @@ func NewWCodeGen() *WCodeGen {
 		workflow: config.WF,
 	}
 }
+func NewWCode2( ) *WCodeGen {
+	c, _ := os.Getwd()
+	return &WCodeGen{
+		cwd:      c,
+	}
+}
 func (w *WCodeGen) looptask() error {
 	for _, task := range w.workflow.Task {
 		pdslPath := filepath.Join(w.cwd, task+".pdsl")
@@ -39,7 +45,16 @@ func (w *WCodeGen) looptask() error {
 	}
 	return nil
 }
-
+func (w *WCodeGen) Looptask(list []string ) error {
+	for _, v := range list {
+		// fmt.Println("进入:",v)
+		pdslPath := filepath.Join(w.cwd, v +".pdsl")
+		fmt.Println("文件：",pdslPath)
+		p := NewPCodeGen(pdslPath)
+		p.Wpcodegen()
+	}
+	return nil
+}
 func (w *WCodeGen) wgen() error {
 	w.b.WriteString("package main\n")
 	w.b.WriteString("import (\n")

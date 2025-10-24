@@ -3,11 +3,13 @@ package codegen
 import (
 	// "encoding/json"
 
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
 	"github.com/ycstella/prompt-dsl/config"
 )
 
@@ -22,13 +24,23 @@ type PCodeGen struct {
 
 func NewPCodeGen(pdsl string) *PCodeGen {
 	c, _ := os.Getwd()
+	fmt.Println("pdslcode gening")
 	return &PCodeGen{
 		cwd:      c,
 		PdslFile: pdsl,
-		workflow_name: filepath.Base(c),
+		workflow_name: filepath.Base(c),   
 	}
 }
+func NewPCodeGentest(pdsl string) *PCodeGen {
+	c, _ := os.Getwd()
 
+	fmt.Println("pdslcode gening")
+	return &PCodeGen{
+		cwd:      c,
+		PdslFile: pdsl,
+		workflow_name: "testpsdl",   
+	}
+}
 // 验证参数合法性
 func (p *PCodeGen) validateArgs() error {
 	config.InitConfig(p.cwd)
@@ -72,9 +84,9 @@ func (p *PCodeGen) winitGenDirs() error {
 	if err != nil {
 		log.Fatalf("创建子目录失败: %v", err)
 	}
-
 	return nil
 }
+
 func (p *PCodeGen) parserAndGen() error {
 	// 读取 pdsl 文件
 	content, err := os.ReadFile(p.PdslFile)
@@ -82,6 +94,20 @@ func (p *PCodeGen) parserAndGen() error {
 		log.Fatalf("读取 pdsl 文件失败: %v", err)
 	}
 
+	// 生成 Prompt
+	ptc := NewPromptToGenCode(string(content), p.nameWithoutExt)
+	err = ptc.PromptToGenCode()
+	if err != nil {
+		log.Fatalf("PromptToGenCode error: %v", err)
+	}
+	return nil
+}
+func (p *PCodeGen) parserAndGentest() error {
+	// 读取 pdsl 文件
+	content, err := os.ReadFile(p.PdslFile)
+	if err != nil {
+		log.Fatalf("读取 pdsl 文件失败: %v", err)
+	}
 	// 生成 Prompt
 	ptc := NewPromptToGenCode(string(content), p.nameWithoutExt)
 	err = ptc.PromptToGenCode()
@@ -174,20 +200,45 @@ func (p *PCodeGen) Pcodegen() error {
 	return nil
 }
 func (p *PCodeGen) Wpcodegen() error {
+	fmt.Println("Wpcodegen gening")
 	if err := p.validateArgs(); err != nil {
+		fmt.Println("err:",err)
 		return err
 	}
 	if err := p.winitGenDirs(); err != nil {
+		fmt.Println("err:",err)
 		return err
 	}
 	if err := p.wParserAndGen(); err != nil {
+		fmt.Println("err:",err)
 		return err
 	}
 	if err := p.copyGoFiles(); err != nil {
+		fmt.Println("err:",err)
 		return err
 	}
+	fmt.Println("结束")
 	// if err := p.buildExe(); err != nil {
 	// 	return err
 	// }
+	return nil
+}
+func (p *PCodeGen) Wpcodegentest() error {
+	fmt.Println("Wpcodegen gening")
+
+	if err := p.winitGenDirs(); err != nil {
+		fmt.Println("err:",err)
+		return err
+	}
+	if err := p.wParserAndGen(); err != nil {
+		fmt.Println("err:",err)
+		return err
+	}
+	if err := p.copyGoFiles(); err != nil {
+		fmt.Println("err:",err)
+		return err
+	}
+	fmt.Println("结束")
+
 	return nil
 }

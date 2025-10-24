@@ -87,7 +87,6 @@ func (g *WPDSLGener) generatePromptFile(allin, funcName, inputName string) (PDSL
 		log.Println("inputName:", inputName)
 		log.Println("value.callname:", value.callname)
 		if value.callname == inputName {
-
 			inBlock = value.out
 		}
 	}
@@ -95,6 +94,8 @@ func (g *WPDSLGener) generatePromptFile(allin, funcName, inputName string) (PDSL
 	// antlr.ParseTreeWalkerDefault.Walk(listener, g.tree)
 
 	outBlock := extractTargetContent(g.WorkflowContent, funcName, g.ignoreRanges)
+	outBlock=replaceArrowsInStruct(outBlock,funcName)
+	log.Println("替换<-:",outBlock)
 	pdsfl := PDSLFile{
 		in:       inBlock,
 		out:      outBlock,

@@ -120,14 +120,13 @@ func replaceArrowsInStruct(structStr, funcName string) string {
 
 	return sb.String()
 }
+
 func (l *ArrowStructListener) EnterFunctionCall(ctx *Wparser.FunctionCallContext) {
 	id := ctx.ID().GetText()
 
 	if l.funcName == "" {
 		return
 	}
-	// fmt.Println("id:", id)
-	// fmt.Println("funcName:", l.funcName)
 	ignoreRanges := Range{
 		functionName: id,
 	}
@@ -169,8 +168,7 @@ func (l *ArrowStructListener) EnterFunctionCall(ctx *Wparser.FunctionCallContext
 FOUND:
 	// fmt.Println("strat:",start)
 	ignoreRanges.stop = stop
-
-	fmt.Println("找到了")
+	// fmt.Println("找到了")
 	content := l.content
 	// 向前扩展 start，使其包含行首缩进
 	for start > 0 {
@@ -182,17 +180,18 @@ FOUND:
 		if ch == '\n' || ch == '\r' {
 			break
 		}
-		// 如果前面是非空白字符（比如上一个字段）
 		break
 	}
 	ignoreRanges.start = start
 	// 截取源码原始字符串
 	structStr := l.content[start : stop+1]
+	
 	ignoreRanges.code = structStr
 	l.ignoreRanges = append(l.ignoreRanges, ignoreRanges)
-	for _, value := range l.ignoreRanges {
-		fmt.Println("ignoreRanges:", value)
-	}
+	
+	// for _, value := range l.ignoreRanges {
+	// 	fmt.Println("ignoreRanges:", value)
+	// }
 
 }
 
@@ -224,8 +223,8 @@ func extractTargetContent(content string, funcName string, ignoreRanges []Range)
 	}
 
 	targetBlock := []byte(content[targetStart : targetStop+1])
-	log.Println("name:", funcName)
-	log.Println("targetBlock:", string(targetBlock))
+	// log.Println("name:", funcName)
+	// log.Println("targetBlock:", string(targetBlock))
 
 	// 收集所有非目标函数的区间（在目标范围内的）
 	var toRemove []Range

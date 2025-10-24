@@ -1,13 +1,18 @@
 package wcodegen
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"testing"
 
 	"github.com/antlr4-go/antlr/v4"
+	"github.com/ycstella/prompt-dsl/codegen"
 	Wparser "github.com/ycstella/prompt-dsl/codegen/Wparser"
+	gened "github.com/ycstella/prompt-dsl/codegen/wcodegen/generated"
+	"github.com/ycstella/prompt-dsl/config"
 )
 
 func Test_wcodegen(t *testing.T) {
@@ -71,4 +76,33 @@ func Test_outextract(t *testing.T) {
 	antlr.ParseTreeWalkerDefault.Walk(listener, tree)
 
 	fmt.Println(listener.result)
+}
+
+func Test_pdslgencode(t *testing.T) {
+	// fmt.Println("1111111111")
+	logdfine()
+	w := codegen.NewWCode2()
+	// fmt.Println("1111111111")
+	filelist := []string{"testpsdl\\ExtractSteps", "testpsdl\\Getpath"}
+	w.Looptask(filelist)
+	// fmt.Println("1111111111")
+}
+func Test_runtest(t *testing.T) {
+	// 执行依赖计算
+	var in1 gened.In1
+	b, err := ioutil.ReadFile("generated/test.json")
+	if err != nil {
+		log.Print(err)
+	}
+	err = json.Unmarshal(b, &in1)
+	if err != nil {
+		log.Print(err)
+	}
+	fmt.Printf("u: %+v\n", in1)
+	cd, _ := os.Getwd()
+	fmt.Println("当前路径：", cd)
+
+	config.WF.Model = "gemini-2.0-flash"
+	config.WF.Config = "./generated"
+	gened.Run(in1)
 }

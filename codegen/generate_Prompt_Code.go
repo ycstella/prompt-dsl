@@ -947,9 +947,9 @@ func (c *CodeBuilder) WcombineSingleCode() error {
 	if err := c.buildImport(); err != nil {
 		return err
 	}
-	if err := c.wbuildstruct(); err != nil {
+	if err := c.buildstruct(); err != nil {
 		return err
-	}//struct不需要方法名+feild
+	}
 	if err := c.writeWNew(); err != nil {
 		return err
 	}

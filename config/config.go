@@ -20,7 +20,7 @@ type LogConfig struct {
 }
 
 type ModelConfig struct {
-	Provider       string
+	Provider       string 
 	ApiKey         string `mapstructure:"api_key"`
 	BaseURL        string `mapstructure:"base_url"`
 	Model          string
