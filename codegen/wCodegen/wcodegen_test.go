@@ -11,7 +11,7 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/ycstella/prompt-dsl/codegen"
 	Wparser "github.com/ycstella/prompt-dsl/codegen/Wparser"
-	gened "github.com/ycstella/prompt-dsl/codegen/wcodegen/generated"
+	gened "github.com/ycstella/prompt-dsl/codegen/wCodegen/generated"
 	"github.com/ycstella/prompt-dsl/config"
 )
 
@@ -105,4 +105,28 @@ func Test_runtest(t *testing.T) {
 	config.WF.Model = "gemini-2.0-flash"
 	config.WF.Config = "./generated"
 	gened.Run(in1)
+}
+func Test_scanf(t *testing.T) {
+	filelist, err := ScanPdslFiles("./testpsdl")
+	if err != nil {
+		log.Fatalf("Error %s", err.Error())
+	}
+	for _, f := range filelist {
+		println("Found functional file:", f)
+	}
+}
+
+func Test_pipe(t *testing.T) {
+	// fmt.Println("11111111111")
+	// logdfine()
+	//1.加载workflow
+	w, err := NewWpipeline("./testpsdl/workflowSmp.txt")
+	if err != nil {
+		log.Fatal()
+	}
+	w.Execute()
+}
+func Test_func(t *testing.T) {
+	cmd,_:=os.Getwd()
+	fmt.Println("运行目录:",cmd)
 }

@@ -1,0 +1,53 @@
+prompt ExtractSteps {
+    in {
+        Id: int
+        Question:
+		Solution:
+    }
+    //loop[,]
+    output { 
+        Process:struct{
+          Id:int
+          StepsOut:struct{
+              Step:  int  
+              StepContent: string 
+              Path:struct{
+                  FromePhenomena:struct{ 
+                      Phenomenon: string
+                      Projection: string
+                      Concept: string
+                      IsDerived: string
+                  }
+                  Expression: string
+                  ToPhenomena:string
+              }   
+          }   
+      }      
+	}
+
+
+    before{
+
+    }
+
+    sys {
+       
+    }
+
+    user{
+
+    }
+
+    // goimport{
+
+    // }
+
+    fix{
+            
+    }
+       
+    after{
+        
+    }
+
+}

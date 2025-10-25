@@ -1,13 +1,13 @@
 workflow {
-  in1 {
+  In1 {
       Id: int
       Question: string
       Answer:string
     }
 
   out { 
-      Id:int                  <-in1.Id
-      Question: string        <-in1.Question
+      Id:int                  <-In1.Id
+      Question: string        <-In1.Question
       Process:struct{
           Id:int
           Solution:struct{
@@ -22,11 +22,11 @@ workflow {
                   }
                   Expression: string
                   ToPhenomena:string
-              }   <-Getpath(ExtractSteps(in1))
+              }   <-Getpath(ExtractSteps(In1))
               
           } 
           Dificulty: int   
-      }     <-ExtractSteps(in1)    
+      }     <-ExtractSteps(In1)    
 	}     
 
   models {

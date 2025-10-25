@@ -36,7 +36,7 @@ type TaskNode struct {
 	Value any
 	Expr  string
 
-	Func         func() any
+	// Func         func() any
 	Dependencies []*TaskNode
 	Children     []*TaskNode
 
@@ -137,7 +137,7 @@ func (w *WAstbuilder) parseExpr(ctx Wparser.IExprContext, returnType string) *Ta
 		fnNode := &TaskNode{
 			Type:       Func,
 			Id:         ctx.GetText(),
-			Func:       func() any { return nil },
+			// Func:       func() any { return nil },
 			Expr:       ctx.GetText(),
 			ReturnType: returnType,
 		}

@@ -1,0 +1,88 @@
+prompt Getpath {
+    in {
+      Process:struct{
+          Id:int
+          Solution:struct{
+              Step:  int  
+              SolutionContent: string 
+          } 
+          Dificulty: int   
+      }     
+    }
+
+	//外部循环
+	//loop[,]
+	
+	//内部循环
+	//it_ctx("path")
+
+    output {
+        Path:struct{
+            FromePhenomena:struct{ 
+                Phenomenon: string
+                Projection: string
+                Concept: string
+                IsDerived: string
+            }
+            Expression: string
+            ToPhenomena:string
+        }   @model
+    }
+
+    before{
+
+    }
+
+    sys {
+        -你是一位精通小学数学的优秀教师，能够很好地从解题过程中提取出现象 
+    }
+
+    user{
+        -要求：
+        -1.**FromePhenomena**:指支撑当前过程推导所需要的前提条件
+        -必须结合题目的具体语境来表述，而不是抽象的公式复述，也非仅数学转换结果。
+        -需包含`Phenomenon`（现象）、`Projection`（对应的映射或数学表达）、`Concept`（涉及的概念）、`IsDerived`（是否为推导结论）  
+        -原题给出的信息 IsDerived=false，推导得到的信息 IsDerived=true。
+        -**FromePhenomena** 不仅包含直接用到的条件，也必须包含 与题目结论相关的隐含条件，例如工作总量、单位、任务对象等，只要对 ToPhenomena 的语境成立是必需的。 
+        -2.**Expression**：表示当前过程所使用的**通用公式、转换规则或推理方法**，不包含具体数值计算，只写成适用于类似问题的抽象表达式。
+        -3.**ToPhenomena**：指通过该步骤得到的新的结论。  
+        -**必须结合题目的具体语境来表述**，而不是抽象的公式复述，也非仅数学转换结果。  
+        -Phenomenon 要体现题目中的对象、条件或场景。  
+        -Projection 清晰表述该结论在题目中的意义，需明确主体、量和数值。  
+        -Concept 使用与题目语境相关的概念。  
+        -IsDerived=true 
+        -4. 其他规则：
+        -禁止遗漏关键依赖条件；
+        -需要注意隐藏条件，例如工作总量等
+        -题目为：
+        in.Question
+        -需要提取的过程为：
+        in.Process.Solution
+        -示例如下：
+        -题目为：一项工程，甲 3 天可以完成工程总量的 1/3，乙完成工程总量的 1/4 要 3 天。现由甲先单独做 2 天，剩下的由乙单独做，乙还要做几天才能完成任务？
+        -需要拆分的过程为：乙的工作效率是：
+
+        -$$
+        -\frac{1/4}{3} = \frac{1}{12} \\quad \text{（即乙每天完成工程的 } \frac{1}{12} \text{）}
+        -$$
+        -该题已得到的Phenomenon及其对应的Projection如下
+        -Phenomenon：甲 3 天可以完成工程总量的 1/3，Projection：甲3天的工作量为1/3
+        -Phenomenon：一项工程，Projection：工作总量为1
+        -Phenomenon：甲 3 天可以完成工程总量的 1/3，Projection：甲工作量为1/3的工作时间为3天
+        -Phenomenon：甲单独完成这份工作需要9天，Projection：甲的工作效率为1/9
+        -返回结果为：
+        outputspec
+    }
+
+	// goimport{
+
+    // }
+
+    fix{
+
+    }
+
+    after{
+        p.afterRet.Path=p.fixRet.Path
+    }
+}

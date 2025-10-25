@@ -65,7 +65,14 @@ func renderTemplateWithLookup(nodes []*TaskNode, tmplStr string) string {
 	return buf.String()
 }
 func logdfine() {
-	// ✅ 打开或创建日志文件
+	logFile, err := os.OpenFile("wcodegen.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatalf("failed to open log file: %v", err)
+	}
+	// ✅ 将默认日志输出重定向到文件
+	log.SetOutput(logFile)
+}
+func Logdfine() {
 	logFile, err := os.OpenFile("wcodegen.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatalf("failed to open log file: %v", err)
