@@ -182,6 +182,12 @@ func parsetype(ot Wparser.IOuttypeContext, fieldName, parentName string, structs
 	if ot.FLOAT_TYPE() != nil {
 		return "float64"
 	}
+	if ot.ID() != nil {
+		return ot.ID().GetText()
+	}
+	if ot.FLOAT_TYPE() != nil {
+		return "float64"
+	}
 
 	if ot.STRUCT() != nil {
 		// struct 名称规则: 字段名（首字母大写）

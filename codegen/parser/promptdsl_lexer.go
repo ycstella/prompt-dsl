@@ -1,4 +1,4 @@
-// Code generated from ./codegen/grammar/PromptDSLLexer.g4 by ANTLR 4.13.2. DO NOT EDIT.
+// Code generated from ./codegen/grammar/P/PromptDSLLexer.g4 by ANTLR 4.13.2. DO NOT EDIT.
 
 package parser
 

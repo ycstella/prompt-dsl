@@ -1,18 +1,18 @@
 package wcodegen
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"testing"
 
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/ycstella/prompt-dsl/codegen"
 	Wparser "github.com/ycstella/prompt-dsl/codegen/Wparser"
-	gened "github.com/ycstella/prompt-dsl/codegen/wCodegen/generated"
-	"github.com/ycstella/prompt-dsl/config"
+	// gened "github.com/ycstella/prompt-dsl/codegen/wCodegen/generated"
 )
 
 func Test_wcodegen(t *testing.T) {
@@ -21,6 +21,7 @@ func Test_wcodegen(t *testing.T) {
 	w.Execute()
 }
 func Test_genPDSL(t *testing.T) {
+	fmt.Println("Test_genPDSL")
 	logdfine()
 	b, err := ioutil.ReadFile("workflowSmp.txt")
 	if err != nil {
@@ -87,25 +88,26 @@ func Test_pdslgencode(t *testing.T) {
 	w.Looptask(filelist)
 	// fmt.Println("1111111111")
 }
-func Test_runtest(t *testing.T) {
-	// 执行依赖计算
-	var in1 gened.In1
-	b, err := ioutil.ReadFile("generated/test.json")
-	if err != nil {
-		log.Print(err)
-	}
-	err = json.Unmarshal(b, &in1)
-	if err != nil {
-		log.Print(err)
-	}
-	fmt.Printf("u: %+v\n", in1)
-	cd, _ := os.Getwd()
-	fmt.Println("当前路径：", cd)
 
-	config.WF.Model = "gemini-2.0-flash"
-	config.WF.Config = "./generated"
-	gened.Run(in1)
-}
+// func Test_runtest(t *testing.T) {
+// 	// 执行依赖计算
+// 	var in1 gened.In1
+// 	b, err := ioutil.ReadFile("generated/test.json")
+// 	if err != nil {
+// 		log.Print(err)
+// 	}
+// 	err = json.Unmarshal(b, &in1)
+// 	if err != nil {
+// 		log.Print(err)
+// 	}
+// 	fmt.Printf("u: %+v\n", in1)
+// 	cd, _ := os.Getwd()
+// 	fmt.Println("当前路径：", cd)
+
+//		config.WF.Model = "gemini-2.0-flash"
+//		config.WF.Config = "."
+//		gened.Run(in1)
+//	}
 func Test_scanf(t *testing.T) {
 	filelist, err := ScanPdslFiles("./testpsdl")
 	if err != nil {
@@ -127,6 +129,28 @@ func Test_pipe(t *testing.T) {
 	w.Execute()
 }
 func Test_func(t *testing.T) {
-	cmd,_:=os.Getwd()
-	fmt.Println("运行目录:",cmd)
+	cmd, _ := os.Getwd()
+	fmt.Println("运行目录:", cmd)
+}
+func Test_exe(t *testing.T) {
+
+	exePath := `D:\work\promptDSL\codegen\wCodegen\generated_code\testpsdl\workflowSmp.exe`
+	jsonPath := `D:\work\promptDSL\codegen\wCodegen\testpsdl\test.json`
+
+	// 创建命令
+	cmd := exec.Command(exePath, jsonPath)
+
+	// 捕获标准输出和标准错误
+	var outBuf, errBuf bytes.Buffer
+	cmd.Stdout = &outBuf
+	cmd.Stderr = &errBuf
+
+	// 执行命令
+	err := cmd.Run()
+	if err != nil {
+		t.Fatalf("执行 %s 失败: %v\nstderr: %s", exePath, err, errBuf.String())
+	}
+
+	// 打印程序输出
+	t.Logf("程序输出:\n%s", outBuf.String())
 }

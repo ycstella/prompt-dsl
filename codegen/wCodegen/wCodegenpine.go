@@ -56,7 +56,8 @@ func ScanPdslFiles(dir string) ([]string, error) {
 			return err
 		}
 		if !d.IsDir() && strings.HasSuffix(strings.ToLower(d.Name()), ".pdsl") {
-			files = append(files, path)
+			name := strings.TrimSuffix(d.Name(), filepath.Ext(d.Name()))
+			files = append(files, name)
 		}
 		return nil
 	})
@@ -64,10 +65,13 @@ func ScanPdslFiles(dir string) ([]string, error) {
 	return files, err
 }
 
-func (p *Wpipeline) BuildExe() (err error)  {
-	exeName := p.FileName + ".exe"
+func (p *Wpipeline) BuildExe() (err error) {
+	ext := filepath.Ext(p.FileName) 
+	nameWithoutExt := strings.TrimSuffix(p.FileName, ext) // 去掉后缀名
+	exeName := nameWithoutExt + ".exe"
 	cmd := exec.Command("go", "build", "-o", exeName, ".")
-	cmd.Dir = ""
+	dir := strings.TrimSuffix(filepath.Base(p.Cmd), filepath.Ext(p.Cmd))
+	cmd.Dir = filepath.Join("..", "generated_code", dir)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Println(string(output))
@@ -78,7 +82,7 @@ func (p *Wpipeline) BuildExe() (err error)  {
 }
 func (p *Wpipeline) Execute() (err error) {
 	//0.解析input
-	
+
 	//1.生成workflow.go文件
 	if p.GenW() != nil {
 		return err
@@ -88,7 +92,7 @@ func (p *Wpipeline) Execute() (err error) {
 		return err
 	}
 	//3.go biuld exe
-	if p.BuildExe()  != nil {
+	if p.BuildExe() != nil {
 		return err
 	}
 	return err

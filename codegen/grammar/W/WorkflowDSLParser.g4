@@ -28,8 +28,10 @@ type
     : INT_TYPE
     | FLOAT_TYPE
     | STRING_TYPE
+    | 
     | STRUCT LBRACE fieldDef* RBRACE   // 嵌套对象
     | LBRACK RBRACK type       // 数组
+    | ID 
     ;
 
 outtype
@@ -38,7 +40,7 @@ outtype
     | STRING_TYPE
     | STRUCT LBRACE outField* RBRACE   // 嵌套对象
     | LBRACK RBRACK outtype       // 数组
-    |
+    | ID 
     ;
 
 out

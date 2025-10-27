@@ -51,6 +51,14 @@ func renderTemplateWithLookup(nodes []*TaskNode, tmplStr string) string {
 			}
 			return "unknownVar"
 		},
+		"findReNameById": func(id string, nodes []*TaskNode) string {
+			for _, n := range nodes {
+				if n.Id == id {
+					return n.ReturnType
+				}
+			}
+			return "unknownVar"
+		},
 	}
 
 	tmpl, err := template.New("tmpl").Funcs(funcMap).Parse(tmplStr)

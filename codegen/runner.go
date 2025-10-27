@@ -93,17 +93,17 @@ func (ptc *promptToGenCode) genCode() error {
 	ptc.genDir = "generated_code/" + ptc.fileName
 	err := os.MkdirAll(ptc.genDir, os.ModePerm)
 	if err != nil {
-		fmt.Println("创建目录失败: %v", err)
+		fmt.Println("创建目录失败: ", err)
 	}
 
 	outputFile := ptc.genDir + "/main.go"
 	err = installGoImports(ptc.promptNode.Goimport, ptc.fileName)
 	if err != nil {
-		log.Fatalf("安装依赖失败: %v", err)
+		log.Fatalf("安装依赖失败: ", err)
 	}
 	err = os.WriteFile(outputFile, []byte(CodeBuilder.b.String()), 0644)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
+		fmt.Fprintf(os.Stderr, "写入文件失败: \n", err)
 		os.Exit(1)
 	}
 	return err
@@ -116,7 +116,7 @@ func (ptc *promptToGenCode) WgenCode() error {
 	ptc.genDir = filepath.Join("../generated_code", ptc.workflowName)
 	err := os.MkdirAll(ptc.genDir, os.ModePerm)
 	if err != nil {
-		fmt.Println("创建目录失败: %v", err)
+		fmt.Println("创建目录失败: ", err)
 	}
 	outputFile := filepath.Join(ptc.genDir, ptc.fileName+".go")
 	err = installGoImports(ptc.promptNode.Goimport, ptc.fileName)
@@ -138,16 +138,16 @@ func (ptc *promptToGenCode) WgenCode2() error {
 	ptc.genDir = filepath.Join("../generated_code", ptc.workflowName)
 	err := os.MkdirAll(ptc.genDir, os.ModePerm)
 	if err != nil {
-		fmt.Println("创建目录失败: %v", err)
+		fmt.Println("创建目录失败: ", err)
 	}
 	outputFile := filepath.Join(ptc.genDir, ptc.fileName+".go")
 	err = installGoImports(ptc.promptNode.Goimport, ptc.fileName)
 	if err != nil {
-		log.Fatalf("安装依赖失败: %v", err)
+		log.Fatalf("安装依赖失败: ", err)
 	}
 	err = os.WriteFile(outputFile, []byte(CodeBuilder.b.String()), 0644)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
+		fmt.Fprintf(os.Stderr, "写入文件失败: \n", err)
 		os.Exit(1)
 	}
 	return err

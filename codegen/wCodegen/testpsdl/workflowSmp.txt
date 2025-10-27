@@ -10,6 +10,7 @@ workflow {
       Question: string        <-In1.Question
       Process:struct{
           Id:int
+          Question: string        
           Solution:struct{
               Step:  int  
               SolutionContent: string 
@@ -21,7 +22,7 @@ workflow {
                       IsDerived: string
                   }
                   Expression: string
-                  ToPhenomena:string
+                  ToPhenomena: FromePhenomena
               }   <-Getpath(ExtractSteps(In1))
               
           } 

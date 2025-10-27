@@ -12,8 +12,10 @@ prompt ExtractSteps {
 	//it_ctx("path")
 
     output {
+      PId:int @model
       Process:struct{
           Id:int
+          Question: string
           Solution:struct{
               Step:  int  
               SolutionContent: string 
@@ -34,7 +36,10 @@ prompt ExtractSteps {
        -以下是题目内容
         in.Question  
         -以下是答案
-        in.Anwser   
+        in.Answer
+        - 给出思考过程，再按json格式返回
+        - json格式如下
+        outputspec      
     }
 
 	// goimport{
@@ -47,5 +52,6 @@ prompt ExtractSteps {
 
     after{
         p.afterRet.Process=p.fixRet.Process
+        return nil
     }
 }

@@ -102,12 +102,12 @@ func (w *WCodeGen) writewcode() error {
 	w.genDir = filepath.Join("../generated_code", w.fileName)
 	err := os.MkdirAll(w.genDir, os.ModePerm)
 	if err != nil {
-		fmt.Println("创建目录失败: %v", err)
+		fmt.Println("创建目录失败: ", err)
 	}
 	outputFile := filepath.Join(w.genDir, w.fileName+".go")
 	err = os.WriteFile(outputFile, []byte(w.b.String()), 0644)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "写入文件失败: %v\n", err)
+		fmt.Fprintf(os.Stderr, "写入文件失败: \n", err)
 		os.Exit(1)
 	}
 	return nil
